@@ -3,11 +3,11 @@ import Toolbar from './Components/Toolbar';
 import { Outlet } from 'react-router';
 
 const Root = () => {
-  const [state, setState] = useState(1)
+  const [english, setEnglish] = useState(true)
   return (
     <div>
-      <Toolbar />
-      <Outlet context={[state, setState]} />
+      <Toolbar english={english} setEnglish={setEnglish} />
+      <Outlet context={[english, setEnglish]} />
     </div>
   );
 };

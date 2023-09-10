@@ -6,7 +6,7 @@ import {useNavigate, useOutletContext } from 'react-router';
 const MainContainer = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
-  const [state, setState] = useOutletContext()
+  const [english, setEnglish] = useOutletContext()
 
   const navigate = useNavigate();
 
@@ -21,8 +21,7 @@ const MainContainer = () => {
       console.log('error');
     }
   };
-  return <div>mainContainer 
-    {state}
+  return <div>mainContainer, 
   </div>;
 };
 

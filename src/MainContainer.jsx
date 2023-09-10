@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { db } from './db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Outlet, useNavigate } from 'react-router';
+import {useNavigate, useOutletContext } from 'react-router';
 
 const MainContainer = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
+  const [state, setState] = useOutletContext()
+
   const navigate = useNavigate();
 
   const friends = useLiveQuery(() => db.friends.toArray());
@@ -19,7 +21,9 @@ const MainContainer = () => {
       console.log('error');
     }
   };
-  return <div>mainContainer</div>;
+  return <div>mainContainer 
+    {state}
+  </div>;
 };
 
 export default MainContainer;

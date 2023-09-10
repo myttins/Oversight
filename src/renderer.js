@@ -27,7 +27,6 @@
  */
 
 import './index.css';
-import './app.jsx';
+import './App.jsx';
 
-// const { ipcRenderer } = require('electron');
 

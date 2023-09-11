@@ -4,6 +4,7 @@ import MainContainer from './MainContainer';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 import Vehicle from './Components/Vehicle';
 import Root from './RootContainer';
+import NewVehicle from './Components/NewVehicle';
 
 const router = createHashRouter([
     {
@@ -15,9 +16,14 @@ const router = createHashRouter([
                 element: <MainContainer />
             },
             {
-                path: 'vehicle',
+                path: 'vehicle/:id',
                 element: <Vehicle />
+            },
+            {
+                path: 'new',
+                element: <NewVehicle />
             }
+
         ]
     }
 ])

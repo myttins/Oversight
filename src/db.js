@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 
 export const db = new Dexie('myDatabase');
-db.version(1).stores({
-  friends: '++id, name, age', // Primary key and indexed props
+db.version(2).stores({
+  vehicle: '++id, plate, vin, drivers', // Primary key and indexed props
 });

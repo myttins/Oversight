@@ -1,13 +1,10 @@
-import React from 'react'
-import { useOutletContext } from 'react-router'
+import React from 'react';
+import { useOutletContext, useParams } from 'react-router';
 
 const Vehicle = () => {
-  const [english, setEnglish] = useOutletContext()
-  return (
-    <div>Vehicle
-      <button onClick={() => {}}>count</button>
-    </div>
-  )
-}
+  const [english, setEnglish] = useOutletContext();
+  let { id } = useParams();
+  return <div>Vehicle, {id}</div>;
+};
 
-export default Vehicle
+export default Vehicle;

@@ -10,7 +10,8 @@ import axios from 'axios';
 const MainContainer = () => {
   const [english, setEnglish] = useOutletContext();
 
-  // const friends = useLiveQuery(() => db.friends.toArray());
+  const vehicles = useLiveQuery(() => db.vehicle.toArray());
+  
 
   const handleExport = async () => {
     try {

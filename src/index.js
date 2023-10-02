@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
+import Home from './containers/Home';
+import New from './containers/New';
 
 const router = createBrowserRouter([
   {
@@ -10,8 +12,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: 'home',
-        element: <></>,
+        path: '',
+        element: <Home />,
       },
       {
         path: 'vehicle/:id',
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'new',
-        element: <></>,
+        element: <New />,
       },
     ],
   },

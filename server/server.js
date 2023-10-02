@@ -1,23 +1,29 @@
 const express = require('express');
+const cors = require('cors');
 
-const bcrypt = require('bcrypt');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+/**
+ * TODO: Authentication with bcrypt
+ */
+// const bcrypt = require('bcrypt');
+// const cookieParser = require('cookie-parser');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
-app.use('/static', express.static(path.resolve(__dirname, '../src/static')));
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+
+const vehicle = require('./routes/vehicle')
+
+app.use('/vehicle', vehicle);
+
+app.use('/static', express.static(path.resolve(__dirname, './static')));
 
 
-
-
-
-
-app.get('*', (req, res) => {
-    return res.sendFile(path.join(__dirname, '../src/index.html'));
-  });
+// app.get('*', (req, res) => {
+//     return res.sendFile(path.join(__dirname, '../src/index.html'));
+//   });
 
 const PORT = parseInt(process.env.PORT) || 3000;
 app.listen(PORT, () => {

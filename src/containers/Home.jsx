@@ -4,19 +4,19 @@ import VehicleRow from '../components/VehicleRow';
 const Home = () => {
   const [vehicleRows, setVehicleRows] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('http://localhost:3000/vehicle');
-      const data = await response.json();
-      setVehicleRows(data);
-      return data;
-    };
-
     try {
       fetchData();
     } catch (e) {
       console.log(e);
     }
   }, []);
+  
+  const fetchData = async () => {
+    const response = await fetch('http://localhost:3000/vehicle');
+    const data = await response.json();
+    setVehicleRows(data);
+  };
+
   return (
     <div>
       <h1 className="mt-6 text-2xl">Home Page</h1>

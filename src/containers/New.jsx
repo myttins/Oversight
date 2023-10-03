@@ -5,8 +5,8 @@ const New = () => {
   const inputStyle = 'block border my-2 w-full p-2';
   return (
     <div>
-      <h1 className="text-2xl">New Vehicle</h1>
-      <form className="my-4" onSubmit={(e) => handleSubmit(e)}>
+      <h1 className="mt-6 text-2xl">New Vehicle</h1>
+      <form className="mt-6" onSubmit={(e) => handleSubmit(e)}>
         <input
           className={inputStyle}
           type="text"

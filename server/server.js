@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+
 
 /**
  * TODO: Authentication with bcrypt
@@ -10,6 +12,7 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(fileUpload());
 
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
@@ -17,6 +20,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const vehicle = require('./routes/vehicle')
 
 app.use('/vehicle', vehicle);
+
 
 app.use('/static', express.static(path.resolve(__dirname, './static')));
 

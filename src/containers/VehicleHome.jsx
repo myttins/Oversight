@@ -31,18 +31,23 @@ const VehicleHome = () => {
   return (
     <div>
       <div>
+      <h1 className="mt-6 text-2xl">Vehicle Information</h1>
         <h1 className="mt-6 text-2xl">{vehicleInfo.plate}</h1>
         <span className="mr-2">{vehicleInfo.year}</span>
         <span>{vehicleInfo.model}</span>
       </div>
       <div>
-        <h1 className="mt-6 text-2xl">Drivers</h1>
+        <h1 className="mt-6 text-2xl">Driver Information</h1>
         <span className="mr-2">{vehicleInfo.year}</span>
         <span>{vehicleInfo.model}</span>
       </div>
       <div>
         <h1 className="mt-6 text-2xl">Files</h1>
         <input type='file'></input>
+      </div>
+      <div>
+        <h1 className="mt-6 text-2xl">Payments</h1>
+        <a></a>
       </div>
     </div>
   );

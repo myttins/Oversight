@@ -7,7 +7,7 @@ const Navbar = () => {
     <div className="flex place-content-between m-auto max-w-5xl">
       <div>
         <Link to={'/'} className={linkStyle}>
-          Home
+          Vehicle
         </Link>
         <Link to={''} className={linkStyle}>
           Drivers

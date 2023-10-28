@@ -12,8 +12,11 @@ const fs = require('fs');
 const multiparty = require('multiparty');
 
 router.get('/', async (req, res) => {
-  const query = await db.query(`SELECT * FROM vehicles ORDER BY id ASC`);
-  res.status(200).json(query.rows);
+  const type = req.query.type;
+  const query = req.query.query.toString();
+  console.log(type, query)
+  const results = await db.query(`SELECT * FROM vehicles WHERE vehicles.${type} = '${query}'`);
+  res.status(200).json(results.rows);
 });
 
 router.get('/:id', async (req, res) => {

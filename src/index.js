@@ -6,6 +6,7 @@ import './index.css';
 import Home from './containers/Home';
 import New from './containers/New';
 import VehicleHome from './containers/VehicleHome';
+import Search from './containers/Search';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: 'new',
         element: <New />,
+      },
+      {
+        path: 'search',
+        element: <Search />,
       },
     ],
   },

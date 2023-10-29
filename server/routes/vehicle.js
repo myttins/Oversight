@@ -12,10 +12,26 @@ const fs = require('fs');
 const multiparty = require('multiparty');
 
 router.get('/', async (req, res) => {
-  const type = req.query.type;
-  const query = req.query.query.toString();
-  console.log(type, query)
-  const results = await db.query(`SELECT * FROM vehicles WHERE vehicles.${type} = '${query}'`);
+  if (!req.query.type || !req.query.query) {
+
+    const queryStr = `
+    SELECT v.id, v.plate, STRING_AGG(d.driver_name, ', ') AS driver_name FROM vehicles AS v
+    LEFT JOIN drivers as d
+    ON v.id = d.vehicle_id
+    GROUP BY v.id`
+    var results = await db.query(queryStr);
+  } else {
+    const type = req.query.type;
+    const query = req.query.query.toString();
+
+    const queryStr = `
+    SELECT v.id, v.plate, STRING_AGG(d.driver_name, ', ') AS driver_name FROM vehicles AS v
+    LEFT JOIN drivers as d
+    ON v.id = d.vehicle_id
+    WHERE v.${type} LIKE '%${query}%'
+    GROUP BY v.id`
+    var results = await db.query(queryStr);
+  }
   res.status(200).json(results.rows);
 });
 

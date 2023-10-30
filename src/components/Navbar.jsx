@@ -12,15 +12,15 @@ const Navbar = () => {
         <Link to={'/'} className={linkStyle}>
           Vehicle
         </Link>
-        <Link to={''} className={linkStyle}>
+        {/* <Link to={''} className={linkStyle}>
           Drivers
         </Link>
         <Link to={''} className={linkStyle}>
           Transactions
-        </Link>
+        </Link> */}
       </div>
 
-      <Link to={'/new'} className={linkStyle}>
+      <Link to={'/vehicle/new'} className={linkStyle}>
         New
       </Link>
     </div>

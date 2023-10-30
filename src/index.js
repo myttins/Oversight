@@ -5,7 +5,7 @@ import App from './App';
 import './index.css';
 import Home from './containers/Home';
 import New from './containers/New';
-import VehicleHome from './containers/VehicleHome';
+import Vehicle from './containers/Vehicle';
 import Search from './containers/Search';
 
 const router = createBrowserRouter([
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'vehicle/:id',
-        element: <VehicleHome />,
+        element: <Vehicle />,
       },
       {
         path: 'new',

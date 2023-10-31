@@ -3,13 +3,17 @@ import { useParams } from 'react-router';
 
 const VehicleHome = () => {
   const { id } = useParams();
-  const [vehicleInfo, setVehicleInfo] = useState({});
+  const [vehicleInfo, setVehicleInfo] = useState({
+    registration_date: '1900-01-01',
+  });
+  const [vehicleInfoEdit, setVehicleInfoEdit] = useState(true);
+
   const [driverInfo, setDriverInfo] = useState([]);
 
   useEffect(() => {
     try {
-      if (id === 'new'){
-        return
+      if (id === 'new') {
+        return;
       } else {
         fetchData();
       }
@@ -28,22 +32,36 @@ const VehicleHome = () => {
     const data = await response.json();
     setVehicleInfo(data.vehicle);
     setDriverInfo(data.drivers);
-    // console.log(data);
   };
 
   return (
     <div>
       <div>
         <h1 className="mt-6 text-2xl">Vehicle Information</h1>
-        <ul className='mt-2'>
+        <button
+          className="border p-1 active:bg-slate-300"
+          onClick={() => setVehicleInfoEdit(!vehicleInfoEdit)}
+        >
+          EDIT
+        </button>
+        <ul className="mt-2 border">
           <li>
-            <a>Plate: </a> <input placeholder="plate" value={vehicleInfo.plate} readOnly={false}></input>
+            <a>Plate: </a>
+            <input
+              className={`${vehicleInfoEdit || 'border'}`}
+              placeholder="plate"
+              value={vehicleInfo.plate || ''}
+              onChange={(e) =>
+                setVehicleInfo({ ...vehicleInfo, plate: e.target.value })
+              }
+              readOnly={vehicleInfoEdit}
+            ></input>
+          </li>
+          {/* <li>
+            <a>Convoy: </a> <input placeholder="convoy" value={vehicleInfo.convoy} readOnly={vehicleInfoEdit}></input>
           </li>
           <li>
-            <a>Convoy: </a> <input placeholder="convoy" value={vehicleInfo.convoy}></input>
-          </li>
-          <li>
-            <a>Model: </a> <input placeholder="Model" value={vehicleInfo.vehicle_model}></input>
+            <a>Model: </a> <input placeholder="Model" value={vehicleInfo.vehicle_model} readOnly={vehicleInfoEdit}></input>
           </li>
           <li>
             <a>Color: </a> <input placeholder="Color" value={vehicleInfo.vehicle_color}></input>
@@ -53,7 +71,20 @@ const VehicleHome = () => {
           </li>
           <li>
             <a>Fuel Type: </a> <input placeholder="Fuel Type" value={vehicleInfo.fuel_type ? 'GAS' : 'ELECTRIC'}></input>
-          </li>
+          </li> */}
+          <a>Registration Date: </a>{' '}
+          <input
+            className={`${vehicleInfoEdit || 'border'}`}
+            type="date"
+            value={vehicleInfo.registration_date || '2000-01-01'}
+            onChange={(e) =>
+              setVehicleInfo({
+                ...vehicleInfo,
+                registration_date: e.target.value,
+              })
+            }
+            readOnly={vehicleInfoEdit}
+          ></input>
         </ul>
       </div>
       <div>

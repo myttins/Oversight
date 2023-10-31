@@ -21,10 +21,10 @@ const router = createBrowserRouter([
         path: 'vehicle/:id',
         element: <Vehicle />,
       },
-      {
-        path: 'new',
-        element: <New />,
-      },
+      // {
+      //   path: 'new',
+      //   element: <New id='new'/>,
+      // },
       {
         path: 'search',
         element: <Search />,

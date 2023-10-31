@@ -3,10 +3,28 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'simplified-chinese';
-    src: url('./assets/NotoSansSC-VariableFont_wght.ttf');
+  font-family: 'simplified-chinese';
+  src: url('./assets/NotoSansSC-VariableFont_wght.ttf');
 }
 
-html{
-    font-family: 'simplified-chinese';
+html {
+  font-family: 'simplified-chinese';
+}
+
+.btn {
+  @apply font-bold py-1 px-2 rounded;
+  @apply bg-black text-white;
+}
+
+.btn:hover {
+  @apply bg-white text-black;
+  outline: solid black;
+}
+
+.input {
+  outline: solid blue 1px;
+}
+
+.input:read-only {
+  outline: none;
 }

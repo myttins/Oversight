@@ -43,6 +43,10 @@ router.get('/:id', async (req, res) => {
   WHERE id = ${id}
   `);
 
+  if (vehicleQuery.rows.length === 0){
+    res.sendStatus(404);
+  }
+
   const driverQuery = await db.query(`
   SELECT * from drivers 
   WHERE vehicle_id = ${id}

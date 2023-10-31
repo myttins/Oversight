@@ -3,20 +3,14 @@ import { useParams } from 'react-router';
 
 const VehicleHome = () => {
   const { id } = useParams();
-  const [vehicleInfo, setVehicleInfo] = useState({
-    registration_date: '1900-01-01',
-  });
-  const [vehicleInfoEdit, setVehicleInfoEdit] = useState(true);
+  const [vehicleInfo, setVehicleInfo] = useState({});
+  const [vehicleInfoReadOnly, setVehicleInfoReadOnly] = useState(true);
 
   const [driverInfo, setDriverInfo] = useState([]);
 
   useEffect(() => {
     try {
-      if (id === 'new') {
-        return;
-      } else {
-        fetchData();
-      }
+      fetchData();
     } catch (e) {
       setVehicleInfo({
         id: null,
@@ -37,66 +31,144 @@ const VehicleHome = () => {
   return (
     <div>
       <div>
-        <h1 className="mt-6 text-2xl">Vehicle Information</h1>
-        <button
-          className="border p-1 active:bg-slate-300"
-          onClick={() => setVehicleInfoEdit(!vehicleInfoEdit)}
-        >
-          EDIT
-        </button>
+        <div className="mt-6">
+          <a className="text-2xl border">Vehicle Information</a>
+          {vehicleInfoReadOnly ? (
+            <button
+              className="btn"
+              onClick={() => setVehicleInfoReadOnly(!vehicleInfoReadOnly)}
+            >
+              EDIT
+            </button>
+          ) : (
+            <>
+              <button
+                className="btn mx-2"
+                onClick={() => setVehicleInfoReadOnly(!vehicleInfoReadOnly)}
+              >
+                CANCEL
+              </button>
+              <button className="btn mx-2">SAVE</button>
+            </>
+          )}
+        </div>
+
         <ul className="mt-2 border">
-          <li>
-            <a>Plate: </a>
+          <li className="flex my-2">
+            <span className="w-1/3">Plate: </span>
             <input
-              className={`${vehicleInfoEdit || 'border'}`}
-              placeholder="plate"
+              className="input w-2/3"
+              placeholder="Plate"
               value={vehicleInfo.plate || ''}
               onChange={(e) =>
                 setVehicleInfo({ ...vehicleInfo, plate: e.target.value })
               }
-              readOnly={vehicleInfoEdit}
-            ></input>
+              readOnly={vehicleInfoReadOnly}
+            />
           </li>
-          {/* <li>
-            <a>Convoy: </a> <input placeholder="convoy" value={vehicleInfo.convoy} readOnly={vehicleInfoEdit}></input>
+          <li className="flex my-2">
+            <a className="w-1/3">Convoy: </a>
+            <input
+              className="input w-2/3"
+              placeholder="Convoy"
+              value={vehicleInfo.convoy || ''}
+              onChange={(e) =>
+                setVehicleInfo({ ...vehicleInfo, convoy: e.target.value })
+              }
+              readOnly={vehicleInfoReadOnly}
+            />
           </li>
-          <li>
-            <a>Model: </a> <input placeholder="Model" value={vehicleInfo.vehicle_model} readOnly={vehicleInfoEdit}></input>
+          <li className="flex my-2">
+            <a className="w-1/3">Model: </a>
+            <input
+              className="input"
+              placeholder="Model"
+              value={vehicleInfo.vehicle_model || ''}
+              onChange={(e) =>
+                setVehicleInfo({
+                  ...vehicleInfo,
+                  vehicle_model: e.target.value,
+                })
+              }
+              readOnly={vehicleInfoReadOnly}
+            />
           </li>
-          <li>
-            <a>Color: </a> <input placeholder="Color" value={vehicleInfo.vehicle_color}></input>
+          <li className="flex my-2">
+            <a className="w-1/3">Color: </a>
+            <input
+              className="input w-2/3"
+              placeholder="Color"
+              value={vehicleInfo.vehicle_color || ''}
+              onChange={(e) =>
+                setVehicleInfo({
+                  ...vehicleInfo,
+                  vehicle_color: e.target.value,
+                })
+              }
+              readOnly={vehicleInfoReadOnly}
+            />
           </li>
-          <li>
-            <a>VIN: </a> <input placeholder="VIN" value={vehicleInfo.vin}></input>
+          <li className="flex my-2">
+            <a className="w-1/3">VIN: </a>
+            <input
+              className="input w-2/3"
+              placeholder="VIN"
+              value={vehicleInfo.vin || ''}
+              onChange={(e) =>
+                setVehicleInfo({ ...vehicleInfo, vin: e.target.value })
+              }
+              readOnly={vehicleInfoReadOnly}
+            />
           </li>
-          <li>
-            <a>Fuel Type: </a> <input placeholder="Fuel Type" value={vehicleInfo.fuel_type ? 'GAS' : 'ELECTRIC'}></input>
-          </li> */}
-          <a>Registration Date: </a>{' '}
-          <input
-            className={`${vehicleInfoEdit || 'border'}`}
-            type="date"
-            value={vehicleInfo.registration_date || '2000-01-01'}
-            onChange={(e) =>
-              setVehicleInfo({
-                ...vehicleInfo,
-                registration_date: e.target.value,
-              })
-            }
-            readOnly={vehicleInfoEdit}
-          ></input>
+          <li className="flex my-2">
+            <a className="w-1/3">Fuel Type: </a>
+            {vehicleInfoReadOnly ? (
+              <span className="w 2/3">
+                {vehicleInfo.fuel_type ? 'GAS' : 'ELECTRIC'}
+              </span>
+            ) : (
+              <select
+                className="w-2/3"
+                name="fuel_type"
+                value={vehicleInfo.fuel_type ? 'GAS' : 'ELECTRIC'}
+                onChange={(e) =>
+                  setVehicleInfo({
+                    ...vehicleInfo,
+                    fuel_type: e.target.value === 'GAS',
+                  })
+                }
+              >
+                <option value="GAS">GAS</option>
+                <option value="ELECTRIC">ELECTRIC</option>
+              </select>
+            )}
+          </li>
+          <li className="flex my-2">
+            <a className="w-1/3">Reg Date: </a>
+            <input
+              className="input w-2/3"
+              type="date"
+              value={vehicleInfo.registration_date || '2000-01-01'}
+              onChange={(e) =>
+                setVehicleInfo({
+                  ...vehicleInfo,
+                  registration_date: e.target.value,
+                })
+              }
+              readOnly={vehicleInfoReadOnly}
+            />
+          </li>
         </ul>
       </div>
       <div>
         <h1 className="mt-6 text-2xl">Driver Information</h1>
       </div>
-      <div>
+      {/* <div>
         <h1 className="mt-6 text-2xl">Files</h1>
         <input type="file"></input>
-      </div>
+      </div> */}
       <div>
         <h1 className="mt-6 text-2xl">Transactions</h1>
-        <a></a>
       </div>
     </div>
   );

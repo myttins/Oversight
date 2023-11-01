@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useOutletContext, useParams } from 'react-router';
+import { useNavigate, useOutletContext, useParams } from 'react-router';
 import translate from '../assets/translate';
+import Error from '../error/Error';
 
 const VehicleHome = () => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const [language, setLanguage] = useOutletContext();
 
@@ -21,17 +24,15 @@ const VehicleHome = () => {
     try {
       fetchData();
     } catch (e) {
-      setVehicleInfo({
-        id: null,
-        plate: null,
-        model: null,
-      });
-      setDriverInfo([]);
+      console.log('Logged Error: ', e);
     }
   }, []);
 
   const fetchData = async () => {
     const response = await fetch(`http://localhost:3000/vehicle/${id}`);
+    if (response.status !== 200) {
+      return <Error status={response.status} />;
+    }
     const data = await response.json();
     setVehicleInfo(data.vehicle);
     setDriverInfo(data.drivers);
@@ -71,8 +72,11 @@ const VehicleHome = () => {
 
         <ul className="mt-2">
           <li className="flex my-2">
-            <span className="w-1/3">{language ? translate.plate[0] : translate.plate[1] }</span>
-            吉<input
+            <span className="w-1/3">
+              {language ? translate.plate[0] : translate.plate[1]}
+            </span>
+            吉
+            <input
               className="input w-2/3"
               placeholder="Plate"
               value={vehicleInfo.plate || ''}
@@ -83,7 +87,9 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">{language ? translate.category[0] : translate.category[1]}</a>
+            <a className="w-1/3">
+              {language ? translate.category[0] : translate.category[1]}
+            </a>
             <input
               className="input w-2/3"
               placeholder="Category"
@@ -95,7 +101,11 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">{language ? translate.vehicle_model[0] : translate.vehicle_model[1]}</a>
+            <a className="w-1/3">
+              {language
+                ? translate.vehicle_model[0]
+                : translate.vehicle_model[1]}
+            </a>
             <input
               className="input w-2/3"
               placeholder="Model"
@@ -110,7 +120,11 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">{language ? translate.vehicle_color[0] : translate.vehicle_color[1]}</a>
+            <a className="w-1/3">
+              {language
+                ? translate.vehicle_color[0]
+                : translate.vehicle_color[1]}
+            </a>
             <input
               className="input w-2/3"
               placeholder="Color"
@@ -125,7 +139,9 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">{language ? translate.vin[0] : translate.vin[1]}</a>
+            <a className="w-1/3">
+              {language ? translate.vin[0] : translate.vin[1]}
+            </a>
             <input
               className="input w-2/3"
               placeholder="VIN"
@@ -137,7 +153,9 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">{language ? translate.fuel_type[0] : translate.fuel_type[1]}</a>
+            <a className="w-1/3">
+              {language ? translate.fuel_type[0] : translate.fuel_type[1]}
+            </a>
             {vehicleInfoReadOnly ? (
               <span className="w 2/3">
                 {vehicleInfo.fuel_type ? '汽油' : 'ELECTRIC'}
@@ -178,15 +196,16 @@ const VehicleHome = () => {
       </div>
       <div>
         <h1 className="mt-6 text-2xl">Owner Information</h1>
-        <button className='btn'>Add</button>
+        <button className="btn">Add</button>
+        <input className="input" type="text" placeholder="search for person" />
       </div>
       <div>
         <h1 className="mt-6 text-2xl">Insurer Information</h1>
-        <button className='btn'>Add</button>
+        <button className="btn">Add</button>
       </div>
       <div>
         <h1 className="mt-6 text-2xl">Drivers Information</h1>
-        <button className='btn'>Add</button>
+        <button className="btn">Add</button>
       </div>
       {/* <div>
         <h1 className="mt-6 text-2xl">Files</h1>

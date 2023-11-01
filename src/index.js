@@ -4,14 +4,15 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import Home from './containers/Home';
-import New from './containers/New';
-import Vehicle from './containers/Vehicle';
+import Vehicle from './vehicles/Vehicle'
 import Search from './containers/Search';
+import Error from './error/Error';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <Error status={404}/>,
     children: [
       {
         path: '',

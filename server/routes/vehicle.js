@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
   `);
 
   if (vehicleQuery.rows.length === 0){
-    res.sendStatus(404);
+    return res.sendStatus(404);
   }
 
   // const driverQuery = await db.query(`

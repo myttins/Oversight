@@ -12,7 +12,7 @@ html {
 }
 
 .btn {
-  @apply font-bold py-1 px-2 rounded;
+  @apply text-sm font-bold py-1 px-2 rounded;
   @apply bg-black text-white;
 }
 

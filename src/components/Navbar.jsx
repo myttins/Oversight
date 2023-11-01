@@ -21,7 +21,14 @@ const Navbar = (props) => {
         </Link> */}
       </div>
       <div>
-        <button className="pt-4 pr-4 inline-block hover:underline underline-offset-4" onClick={() => setLanguage(!language)}>
+        <button
+          className="pt-4 pr-4 inline-block hover:underline underline-offset-4"
+          onClick={() => {
+            const newLanguage = !language
+            setLanguage(newLanguage)
+            localStorage.setItem('language', newLanguage);
+          }}
+        >
           {language ? 'English' : '中文'}
         </button>
         <Link to={'/vehicle/new'} className={linkStyle}>

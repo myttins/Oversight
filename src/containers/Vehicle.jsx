@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useOutletContext, useParams } from 'react-router';
+import translate from '../assets/translate';
 
 const VehicleHome = () => {
   const { id } = useParams();
+
+  const [language, setLanguage] = useOutletContext();
 
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [vehicleInfoReadOnly, setVehicleInfoReadOnly] = useState(true);
@@ -68,7 +71,7 @@ const VehicleHome = () => {
 
         <ul className="mt-2">
           <li className="flex my-2">
-            <span className="w-1/3">Plate: </span>
+            <span className="w-1/3">{language ? translate.plate[0] : translate.plate[1] }</span>
             吉<input
               className="input w-2/3"
               placeholder="Plate"
@@ -80,7 +83,7 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">Category: </a>
+            <a className="w-1/3">{language ? translate.category[0] : translate.category[1]}</a>
             <input
               className="input w-2/3"
               placeholder="Category"
@@ -92,7 +95,7 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">Model: </a>
+            <a className="w-1/3">{language ? translate.vehicle_model[0] : translate.vehicle_model[1]}</a>
             <input
               className="input w-2/3"
               placeholder="Model"
@@ -107,7 +110,7 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">Color: </a>
+            <a className="w-1/3">{language ? translate.vehicle_color[0] : translate.vehicle_color[1]}</a>
             <input
               className="input w-2/3"
               placeholder="Color"
@@ -122,7 +125,7 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">VIN: </a>
+            <a className="w-1/3">{language ? translate.vin[0] : translate.vin[1]}</a>
             <input
               className="input w-2/3"
               placeholder="VIN"
@@ -134,24 +137,24 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">Fuel Type: </a>
+            <a className="w-1/3">{language ? translate.fuel_type[0] : translate.fuel_type[1]}</a>
             {vehicleInfoReadOnly ? (
               <span className="w 2/3">
-                {vehicleInfo.fuel_type ? 'GAS' : 'ELECTRIC'}
+                {vehicleInfo.fuel_type ? '汽油' : 'ELECTRIC'}
               </span>
             ) : (
               <select
                 className="w-2/3"
                 name="fuel_type"
-                value={vehicleInfo.fuel_type ? 'GAS' : 'ELECTRIC'}
+                value={vehicleInfo.fuel_type ? '汽油' : 'ELECTRIC'}
                 onChange={(e) =>
                   setVehicleInfo({
                     ...vehicleInfo,
-                    fuel_type: e.target.value === 'GAS',
+                    fuel_type: e.target.value === '汽油',
                   })
                 }
               >
-                <option value="GAS">GAS</option>
+                <option value="汽油">汽油</option>
                 <option value="ELECTRIC">ELECTRIC</option>
               </select>
             )}

@@ -15,21 +15,29 @@ router.get('/', async (req, res) => {
   if (!req.query.type || !req.query.query) {
 
     const queryStr = `
-    SELECT v.id, v.plate, STRING_AGG(d.driver_name, ' ') AS driver_name FROM vehicles AS v
-    LEFT JOIN drivers as d
-    ON v.id = d.vehicle_id
-    GROUP BY v.id`
+    SELECT v.id, v.plate, STRING_AGG(u.name, ' ') as driver_name
+    FROM vehicles as v
+    LEFT JOIN vehicle_driver as v_d
+    ON v.id = v_d.vehicle_id
+    LEFT JOIN users as u
+    ON v_d.user_id = u.id
+    GROUP BY v.id
+    ORDER BY v.plate ASC`
     var results = await db.query(queryStr);
   } else {
     const type = req.query.type === 'plate' ? 'v.plate' : 'driver_name' ;
     const query = req.query.query.toString().toUpperCase();
 
     const queryStr = `
-    SELECT v.id, v.plate, STRING_AGG(d.driver_name, ' ') AS driver_name FROM vehicles AS v
-    LEFT JOIN drivers as d
-    ON v.id = d.vehicle_id
+    SELECT v.id, v.plate, STRING_AGG(u.name, ' ') as driver_name
+    FROM vehicles as v
+    LEFT JOIN vehicle_driver as v_d
+    ON v.id = v_d.vehicle_id
+    LEFT JOIN users as u
+    ON v_d.user_id = u.id
     WHERE ${type} LIKE '%${query}%'
-    GROUP BY v.id`
+    GROUP BY v.id
+    ORDER BY v.plate ASC`
     var results = await db.query(queryStr);
   }
   res.status(200).json(results.rows);
@@ -47,14 +55,14 @@ router.get('/:id', async (req, res) => {
     res.sendStatus(404);
   }
 
-  const driverQuery = await db.query(`
-  SELECT * from drivers 
-  WHERE vehicle_id = ${id}
-  `);
+  // const driverQuery = await db.query(`
+  // SELECT * from drivers 
+  // WHERE vehicle_id = ${id}
+  // `);
 
   res.status(200).json({
     vehicle: vehicleQuery.rows[0],
-    drivers: driverQuery.rows,
+    // drivers: driverQuery.rows,
   });
 });
 

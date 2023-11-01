@@ -3,12 +3,18 @@ import { useParams } from 'react-router';
 
 const VehicleHome = () => {
   const { id } = useParams();
+
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [vehicleInfoReadOnly, setVehicleInfoReadOnly] = useState(true);
 
   const [driverInfo, setDriverInfo] = useState([]);
 
   useEffect(() => {
+    if (id === 'new') {
+      setVehicleInfoReadOnly(false);
+      return;
+    }
+
     try {
       fetchData();
     } catch (e) {
@@ -31,32 +37,39 @@ const VehicleHome = () => {
   return (
     <div>
       <div>
-        <div className="mt-6">
-          <a className="text-2xl border">Vehicle Information</a>
-          {vehicleInfoReadOnly ? (
-            <button
-              className="btn"
-              onClick={() => setVehicleInfoReadOnly(!vehicleInfoReadOnly)}
-            >
-              EDIT
-            </button>
-          ) : (
-            <>
+        <div className="mt-6 flex justify-between">
+          <a className="text-2xl">Vehicle Information</a>
+          <div className="">
+            {vehicleInfoReadOnly ? (
               <button
-                className="btn mx-2"
+                className="btn"
                 onClick={() => setVehicleInfoReadOnly(!vehicleInfoReadOnly)}
               >
-                CANCEL
+                EDIT
               </button>
-              <button className="btn mx-2">SAVE</button>
-            </>
-          )}
+            ) : (
+              <>
+                <button
+                  className="btn mx-2"
+                  onClick={() => setVehicleInfoReadOnly(!vehicleInfoReadOnly)}
+                >
+                  CANCEL
+                </button>
+                <button
+                  className="btn mx-2"
+                  onClick={() => setVehicleInfoReadOnly(!vehicleInfoReadOnly)}
+                >
+                  SAVE
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
-        <ul className="mt-2 border">
+        <ul className="mt-2">
           <li className="flex my-2">
             <span className="w-1/3">Plate: </span>
-            <input
+            吉<input
               className="input w-2/3"
               placeholder="Plate"
               value={vehicleInfo.plate || ''}
@@ -67,13 +80,13 @@ const VehicleHome = () => {
             />
           </li>
           <li className="flex my-2">
-            <a className="w-1/3">Convoy: </a>
+            <a className="w-1/3">Category: </a>
             <input
               className="input w-2/3"
-              placeholder="Convoy"
-              value={vehicleInfo.convoy || ''}
+              placeholder="Category"
+              value={vehicleInfo.category || ''}
               onChange={(e) =>
-                setVehicleInfo({ ...vehicleInfo, convoy: e.target.value })
+                setVehicleInfo({ ...vehicleInfo, category: e.target.value })
               }
               readOnly={vehicleInfoReadOnly}
             />
@@ -81,7 +94,7 @@ const VehicleHome = () => {
           <li className="flex my-2">
             <a className="w-1/3">Model: </a>
             <input
-              className="input"
+              className="input w-2/3"
               placeholder="Model"
               value={vehicleInfo.vehicle_model || ''}
               onChange={(e) =>
@@ -161,7 +174,16 @@ const VehicleHome = () => {
         </ul>
       </div>
       <div>
-        <h1 className="mt-6 text-2xl">Driver Information</h1>
+        <h1 className="mt-6 text-2xl">Owner Information</h1>
+        <button className='btn'>Add</button>
+      </div>
+      <div>
+        <h1 className="mt-6 text-2xl">Insurer Information</h1>
+        <button className='btn'>Add</button>
+      </div>
+      <div>
+        <h1 className="mt-6 text-2xl">Drivers Information</h1>
+        <button className='btn'>Add</button>
       </div>
       {/* <div>
         <h1 className="mt-6 text-2xl">Files</h1>

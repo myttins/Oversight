@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router';
 import translate from '../assets/translate';
 import Error from '../error/Error';
+import AddButton from './AddButton';
 
 const VehicleHome = () => {
   const { id } = useParams();
@@ -13,7 +14,9 @@ const VehicleHome = () => {
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [vehicleInfoReadOnly, setVehicleInfoReadOnly] = useState(true);
 
-  const [driverInfo, setDriverInfo] = useState([]);
+  // const [driverInfo, setDriverInfo] = useState([]);
+  const [userNames, setUserNames] = useState([]);
+
 
   useEffect(() => {
     if (id === 'new') {
@@ -22,20 +25,24 @@ const VehicleHome = () => {
     }
 
     try {
-      fetchData();
+      fetchVehicleData();
     } catch (e) {
       console.log('Logged Error: ', e);
     }
   }, []);
 
-  const fetchData = async () => {
+  const fetchVehicleData = async () => {
     const response = await fetch(`http://localhost:3000/vehicle/${id}`);
     if (response.status !== 200) {
-      return <Error status={response.status} />;
+      return;
     }
     const data = await response.json();
     setVehicleInfo(data.vehicle);
-    setDriverInfo(data.drivers);
+    // setDriverInfo(data.drivers);
+  };
+
+  const fetchDriverNames = async () => {
+    return;
   };
 
   return (
@@ -195,17 +202,23 @@ const VehicleHome = () => {
         </ul>
       </div>
       <div>
-        <h1 className="mt-6 text-2xl">Owner Information</h1>
-        <button className="btn">Add</button>
+        <div className="mt-6 flex justify-between border">
+          <h1 className="text-2xl">Owner Information</h1>
+          <AddButton />
+        </div>
         <input className="input" type="text" placeholder="search for person" />
       </div>
       <div>
-        <h1 className="mt-6 text-2xl">Insurer Information</h1>
-        <button className="btn">Add</button>
+        <div className="mt-6 flex justify-between">
+          <h1 className="text-2xl">Insurer Information</h1>
+          <AddButton />
+        </div>
       </div>
       <div>
-        <h1 className="mt-6 text-2xl">Drivers Information</h1>
-        <button className="btn">Add</button>
+        <div className="mt-6 flex justify-between">
+          <h1 className="text-2xl">Driver Information</h1>
+          <AddButton />
+        </div>
       </div>
       {/* <div>
         <h1 className="mt-6 text-2xl">Files</h1>

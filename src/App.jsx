@@ -6,17 +6,17 @@ const App = () => {
   const [language, setLanguage] = useState();
 
   useEffect(() => {
-    if (localStorage.getItem('language') === null){
-        setLanguage(true)
+    if (localStorage.getItem('language') === null) {
+      setLanguage(true);
     } else {
-        setLanguage(JSON.parse(localStorage.getItem('language')))
+      setLanguage(JSON.parse(localStorage.getItem('language')));
     }
   }, []);
 
   return (
     <div className="px-6 min-w-[448px] max-w-5xl m-auto">
       <Navbar language={language} setLanguage={setLanguage} />
-      <Outlet context={[language, setLanguage]} />
+      <Outlet context={[language]} />
     </div>
   );
 };

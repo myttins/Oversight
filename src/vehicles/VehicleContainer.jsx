@@ -3,20 +3,23 @@ import { useNavigate, useOutletContext, useParams } from 'react-router';
 import translate from '../assets/translate';
 import Error from '../error/Error';
 import AddButton from './AddButton';
+import OwnerInfoForm from './OwnerInfoForm';
+import InsurerInfoForm from './InsurerInfoForm';
 
 const VehicleHome = () => {
   const { id } = useParams();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const [language, setLanguage] = useOutletContext();
+  const [language] = useOutletContext();
 
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [vehicleInfoReadOnly, setVehicleInfoReadOnly] = useState(true);
 
+  const [showAddOwnerForm, setShowAddOwnerForm] = useState(false);
+
   // const [driverInfo, setDriverInfo] = useState([]);
   const [userNames, setUserNames] = useState([]);
-
 
   useEffect(() => {
     if (id === 'new') {
@@ -49,7 +52,7 @@ const VehicleHome = () => {
     <div>
       <div>
         <div className="mt-6 flex justify-between">
-          <a className="text-2xl">Vehicle Information</a>
+          <a className="text-2xl">{language ? translate.vehicle_info[0] : translate.vehicle_info[1]}</a>
           <div className="">
             {vehicleInfoReadOnly ? (
               <button
@@ -201,19 +204,13 @@ const VehicleHome = () => {
           </li>
         </ul>
       </div>
-      <div>
-        <div className="mt-6 flex justify-between border">
+
+      {/* <div className="mt-6 flex justify-between border">
           <h1 className="text-2xl">Owner Information</h1>
           <AddButton />
-        </div>
-        <input className="input" type="text" placeholder="search for person" />
-      </div>
-      <div>
-        <div className="mt-6 flex justify-between">
-          <h1 className="text-2xl">Insurer Information</h1>
-          <AddButton />
-        </div>
-      </div>
+        </div> */}
+      <OwnerInfoForm />
+      <InsurerInfoForm />
       <div>
         <div className="mt-6 flex justify-between">
           <h1 className="text-2xl">Driver Information</h1>

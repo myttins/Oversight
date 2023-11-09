@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import Home from './containers/Home';
-import Vehicle from './vehicles/Vehicle'
+import Vehicle from './vehicles/VehicleContainer'
 import Search from './containers/Search';
 import Error from './error/Error';
 

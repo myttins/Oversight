@@ -17,9 +17,11 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const vehicle = require('./routes/vehicle');
+const search = require('./routes/search');
 const users = require('./routes/users');
 
 app.use('/vehicle', vehicle);
+app.use('/search', search);
 app.use('/user', users);
 
 app.use('/static', express.static(path.resolve(__dirname, './static')));

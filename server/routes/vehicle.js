@@ -13,34 +13,61 @@ const AWS = require('aws-sdk');
 
 router.get('/', async (req, res) => {
   if (!req.query.type || !req.query.query) {
-
     const queryStr = `
-    SELECT v.id, v.plate, STRING_AGG(u.name, ' ') as driver_name
-    FROM vehicles as v
-    LEFT JOIN vehicle_driver as v_d
-    ON v.id = v_d.vehicle_id
-    LEFT JOIN users as u
-    ON v_d.user_id = u.id
-    GROUP BY v.id
-    ORDER BY v.plate ASC`
+    SELECT 
+      v.id,
+      v.plate, 
+      o.name AS owner_name, 
+      STRING_AGG(d.name, ', ') as driver_name
+    FROM vehicles v
+    JOIN vehicle_driver vd ON v.id = vd.vehicle_id
+    JOIN users d ON vd.user_id = d.id
+    JOIN users o ON v.owner_id = o.id
+    GROUP BY o.name, v.id
+    ORDER BY v.plate ASC
+    `;
     var results = await db.query(queryStr);
   } else {
-    const type = req.query.type === 'plate' ? 'v.plate' : 'driver_name' ;
+    const type = req.query.type === 'plate' ? 'v.plate' : 'd.name';
     const query = req.query.query.toString().toUpperCase();
 
-    const queryStr = `
-    SELECT v.id, v.plate, STRING_AGG(u.name, ' ') as driver_name
-    FROM vehicles as v
-    LEFT JOIN vehicle_driver as v_d
-    ON v.id = v_d.vehicle_id
-    LEFT JOIN users as u
-    ON v_d.user_id = u.id
-    WHERE ${type} LIKE '%${query}%'
-    GROUP BY v.id
-    ORDER BY v.plate ASC`
-    var results = await db.query(queryStr);
+    if (req.query.type === 'plate') {
+      const queryStr = `
+      SELECT 
+        v.id,
+        v.plate, 
+        o.name AS owner_name, 
+        STRING_AGG(d.name, ', ') as driver_name
+      FROM vehicles v
+      JOIN vehicle_driver vd ON v.id = vd.vehicle_id
+      JOIN users d ON vd.user_id = d.id
+      JOIN users o ON v.owner_id = o.id
+      WHERE v.plate LIKE '%${query}%'
+      GROUP BY o.name, v.id
+      ORDER BY v.plate ASC
+      `;
+      var results = await db.query(queryStr);
+    } else {
+      const queryStr = `
+      SELECT 
+        v.id,
+        v.plate, 
+        o.name AS owner_name, 
+        STRING_AGG(d.name, ', ') as driver_name
+      FROM vehicles v
+      JOIN vehicle_driver vd ON v.id = vd.vehicle_id
+      JOIN users d ON vd.user_id = d.id
+      JOIN users o ON v.owner_id = o.id
+      GROUP BY o.name, v.id
+      HAVING STRING_AGG(d.name, ', ') LIKE '%${query}%'
+          OR o.name LIKE '%${query}%';
+      `;
+
+      var results = await db.query(queryStr);
+    }
   }
-  res.status(200).json(results.rows);
+
+  return res.status(200).json(results.rows);
 });
 
 router.get('/:id', async (req, res) => {
@@ -51,14 +78,10 @@ router.get('/:id', async (req, res) => {
   WHERE id = ${id}
   `);
 
-  if (vehicleQuery.rows.length === 0){
+  if (vehicleQuery.rows.length === 0) {
     return res.sendStatus(404);
   }
 
-  // const driverQuery = await db.query(`
-  // SELECT * from drivers 
-  // WHERE vehicle_id = ${id}
-  // `);
 
   res.status(200).json({
     vehicle: vehicleQuery.rows[0],

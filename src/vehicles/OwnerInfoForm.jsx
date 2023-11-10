@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import names from '../assets/names';
 import AddButton from './AddButton';
-import AddModal from './AddModal';
+import AddModal from './PersonModal';
 import translate from '../assets/translate';
 import { useOutletContext } from 'react-router';
 

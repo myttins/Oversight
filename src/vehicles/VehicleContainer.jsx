@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router';
+import axios from 'axios';
 import translate from '../assets/translate';
 import Error from '../error/Error';
 import AddButton from './AddButton';
@@ -40,6 +41,7 @@ const VehicleHome = () => {
       return;
     }
     const data = await response.json();
+    console.log(data);
     setVehicleInfo(data.vehicle);
     // setDriverInfo(data.drivers);
   };

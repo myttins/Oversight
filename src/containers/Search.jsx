@@ -50,22 +50,24 @@ const Search = () => {
     return data;
   };
 
+
+
   return (
     <div>
-      <h1 className="mt-6 text-2xl">Search</h1>
+      <h1 className="mt-6 text-2xl">VEHICLE SEARCH</h1>
       <div>
         <input
-          className="border mt-6"
+          className="input"
           placeholder={`Search by ${queryType}`}
           value={input}
           onChange={(e) => setInput(e.target.value)}
         ></input>
         <button
-          className="border active:bg-violet-700 px-4"
+          className="btn"
           text={query}
           onClick={handleSearchClick}
         >
-          Search
+          SEARCH
         </button>
       </div>
       <div className='my-2'>
@@ -76,7 +78,7 @@ const Search = () => {
             checked={queryType === 'plate'}
             onChange={() => setQueryType('plate')}
           />
-          Plate
+          PLATE
         </label>
         <label className="px-4">
           <input
@@ -85,7 +87,7 @@ const Search = () => {
             checked={queryType === 'driver'}
             onChange={() => setQueryType('driver')}
           />
-          Driver
+          PEOPLE
         </label>
       </div>
 
@@ -93,8 +95,9 @@ const Search = () => {
         <div>
           <h1>Showing results for: '{query}'</h1>
           <div className="mt-6 flex w-full border-b-2">
-            <a className="w-2/6">Plate</a>
-            <a className="w-4/6">Drivers</a>
+            <a className="w-1/6">PLATE</a>
+            <a className="w-2/6">OWNER</a>
+            <a className="w-3/6">DRIVER</a>
           </div>
           <div>
             {data.map((data, index) => {

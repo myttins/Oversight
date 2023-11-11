@@ -6,6 +6,7 @@ import Error from '../error/Error';
 import AddButton from './AddButton';
 import OwnerInfoForm from './OwnerInfoForm';
 import InsurerInfoForm from './InsurerInfoForm';
+import FormElement from './FormElement';
 
 const VehicleHome = () => {
   const { id } = useParams();
@@ -54,7 +55,9 @@ const VehicleHome = () => {
     <div>
       <div>
         <div className="mt-6 flex justify-between">
-          <a className="text-2xl">{language ? translate.vehicle_info[0] : translate.vehicle_info[1]}</a>
+          <a className="text-2xl">
+            {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}
+          </a>
           <div className="">
             {vehicleInfoReadOnly ? (
               <button
@@ -82,55 +85,37 @@ const VehicleHome = () => {
           </div>
         </div>
 
+        <FormElement
+          label={'plate'}
+          readOnly={vehicleInfoReadOnly}
+          value={vehicleInfo.plate}
+          handleOnChange={(value) => {
+            setVehicleInfo({ ...vehicleInfo, plate: value });
+          }}
+        />
+        <FormElement
+          label={'category'}
+          readOnly={vehicleInfoReadOnly}
+          handleOnChange={(value) => {
+            setVehicleInfo({ ...vehicleInfo, category: value });
+          }}
+        />
+        <FormElement
+          label={'vehicle_model'}
+          readOnly={vehicleInfoReadOnly}
+          handleOnChange={(value) => {
+            setVehicleInfo({ ...vehicleInfo, vehicle_model: value });
+          }}
+        />
+        <FormElement
+          label={'engine_no'}
+          readOnly={vehicleInfoReadOnly}
+          handleOnChange={(value) => {
+            setVehicleInfo({ ...vehicleInfo, engine_no: value });
+          }}
+        />
+
         <ul className="mt-2">
-          <li className="flex my-2">
-            <span className="w-1/3">
-              {language ? translate.plate[0] : translate.plate[1]}
-            </span>
-            吉
-            <input
-              className="input w-2/3"
-              placeholder="Plate"
-              value={vehicleInfo.plate || ''}
-              onChange={(e) =>
-                setVehicleInfo({ ...vehicleInfo, plate: e.target.value })
-              }
-              readOnly={vehicleInfoReadOnly}
-            />
-          </li>
-          <li className="flex my-2">
-            <a className="w-1/3">
-              {language ? translate.category[0] : translate.category[1]}
-            </a>
-            <input
-              className="input w-2/3"
-              placeholder="Category"
-              value={vehicleInfo.category || ''}
-              onChange={(e) =>
-                setVehicleInfo({ ...vehicleInfo, category: e.target.value })
-              }
-              readOnly={vehicleInfoReadOnly}
-            />
-          </li>
-          <li className="flex my-2">
-            <a className="w-1/3">
-              {language
-                ? translate.vehicle_model[0]
-                : translate.vehicle_model[1]}
-            </a>
-            <input
-              className="input w-2/3"
-              placeholder="Model"
-              value={vehicleInfo.vehicle_model || ''}
-              onChange={(e) =>
-                setVehicleInfo({
-                  ...vehicleInfo,
-                  vehicle_model: e.target.value,
-                })
-              }
-              readOnly={vehicleInfoReadOnly}
-            />
-          </li>
           <li className="flex my-2">
             <a className="w-1/3">
               {language

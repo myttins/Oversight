@@ -5,7 +5,7 @@ import translate from '../assets/translate';
 const FormElement = (props) => {
   const [language] = useOutletContext();
 
-  const { label, readOnly, defaultValue, handleOnChange } = props;
+  const { label, readOnly, defaultValue, value, handleOnChange} = props;
 
   return (
     <div className="flex my-2">
@@ -17,6 +17,7 @@ const FormElement = (props) => {
         placeholder={label}
         readOnly={readOnly}
         defaultValue={defaultValue}
+        value={value || ''}
         onChange={(e) => handleOnChange(e.target.value)}
       />
     </div>

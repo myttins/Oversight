@@ -3,6 +3,9 @@ const router = express.Router();
 const path = require('path');
 // const fileUpload = require('express-fileupload');
 
+const vehicleController = require('../controllers/vehicleController');
+const userController = require('../controllers/userController');
+
 const db = require('../models');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -70,24 +73,19 @@ router.get('/', async (req, res) => {
   return res.status(200).json(results.rows);
 });
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+router.get(
+  '/:id',
+  vehicleController.getVehicleInfoWithId,
+  userController.getDriversWithVehicleId,
+  (_req, res) => {
+    const result = {
+      vehicle: res.locals.vehicle,
+      drivers: res.locals.drivers,
+    };
 
-  const vehicleQuery = await db.query(`
-  SELECT * from vehicles 
-  WHERE id = ${id}
-  `);
-
-  if (vehicleQuery.rows.length === 0) {
-    return res.sendStatus(404);
-  }
-
-
-  res.status(200).json({
-    vehicle: vehicleQuery.rows[0],
-    // drivers: driverQuery.rows,
-  });
-});
+    return res.status(200).json(result);
+  },
+);
 
 // router.post('/file', async (req, res) => {
 

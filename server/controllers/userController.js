@@ -1,22 +1,17 @@
 const db = require('../models');
+const query = require('../query');
 
 const userController = {};
 
-userController.getDriversUsingVehicleId = async (req, res, next) => {
-  const vehicleId = req.params.id;
-
-  const queryStr = `
-  SELECT 
-    u.name,
-    u.
-  FROM users u
-  JOIN vehicle_driver vd ON u.id = vd.user_id
-  WHERE vd.vehicle_id = ${vehicleId}`
-
-  const data = await db.query(queryStr)
-  console.log(data)
-
-  return next();
+userController.getDriversWithVehicleId = async (req, res, next) => {
+  try {
+    const queryStr = query.getDriversWithVehicleId(req.params.id);
+    const data = await db.query(queryStr);
+    res.locals.drivers = data.rows;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 };
 
 module.exports = userController;

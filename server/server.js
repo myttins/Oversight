@@ -31,7 +31,7 @@ app.use('/static', express.static(path.resolve(__dirname, './static')));
 //   });
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.log(err);
   res.status(500).json({ error: 'Internal Server Error' });
 });
 

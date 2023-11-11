@@ -13,7 +13,10 @@ vehicleController.getVehicleInfoWithId = async (req, res, next) => {
     res.locals.vehicle = data.rows[0];
     return next();
   } catch (err) {
-    return next(err);
+    return next({
+      message: 'Error in vehicleController.getVehicleInfoWithId',
+      error: err
+    });
   }
 };
 

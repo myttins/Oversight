@@ -22,7 +22,7 @@ const InsurerInfoForm = () => {
           +
         </button>
       </div>
-      {showAddInsurerModal && <AddModal showModal={setShowAddInsurerModal} />}
+      {showAddInsurerModal && <AddModal setModalVisible={setShowAddInsurerModal} person={{}}/>}
     </div>
   );
 };

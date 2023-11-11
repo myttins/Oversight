@@ -5,7 +5,20 @@ import translate from '../assets/translate';
 const FormElement = (props) => {
   const [language] = useOutletContext();
 
-  const { label, readOnly, defaultValue, value, handleOnChange} = props;
+  const { label, type, readOnly, formInfo, setFormInfo } = props;
+
+  const getCurrentDate = () => {
+    const date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1; // getMonth() returns 0-11
+    let day = date.getDate();
+
+    // Ensure month and day are in 2-digit format
+    month = month < 10 ? '0' + month : month;
+    day = day < 10 ? '0' + day : day;
+
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <div className="flex my-2">
@@ -14,11 +27,11 @@ const FormElement = (props) => {
       </span>
       <input
         className="input w-2/3"
-        placeholder={label}
+        placeholder={translate[label][0]}
+        type={type}
         readOnly={readOnly}
-        defaultValue={defaultValue}
-        value={value || ''}
-        onChange={(e) => handleOnChange(e.target.value)}
+        value={formInfo[label] || (type === 'date' ? getCurrentDate() : '')}
+        onChange={(e) => setFormInfo({ ...formInfo, [label]: e.target.value })}
       />
     </div>
   );

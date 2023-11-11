@@ -29,7 +29,7 @@ const Navbar = (props) => {
             localStorage.setItem('language', newLanguage);
           }}
         >
-          {language ? 'English' : '中文'}
+          {language ? '中文' : 'English'}
         </button>
         <Link to={'/vehicle/new'} className={linkStyle}>
           New

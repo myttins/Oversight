@@ -16,19 +16,7 @@ const AWS = require('aws-sdk');
 
 router.get('/', async (req, res) => {
   if (!req.query.type || !req.query.query) {
-    const queryStr = `
-    SELECT 
-      v.id,
-      v.plate, 
-      o.name AS owner_name, 
-      STRING_AGG(d.name, ', ') as driver_name
-    FROM vehicles v
-    JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-    JOIN users d ON vd.user_id = d.id
-    JOIN users o ON v.owner_id = o.id
-    GROUP BY o.name, v.id
-    ORDER BY v.plate ASC
-    `;
+    const queryStr = query.getVehiclesAll()
     var results = await db.query(queryStr);
   } else {
     const type = req.query.type === 'plate' ? 'v.plate' : 'd.name';
@@ -77,10 +65,12 @@ router.get(
   '/:id',
   vehicleController.getVehicleInfoWithId,
   userController.getDriversWithVehicleId,
+  userController.getOwnerWithVehicleId,
   (_req, res) => {
     const result = {
       vehicle: res.locals.vehicle,
       drivers: res.locals.drivers,
+      owner: res.locals.owner
     };
 
     return res.status(200).json(result);

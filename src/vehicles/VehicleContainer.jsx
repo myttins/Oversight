@@ -3,25 +3,23 @@ import { useNavigate, useOutletContext, useParams } from 'react-router';
 import axios from 'axios';
 import translate from '../assets/translate';
 import Error from '../error/Error';
-import AddButton from './AddButton';
 import OwnerInfoForm from './OwnerInfoForm';
 import InsurerInfoForm from './InsurerInfoForm';
 import FormElement from './FormElement';
+import UserCard from './PersonCard';
+import PersonContainer from './PersonContainer';
 
 const VehicleHome = () => {
   const { id } = useParams();
 
-  // const navigate = useNavigate();
-
   const [language] = useOutletContext();
+  // const navigate = useNavigate();
 
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [vehicleInfoReadOnly, setVehicleInfoReadOnly] = useState(true);
-
-  const [showAddOwnerForm, setShowAddOwnerForm] = useState(false);
-
-  // const [driverInfo, setDriverInfo] = useState([]);
-  const [userNames, setUserNames] = useState([]);
+  const [drivers, setDrivers] = useState([]);
+  const [owner, setOwner] = useState([]);
+  const [person, setPerson] = useState({});
 
   useEffect(() => {
     if (id === 'new') {
@@ -37,18 +35,13 @@ const VehicleHome = () => {
   }, []);
 
   const fetchVehicleData = async () => {
-    const response = await fetch(`http://localhost:3000/vehicle/${id}`);
+    const response = await axios.get(`http://localhost:3000/vehicle/${id}`);
     if (response.status !== 200) {
       return;
     }
-    const data = await response.json();
-    console.log(data);
-    setVehicleInfo(data.vehicle);
-    // setDriverInfo(data.drivers);
-  };
-
-  const fetchDriverNames = async () => {
-    return;
+    setVehicleInfo(response.data.vehicle);
+    setDrivers(response.data.drivers);
+    setOwner(response.data.owner);
   };
 
   return (
@@ -85,125 +78,81 @@ const VehicleHome = () => {
           </div>
         </div>
 
+        {/* @TODO
+        Refactor FormElement elements into map function
+         */}
+
         <FormElement
           label={'plate'}
+          type={'text'}
           readOnly={vehicleInfoReadOnly}
-          value={vehicleInfo.plate}
-          handleOnChange={(value) => {
-            setVehicleInfo({ ...vehicleInfo, plate: value });
-          }}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
         />
         <FormElement
           label={'category'}
+          type={'text'}
           readOnly={vehicleInfoReadOnly}
-          handleOnChange={(value) => {
-            setVehicleInfo({ ...vehicleInfo, category: value });
-          }}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
         />
         <FormElement
           label={'vehicle_model'}
+          type={'text'}
           readOnly={vehicleInfoReadOnly}
-          handleOnChange={(value) => {
-            setVehicleInfo({ ...vehicleInfo, vehicle_model: value });
-          }}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
         />
         <FormElement
           label={'engine_no'}
+          type={'text'}
           readOnly={vehicleInfoReadOnly}
-          handleOnChange={(value) => {
-            setVehicleInfo({ ...vehicleInfo, engine_no: value });
-          }}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'vehicle_color'}
+          type={'text'}
+          readOnly={vehicleInfoReadOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'vin'}
+          type={'text'}
+          readOnly={vehicleInfoReadOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'fuel_type'}
+          type={'text'}
+          readOnly={vehicleInfoReadOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
         />
 
-        <ul className="mt-2">
-          <li className="flex my-2">
-            <a className="w-1/3">
-              {language
-                ? translate.vehicle_color[0]
-                : translate.vehicle_color[1]}
-            </a>
-            <input
-              className="input w-2/3"
-              placeholder="Color"
-              value={vehicleInfo.vehicle_color || ''}
-              onChange={(e) =>
-                setVehicleInfo({
-                  ...vehicleInfo,
-                  vehicle_color: e.target.value,
-                })
-              }
-              readOnly={vehicleInfoReadOnly}
-            />
-          </li>
-          <li className="flex my-2">
-            <a className="w-1/3">
-              {language ? translate.vin[0] : translate.vin[1]}
-            </a>
-            <input
-              className="input w-2/3"
-              placeholder="VIN"
-              value={vehicleInfo.vin || ''}
-              onChange={(e) =>
-                setVehicleInfo({ ...vehicleInfo, vin: e.target.value })
-              }
-              readOnly={vehicleInfoReadOnly}
-            />
-          </li>
-          <li className="flex my-2">
-            <a className="w-1/3">
-              {language ? translate.fuel_type[0] : translate.fuel_type[1]}
-            </a>
-            {vehicleInfoReadOnly ? (
-              <span className="w 2/3">
-                {vehicleInfo.fuel_type ? '汽油' : 'ELECTRIC'}
-              </span>
-            ) : (
-              <select
-                className="w-2/3"
-                name="fuel_type"
-                value={vehicleInfo.fuel_type ? '汽油' : 'ELECTRIC'}
-                onChange={(e) =>
-                  setVehicleInfo({
-                    ...vehicleInfo,
-                    fuel_type: e.target.value === '汽油',
-                  })
-                }
-              >
-                <option value="汽油">汽油</option>
-                <option value="ELECTRIC">ELECTRIC</option>
-              </select>
-            )}
-          </li>
-          <li className="flex my-2">
-            <a className="w-1/3">Reg Date: </a>
-            <input
-              className="input w-2/3"
-              type="date"
-              value={vehicleInfo.registration_date || '2000-01-01'}
-              onChange={(e) =>
-                setVehicleInfo({
-                  ...vehicleInfo,
-                  registration_date: e.target.value,
-                })
-              }
-              readOnly={vehicleInfoReadOnly}
-            />
-          </li>
-        </ul>
+        <FormElement
+          label={'registration_date'}
+          type={'date'}
+          readOnly={vehicleInfoReadOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
       </div>
 
       {/* <div className="mt-6 flex justify-between border">
           <h1 className="text-2xl">Owner Information</h1>
-          <AddButton />
         </div> */}
-      <OwnerInfoForm />
+
       <InsurerInfoForm />
-      <div>
-        <div className="mt-6 flex justify-between">
-          <h1 className="text-2xl">Driver Information</h1>
-          <AddButton />
-        </div>
-      </div>
+      
+      <PersonContainer key={'owner_info'} type={'owner_info'} people={owner} />
+      <PersonContainer
+        key={'driver_info'}
+        type={'driver_info'}
+        people={drivers}
+      />
       {/* <div>
         <h1 className="mt-6 text-2xl">Files</h1>
         <input type="file"></input>

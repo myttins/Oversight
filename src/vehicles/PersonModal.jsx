@@ -8,6 +8,8 @@ const PersonModal = (props) => {
 
   const { language } = useOutletContext();
 
+  const [readOnly, setReadOnly] = useState(true)
+
   const labels = [
     'id_number',
     'name',
@@ -40,7 +42,7 @@ const PersonModal = (props) => {
         <h1 className="text-2xl">{newPerson ? 'ADD PERSON' : 'PERSON INFO'}</h1>
 
         {labels.map((label) => {
-          return <FormElement key={label} label={label} formInfo={person} />;
+          return <FormElement key={label} label={label} formInfo={person} readOnly={readOnly}/>;
         })}
 
         <div>ADD DATE</div>

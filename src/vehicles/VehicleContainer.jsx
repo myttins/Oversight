@@ -126,7 +126,6 @@ const VehicleHome = () => {
           formInfo={vehicleInfo}
           setFormInfo={setVehicleInfo}
         />
-
         <FormElement
           label={'registration_date'}
           type={'date'}
@@ -136,24 +135,18 @@ const VehicleHome = () => {
         />
       </div>
 
-      {/* <div className="mt-6 flex justify-between border">
-          <h1 className="text-2xl">Owner Information</h1>
-        </div> */}
-
       <InsurerInfoForm />
 
       <PersonContainer key={'owner_info'} type={'owner_info'} people={owner} />
+      
       <PersonContainer
         key={'driver_info'}
         type={'driver_info'}
         people={drivers}
       />
-      {/* <div>
-        <h1 className="mt-6 text-2xl">Files</h1>
-        <input type="file"></input>
-      </div> */}
+
       <div>
-        <h1 className="mt-6 text-2xl">Transactions</h1>
+        <h1 className="mt-6">Transactions</h1>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router';
 import translate from '../assets/translate';
 
 const FormElement = (props) => {
-  const [language] = useOutletContext();
+  const { language } = useOutletContext();
 
   const { label, type, readOnly, formInfo, setFormInfo } = props;
 
@@ -22,9 +22,9 @@ const FormElement = (props) => {
 
   return (
     <div className="flex my-2 border">
-      <span className="w-1/3">
+      <label for={label} className="w-1/3">
         {language ? translate[label][0] : translate[label][1]}
-      </span>
+      </label>
       <input
         className="input w-2/3"
         placeholder={translate[label][0]}

@@ -6,7 +6,7 @@ import AddModal from './PersonModal';
 const InsurerInfoForm = () => {
 
   const [showAddInsurerModal, setShowAddInsurerModal] = useState(false)
-  const [language] = useOutletContext();
+  const {language} = useOutletContext();
 
 
   return (

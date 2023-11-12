@@ -12,7 +12,7 @@ import PersonContainer from './PersonContainer';
 const VehicleHome = () => {
   const { id } = useParams();
 
-  const [language] = useOutletContext();
+  const { language } = useOutletContext();
   // const navigate = useNavigate();
 
   const [vehicleInfo, setVehicleInfo] = useState({});
@@ -146,7 +146,7 @@ const VehicleHome = () => {
         </div> */}
 
       <InsurerInfoForm />
-      
+
       <PersonContainer key={'owner_info'} type={'owner_info'} people={owner} />
       <PersonContainer
         key={'driver_info'}

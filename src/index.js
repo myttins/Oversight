@@ -7,6 +7,7 @@ import Home from './containers/Home';
 import Vehicle from './vehicles/VehicleContainer';
 import Search from './containers/Search';
 import Error from './error/Error';
+import Login from './login/LoginPage';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/login',
+    element: <Login />,
+    errorElement: <Error status={404} />,
+  }
 ]);
 
 const root = createRoot(document.getElementById('root'));

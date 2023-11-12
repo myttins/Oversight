@@ -11,6 +11,10 @@ html {
   font-family: 'simplified-chinese';
 }
 
+h1 {
+  @apply text-2xl
+}
+
 .btn {
   @apply text-sm font-bold py-1 px-2 rounded;
   @apply bg-black text-white;

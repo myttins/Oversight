@@ -6,7 +6,7 @@ import FormElement from './FormElement';
 const PersonModal = (props) => {
   const { setModalVisible, newPerson, person } = props;
 
-  const [ language ] = useOutletContext();
+  const { language } = useOutletContext();
 
   const labels = [
     'id_number',
@@ -15,7 +15,7 @@ const PersonModal = (props) => {
     'phone_number',
     'driver_license_number',
     'business_license_number',
-    'service_card_number'
+    'service_card_number',
   ];
 
   const handleCloseModal = () => {
@@ -39,8 +39,8 @@ const PersonModal = (props) => {
         </button>
         <h1 className="text-2xl">{newPerson ? 'ADD PERSON' : 'PERSON INFO'}</h1>
 
-        {labels.map(label => {
-          return(<FormElement key={label} label={label} formInfo={person}/>)
+        {labels.map((label) => {
+          return <FormElement key={label} label={label} formInfo={person} />;
         })}
 
         <div>ADD DATE</div>

@@ -10,7 +10,7 @@ const OwnerInfoForm = () => {
 
   const [showAddOwnerForm, setShowAddOwnerForm] = useState(false);
 
-  const [language] = useOutletContext();
+  const {language} = useOutletContext();
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;

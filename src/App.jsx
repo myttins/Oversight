@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 
 const App = () => {
   const [language, setLanguage] = useState();
+  const [token, setToken] = useState();
 
   useEffect(() => {
     if (localStorage.getItem('language') === null) {
@@ -16,7 +17,7 @@ const App = () => {
   return (
     <div className="px-6 min-w-[448px] max-w-5xl m-auto">
       <Navbar language={language} setLanguage={setLanguage} />
-      <Outlet context={[language]} />
+      <Outlet context={{language, token, setToken}} />
     </div>
   );
 };

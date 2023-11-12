@@ -4,9 +4,9 @@ import translate from '../assets/translate';
 import FormElement from './FormElement';
 
 const PersonModal = (props) => {
-  const { setModalVisible, person } = props;
+  const { setModalVisible, newPerson, person } = props;
 
-  const [language] = useOutletContext();
+  const [ language ] = useOutletContext();
 
   const labels = [
     'id_number',
@@ -37,7 +37,7 @@ const PersonModal = (props) => {
         >
           X
         </button>
-        <h1 className="text-2xl">ADD PERSON</h1>
+        <h1 className="text-2xl">{newPerson ? 'ADD PERSON' : 'PERSON INFO'}</h1>
 
         {labels.map(label => {
           return(<FormElement key={label} label={label} formInfo={person}/>)

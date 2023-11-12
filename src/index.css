@@ -23,7 +23,7 @@ html {
 
 .input {
   outline: solid blue 1px;
-  @apply p-1;
+  @apply px-1;
   @apply uppercase;
 }
 

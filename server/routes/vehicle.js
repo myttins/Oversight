@@ -6,6 +6,7 @@ const query = require('../query')
 
 const vehicleController = require('../controllers/vehicleController');
 const peopleController = require('../controllers/peopleController');
+const authController = require('../controllers/authController')
 
 const db = require('../models');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
@@ -64,6 +65,7 @@ router.get('/', async (req, res) => {
 
 router.get(
   '/:id',
+  authController.verifyTokenFromCookie,
   vehicleController.getVehicleInfoWithId,
   peopleController.getDriversWithVehicleId,
   peopleController.getOwnerWithVehicleId,

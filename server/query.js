@@ -29,4 +29,14 @@ query.getOwnerWithVehicleId = (id) => {
   WHERE v.id = ${id}`;
 };
 
+query.createAccount = (username, password, role) => {
+  return `INSERT INTO users (username, password, role)
+  VALUES ('${username}', '${password}', ${role})`
+}
+
+query.getPasswordWithUsername = (username) => {
+  return `SELECT u.password FROM users u 
+  WHERE u.username = '${username}'`
+}
+
 module.exports = query;

@@ -5,7 +5,7 @@ const query = require('../query')
 // const fileUpload = require('express-fileupload');
 
 const vehicleController = require('../controllers/vehicleController');
-const userController = require('../controllers/userController');
+const peopleController = require('../controllers/peopleController');
 
 const db = require('../models');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
@@ -65,8 +65,8 @@ router.get('/', async (req, res) => {
 router.get(
   '/:id',
   vehicleController.getVehicleInfoWithId,
-  userController.getDriversWithVehicleId,
-  userController.getOwnerWithVehicleId,
+  peopleController.getDriversWithVehicleId,
+  peopleController.getOwnerWithVehicleId,
   (_req, res) => {
     const result = {
       vehicle: res.locals.vehicle,

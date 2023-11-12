@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import Navbar from './components/Navbar';
 
 const App = () => {
-  const [language, setLanguage] = useState();
-  const [token, setToken] = useState();
+  const [language, setLanguage] = useState(true);
+  const [token, setToken] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('language') === null) {
-      setLanguage(true);
-    } else {
-      setLanguage(JSON.parse(localStorage.getItem('language')));
-    }
+    localStorage.getItem('language') === null
+      ? setLanguage(true)
+      : setLanguage(JSON.parse(localStorage.getItem('language')));
+
+    const storedToken = localStorage.getItem('token');
+    storedToken === 'password' ? setToken(storedToken) : navigate('/login');
   }, []);
 
   return (
     <div className="px-6 min-w-[448px] max-w-5xl m-auto">
       <Navbar language={language} setLanguage={setLanguage} />
-      <Outlet context={{language, token, setToken}} />
+      <Outlet context={{ language, token, setToken }} />
     </div>
   );
 };

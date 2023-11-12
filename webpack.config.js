@@ -18,6 +18,12 @@ module.exports = {
       publicPath: '/build',
       directory: path.resolve(__dirname, './build'),
     },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
+      },
+    },
     host: 'localhost',
     port: 8080,
     open: true,

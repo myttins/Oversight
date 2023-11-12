@@ -1,9 +1,9 @@
 const db = require('../models');
 const query = require('../query');
 
-const userController = {};
+const peopleController = {};
 
-userController.getDriversWithVehicleId = async (req, res, next) => {
+peopleController.getDriversWithVehicleId = async (req, res, next) => {
   try {
     const queryStr = query.getDriversWithVehicleId(req.params.id);
     const data = await db.query(queryStr);
@@ -11,13 +11,13 @@ userController.getDriversWithVehicleId = async (req, res, next) => {
     return next();
   } catch (err) {
     return next({
-      message: 'Error in userController.getDriversWithVehicleId',
+      message: 'Error in peopleController.getDriversWithVehicleId',
       error: err
     });
   }
 };
 
-userController.getOwnerWithVehicleId = async (req, res, next) => {
+peopleController.getOwnerWithVehicleId = async (req, res, next) => {
   try {
     const queryStr = query.getOwnerWithVehicleId(req.params.id)
     const data = await db.query(queryStr);
@@ -25,10 +25,10 @@ userController.getOwnerWithVehicleId = async (req, res, next) => {
     return next();
   } catch (err) {
     return next({
-      message: 'Error in userController.getOwnerWithVehicleId',
+      message: 'Error in peopleController.getOwnerWithVehicleId',
       error: err
     });
   }
 }
 
-module.exports = userController;
+module.exports = peopleController;

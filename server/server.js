@@ -18,7 +18,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const vehicle = require('./routes/vehicle');
 const search = require('./routes/search');
-const users = require('./routes/users');
+const users = require('./routes/people');
 
 app.use('/vehicle', vehicle);
 app.use('/search', search);

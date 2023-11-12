@@ -22,7 +22,7 @@ const FormElement = (props) => {
 
   return (
     <div className="flex my-2 border">
-      <label for={label} className="w-1/3">
+      <label htmlFor={label} className="w-1/3">
         {language ? translate[label][0] : translate[label][1]}
       </label>
       <input

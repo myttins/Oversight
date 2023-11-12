@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useOutletContext, useParams } from 'react-router';
+import { useOutletContext, useParams } from 'react-router';
 import axios from 'axios';
+
 import translate from '../assets/translate';
 import Error from '../error/Error';
-import OwnerInfoForm from './OwnerInfoForm';
 import InsurerInfoForm from './InsurerInfoForm';
 import FormElement from './FormElement';
-import UserCard from './PersonCard';
 import PersonContainer from './PersonContainer';
 
 const VehicleHome = () => {
   const { id } = useParams();
-
   const { language } = useOutletContext();
-  // const navigate = useNavigate();
-
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [vehicleInfoReadOnly, setVehicleInfoReadOnly] = useState(true);
   const [drivers, setDrivers] = useState([]);
@@ -26,7 +22,6 @@ const VehicleHome = () => {
       setVehicleInfoReadOnly(false);
       return;
     }
-
     try {
       fetchVehicleData();
     } catch (e) {
@@ -35,7 +30,7 @@ const VehicleHome = () => {
   }, []);
 
   const fetchVehicleData = async () => {
-    const response = await axios.get(`http://localhost:3000/vehicle/${id}`);
+    const response = await axios.get('/api/vehicle/' + id);
     if (response.status !== 200) {
       return;
     }

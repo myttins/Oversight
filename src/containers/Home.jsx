@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import VehicleRow from '../components/VehicleRow';
 
 const Home = () => {
@@ -12,9 +14,8 @@ const Home = () => {
   }, []);
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:3000/vehicle');
-    const data = await response.json();
-    setVehicleRows(data);
+    const response = await axios.get('/api/vehicle');
+    setVehicleRows(response.data);
   };
 
   return (

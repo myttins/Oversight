@@ -1,9 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Navbar = (props) => {
   const { language, setLanguage } = props;
+  const navigate = useNavigate();
   const linkStyle = 'pt-4 pr-4 inline-block hover:underline underline-offset-4';
+
+
+  const handleLogout = async () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('language')
+    await axios.get('/api/auth/logout')
+    navigate('/login')
+  }
   return (
     <div className="flex place-content-between m-auto max-w-5xl">
       <div>
@@ -21,6 +31,7 @@ const Navbar = (props) => {
         </Link> */}
       </div>
       <div>
+        
         <button
           className="pt-4 pr-4 inline-block hover:underline underline-offset-4"
           onClick={() => {
@@ -34,6 +45,7 @@ const Navbar = (props) => {
         <Link to={'/vehicle/new'} className={linkStyle}>
           New
         </Link>
+        <button className='btn mx-2' onClick={handleLogout}>LOGOUT</button>
       </div>
     </div>
   );

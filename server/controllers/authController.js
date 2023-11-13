@@ -18,7 +18,7 @@ authController.createAccount = async (req, res, next) => {
     return next();
   } catch (err) {
     return next({
-      message: 'Error in authController.createAccount',
+      location: 'Error in authController.createAccount',
       error: err,
     });
   }
@@ -29,13 +29,18 @@ authController.verifyCredentials = async (req, res, next) => {
     const { username, password } = req.body;
     const queryStr = query.getPasswordWithUsername(username);
     const data = await db.query(queryStr);
-    const hash = data.rows[0].password;
 
+    // If username does not exist
+    if (data.rows.length === 0) {
+      return res.status(404).json({ message: 'Login failed.' });
+    }
+
+    const hash = data.rows[0].password;
     const verified = await bcrypt.compare(password, hash);
     if (verified) {
       return next();
     } else {
-      return res.status(401).json('login failed)');
+      return res.status(401).json({ message: 'Login failed.' });
     }
   } catch (err) {
     return next({
@@ -51,14 +56,16 @@ authController.verifyTokenFromCookie = async (req, res, next) => {
     if (!token) {
       return res.status(401).send('Access denied. No token provided.');
     }
-    const status = await jwt.verify(token, process.env.JWT_SECRET_KEY)
+    const status = await jwt.verify(token, process.env.JWT_SECRET_KEY);
     return next();
   } catch (err) {
+    // Clear token if token is invalid
+    res.cookie('token', '', { httpOnly: true, expires: new Date(0) });
     return next({
       location: 'Error located in authController.verifyTokenFromCookie',
       message: 'Invalid token.',
       error: err,
-      status: 401
+      status: 401,
     });
   }
 };
@@ -66,20 +73,17 @@ authController.verifyTokenFromCookie = async (req, res, next) => {
 authController.signTokenSetCookie = (req, res, next) => {
   try {
     const { username } = res.locals;
-    const token = jwt.sign(
-      { username },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: '60d' }, // Token expires in 1 hour
-    );
+    const token = jwt.sign({ username }, process.env.JWT_SECRET_KEY, {
+      expiresIn: '60d',
+    });
+
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
     });
     return next();
   } catch (err) {
     return next({
-      message: 'Error in authController.signTokenSetCookie',
+      location: 'Error located in authController.signTokenSetCookie',
       error: err,
     });
   }

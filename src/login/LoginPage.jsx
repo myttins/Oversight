@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import LoginPageAlert from './LoginPageAlert';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [credentials, setCredentials] = useState({
+    username: '',
+    password: '',
+  });
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
-  const handleLoginFormSubmit = () => {
-    if (username === 'test') {
-      localStorage.setItem('token', 'password');
-      navigate('/');
-    } else {
-      console.log('login failed')
+  const handleLoginFormSubmit = async () => {
+    if (!credentials.username || !credentials.password) {
+      setErrorMessage('Invalid input.');
       return;
+    }
+    try {
+      const response = await axios.post('/api/auth/login', credentials);
+      if (response.status === 200) navigate('/');
+      else setErrorMessage(response.data.message);
+    } catch (err) {
+      setErrorMessage(err.response.data.message);
     }
   };
   return (
@@ -21,11 +32,26 @@ const Login = () => {
         <h1>LOGIN</h1>
         <input
           className="normal-case border"
-          value={username}
-          placeholder='username'
-          onChange={(e) => setUsername(e.target.value)}
+          value={credentials.username}
+          placeholder="username"
+          onChange={(e) =>
+            setCredentials({ ...credentials, username: e.target.value })
+          }
         />
-        <button className='btn' onClick={handleLoginFormSubmit}>LOGIN</button>
+        <input
+          className="normal-case border"
+          value={credentials.password}
+          placeholder="password"
+          onChange={(e) =>
+            setCredentials({ ...credentials, password: e.target.value })
+          }
+        />
+        <button className="btn" onClick={handleLoginFormSubmit}>
+          LOGIN
+        </button>
+        {errorMessage.length !== 0 ? (
+          <LoginPageAlert message={errorMessage} />
+        ) : null}
       </div>
     </div>
   );

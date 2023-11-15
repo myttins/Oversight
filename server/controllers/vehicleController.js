@@ -12,10 +12,25 @@ vehicleController.getVehicleInfoWithId = async (req, res, next) => {
     }
     res.locals.vehicle = data.rows[0];
     return next();
-  } catch (err) {
+  } catch (error) {
     return next({
-      message: 'Error in vehicleController.getVehicleInfoWithId',
-      error: err
+      location: 'Error located in vehicleController.getVehicleInfoWithId',
+      error,
+    });
+  }
+};
+
+vehicleController.updateVehicleInfoWithId = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const queryStr = query.updateVehicleInfoWithId(id, req.body);
+    const data = await db.query(queryStr);
+    return next();
+  } catch (error) {
+    return next({
+      location: 'Error located in vehicleController.updateVehicleInfoWithId',
+      error,
     });
   }
 };

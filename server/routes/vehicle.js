@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const query = require('../query')
+const query = require('../query');
 // const fileUpload = require('express-fileupload');
 
 const vehicleController = require('../controllers/vehicleController');
 const peopleController = require('../controllers/peopleController');
-const authController = require('../controllers/authController')
+const authController = require('../controllers/authController');
 
 const db = require('../models');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
@@ -18,7 +18,7 @@ const AWS = require('aws-sdk');
 
 router.get('/', async (req, res) => {
   if (!req.query.type || !req.query.query) {
-    const queryStr = query.getVehiclesAll()
+    const queryStr = query.getVehiclesAll();
     var results = await db.query(queryStr);
   } else {
     const type = req.query.type === 'plate' ? 'v.plate' : 'd.name';
@@ -73,10 +73,20 @@ router.get(
     const result = {
       vehicle: res.locals.vehicle,
       drivers: res.locals.drivers,
-      owner: res.locals.owner
+      owner: res.locals.owner,
     };
 
     return res.status(200).json(result);
+  },
+);
+
+router.post(
+  '/:id',
+  authController.verifyTokenFromCookie,
+  vehicleController.updateVehicleInfoWithId,
+  (req, res) => {
+    const { id } = req.params;
+    return res.status(200).json({ message: `Vehicle ${id} updated successfully` });
   },
 );
 

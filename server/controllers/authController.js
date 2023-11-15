@@ -78,7 +78,7 @@ authController.signTokenSetCookie = (req, res, next) => {
     });
 
     res.cookie('token', token, {
-      httpOnly: true,
+      httpOnly: true
     });
     return next();
   } catch (err) {

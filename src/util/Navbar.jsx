@@ -9,8 +9,6 @@ const Navbar = (props) => {
 
 
   const handleLogout = async () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('language')
     await axios.get('/api/auth/logout')
     navigate('/login')
   }

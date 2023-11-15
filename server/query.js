@@ -31,12 +31,40 @@ query.getOwnerWithVehicleId = (id) => {
 
 query.createAccount = (username, password, role) => {
   return `INSERT INTO users (username, password, role)
-  VALUES ('${username}', '${password}', ${role})`
-}
+  VALUES ('${username}', '${password}', ${role})`;
+};
 
 query.getPasswordWithUsername = (username) => {
   return `SELECT u.password FROM users u 
-  WHERE u.username = '${username}'`
-}
+  WHERE u.username = '${username}'`;
+};
+
+query.updateVehicleInfoWithId = (id, vehicleInfo) => {
+  const {
+    vehicle_model,
+    vehicle_color,
+    vin,
+    commercial_license_num,
+    fuel_type,
+    activation_date,
+    registration_date,
+    notes,
+    category,
+    engine_no,
+  } = vehicleInfo;
+
+  return `UPDATE vehicles 
+  SET vehicle_model='${vehicle_model}', 
+  vehicle_color='${vehicle_color}', 
+  vin='${vin}',
+  commercial_license_num='${commercial_license_num}',
+  category='${category}',
+  engine_no='${engine_no}',
+  fuel_type='${fuel_type}',
+  activation_date='${activation_date}',
+  registration_date='${registration_date}',
+  notes='${notes}'
+  WHERE id=${id}`;
+};
 
 module.exports = query;

@@ -31,7 +31,7 @@ const FormElement = (props) => {
         type={type}
         readOnly={readOnly}
         value={formInfo[label] || (type === 'date' ? getCurrentDate() : '')}
-        onChange={(e) => setFormInfo({ ...formInfo, [label]: e.target.value })}
+        onChange={(e) => setFormInfo({ ...formInfo, [label]: e.target.value.toUpperCase() })}
       />
     </div>
   );

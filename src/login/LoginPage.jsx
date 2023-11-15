@@ -18,12 +18,12 @@ const Login = () => {
       setErrorMessage('Invalid input.');
       return;
     }
+
     try {
-      const response = await axios.post('/api/auth/login', credentials);
-      if (response.status === 200) navigate('/');
-      else setErrorMessage(response.data.message);
+      await axios.post('/api/auth/login', credentials);
+      navigate('/');
     } catch (err) {
-      setErrorMessage(err.response.data.message);
+      setErrorMessage('Login Failed');
     }
   };
   return (

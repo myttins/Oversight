@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
+import axios from 'axios';
 import Navbar from './util/Navbar';
 
 const App = () => {
   const [language, setLanguage] = useState(true);
-  const [token, setToken] = useState('');
 
   const navigate = useNavigate();
 
@@ -12,20 +12,32 @@ const App = () => {
     localStorage.getItem('language') === null
       ? setLanguage(true)
       : setLanguage(JSON.parse(localStorage.getItem('language')));
+  }, []);
 
-    // const storedToken = localStorage.getItem('token');
-    // storedToken === 'password' ? setToken(storedToken) : navigate('/login');
+  useEffect(() => {
+    const fetchAuth = async () => {
+      try {
+        const response = await axios.get('/api/auth/');
+      } catch (err) {
+        if (err.response && err.response.status === 401){
+          navigate('/login')
+        } else {
+          console.error('Error fetching data:', err);
+        }
+      }
+    };
+
+    fetchAuth();
   }, []);
 
   const validateToken = () => {
-
     return false;
-  }
+  };
 
   return (
     <div className="px-6 min-w-[448px] max-w-5xl m-auto">
       <Navbar language={language} setLanguage={setLanguage} />
-      <Outlet context={{ language, token, setToken }} />
+      <Outlet context={{ language }} />
     </div>
   );
 };

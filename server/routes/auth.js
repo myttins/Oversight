@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
+router.get('/', authController.verifyTokenFromCookie, (req, res) => {
+  return res.status(200).json({ message: 'Login Authenticaed' });
+});
+
 router.post(
   '/login',
   authController.verifyCredentials,

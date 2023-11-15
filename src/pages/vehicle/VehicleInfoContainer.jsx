@@ -3,11 +3,11 @@ import { useOutletContext } from 'react-router';
 
 import axios from 'axios';
 
-import FormElement from './FormElement';
-import translate from '../assets/translate';
-import Error from '../error/Error';
+import FormElement from './components/FormElement';
+import translate from '../../assets/translate';
+import Error from '../../error/Error';
 
-const VehicleInfoForm = (props) => {
+const VehicleInfoContainer = (props) => {
   const { language } = useOutletContext();
   const { vehicleInfo, setVehicleInfo } = props;
 
@@ -90,4 +90,4 @@ const VehicleInfoForm = (props) => {
   );
 };
 
-export default VehicleInfoForm;
+export default VehicleInfoContainer;

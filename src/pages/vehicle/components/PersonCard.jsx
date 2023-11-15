@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import PersonModal from './PersonModal';
+import ConfirmationPopUp from '../../../util/ConfirmationModal';
 
 const PersonCard = (props) => {
   const { person } = props;
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [confirmatonModalVisible, setConfirmationModalVisible] =
+    useState(false);
+
+  const handleCloseConfirmationModal = () => {
+    setConfirmationModalVisible(false);
+  };
+
+  const handleDeleteButtonClick = (e) => {
+    e.stopPropagation();
+    setConfirmationModalVisible(true);
+  };
 
   return (
     <div>
@@ -13,7 +25,9 @@ const PersonCard = (props) => {
         onClick={() => setModalVisible(true)}
       >
         <div>{person.name}</div>
-        <button className='btn'>DELETE</button>
+        <button className="btn" onClick={handleDeleteButtonClick}>
+          DELETE
+        </button>
       </div>
 
       {modalVisible && (
@@ -22,6 +36,10 @@ const PersonCard = (props) => {
           person={person}
           setModalVisible={setModalVisible}
         />
+      )}
+
+      {confirmatonModalVisible && (
+        <ConfirmationPopUp handleCloseModal={handleCloseConfirmationModal} />
       )}
     </div>
   );

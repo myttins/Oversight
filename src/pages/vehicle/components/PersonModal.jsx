@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router';
-import translate from '../assets/translate';
+import translate from '../../../assets/translate';
 import FormElement from './FormElement';
 
 const PersonModal = (props) => {

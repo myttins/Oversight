@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import names from '../assets/names';
-import AddModal from './PersonModal';
-import translate from '../assets/translate';
+import names from '../../assets/names';
+import AddModal from './components/PersonModal';
+import translate from '../../assets/translate';
 import { useOutletContext } from 'react-router';
 
 const OwnerInfoForm = () => {

@@ -18,7 +18,7 @@ query.getVehicleInfoWithId = (id) => {
 query.getDriversWithVehicleId = (id) => {
   return `SELECT p.id, p.name, p.id_number, p.current_address, 
   p.phone_number, p.driver_license_number, p.business_license_number, 
-  p.service_card_number, vd.id as vehicle_driver_id
+  p.service_card_number, vd.id as foreign_id
   FROM people p
   JOIN vehicle_driver vd ON p.id = vd.user_id
   WHERE vd.vehicle_id = ${id}`;

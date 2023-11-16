@@ -17,7 +17,7 @@ const DriverContainer = (props) => {
     );
 
     // remove person from state
-    const newDrivers = drivers.filter((driver) => driver.vehicle_driver_id !== id);
+    const newDrivers = drivers.filter((driver) => driver.foreign_id !== id);
     setDrivers(newDrivers);
   };
 

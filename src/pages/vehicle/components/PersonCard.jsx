@@ -42,7 +42,7 @@ const PersonCard = (props) => {
         <ConfirmationPopUp
           handleCloseModal={handleCloseConfirmationModal}
           handleConfirm={(e) => {
-            handleDelete(e, person.vehicle_driver_id)
+            handleDelete(e, person.foreign_id)
             setConfirmationModalVisible(false)
           }}
         />

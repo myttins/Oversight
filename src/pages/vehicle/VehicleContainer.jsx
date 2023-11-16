@@ -3,10 +3,9 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 
 import Error from '../../error/Error';
-import InsurerInfoForm from './InsurerInfoForm';
 import DriverContainer from './containers/DriverContainer';
 import OwnerContainer from './containers/OwnerContainer';
-import VehicleInfoContainer from './VehicleInfoContainer';
+import VehicleInfoContainer from './containers/VehicleInfoContainer';
 
 const VehiclePage = () => {
   const { id } = useParams();
@@ -14,6 +13,7 @@ const VehiclePage = () => {
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [drivers, setDrivers] = useState([]);
   const [owner, setOwner] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,8 +27,8 @@ const VehiclePage = () => {
       setVehicleInfo(response.data.vehicle);
       setDrivers(response.data.drivers);
       setOwner(response.data.owner);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -44,8 +44,12 @@ const VehiclePage = () => {
           />
 
           {/* <InsurerInfoForm /> */}
-          <OwnerContainer people={owner} />
-          <DriverContainer people={drivers} />
+          <OwnerContainer owner={owner} setOwner={setOwner} vehicleid={id} />
+          <DriverContainer
+            drivers={drivers}
+            setDrivers={setDrivers}
+            vehicleid={id}
+          />
         </div>
       )}
     </>

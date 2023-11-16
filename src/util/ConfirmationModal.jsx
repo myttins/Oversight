@@ -11,7 +11,7 @@ const ConfirmationPopUp = (props) => {
         <button className="btn" onClick={handleCloseModal}>
           X
         </button>
-        <button className='btn' onClick={handleCloseModal}> CONFIRM</button>
+        <button className='btn' onClick={handleConfirm}> CONFIRM</button>
         CONFIRM DELETE?
       </div>
     </div>

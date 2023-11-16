@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router';
-import translate from '../../assets/translate';
-import AddModal from './components/PersonModal';
+import translate from '../../../assets/translate';
+import AddModal from '../components/PersonModal';
 
-const InsurerInfoForm = () => {
+const InsurerContainer = () => {
 
   const [showAddInsurerModal, setShowAddInsurerModal] = useState(false)
   const {language} = useOutletContext();
@@ -27,4 +27,4 @@ const InsurerInfoForm = () => {
   );
 };
 
-export default InsurerInfoForm;
+export default InsurerContainer;

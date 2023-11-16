@@ -6,7 +6,7 @@ import './index.css';
 import Home from './containers/Home';
 import Search from './containers/Search';
 import Error from './error/Error';
-import Login from './login/LoginPage';
+import Login from './pages/login/LoginPage';
 import VehiclePage from './pages/vehicle/VehicleContainer';
 
 const router = createBrowserRouter([

@@ -1,11 +1,25 @@
 import React from 'react';
 import { useOutletContext } from 'react-router';
+import axios from 'axios';
+
 import translate from '../../../assets/translate';
 import PersonCard from '../components/PersonCard';
 
 const DriverContainer = (props) => {
   const { language } = useOutletContext();
-  const { people } = props;
+  const { drivers, setDrivers } = props;
+
+  const handleDelete = async (e, id) => {
+    // send request to remove person server-side
+    e.stopPropagation();
+    const response = await axios.delete(
+      `/api/people?type=driver&id=${id}`,
+    );
+
+    // remove person from state
+    const newDrivers = drivers.filter((driver) => driver.vehicle_driver_id !== id);
+    setDrivers(newDrivers);
+  };
 
   return (
     <div className="border mt-4">
@@ -16,8 +30,15 @@ const DriverContainer = (props) => {
         <button className="btn">+</button>
       </div>
       <div>
-        {people.map((person) => {
-          return <PersonCard key={person.id} person={person} />;
+        {drivers.map((person, i) => {
+          return (
+            <PersonCard
+              key={person.id}
+              person={person}
+              index={i}
+              handleDelete={handleDelete}
+            />
+          );
         })}
       </div>
     </div>

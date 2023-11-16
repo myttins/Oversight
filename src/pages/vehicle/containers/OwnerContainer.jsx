@@ -5,7 +5,7 @@ import PersonCard from '../components/PersonCard';
 
 const OwnerContainer = (props) => {
   const { language } = useOutletContext();
-  const { people } = props;
+  const { owner, setOwner } = props;
 
   return (
     <div className="border mt-4">
@@ -13,11 +13,11 @@ const OwnerContainer = (props) => {
         <h1 className="text-2xl">
           {language ? translate.owner_info[0] : translate.owner_info[1]}
         </h1>
-        {people.length === 0 && <button className="btn">+</button>}
+        {owner.length === 0 && <button className="btn">+</button>}
       </div>
 
       <div>
-        {people.map((person) => {
+        {owner.map((person) => {
           return <PersonCard key={person.id} person={person} />;
         })}
       </div>

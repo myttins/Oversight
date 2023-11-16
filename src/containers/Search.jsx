@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import VehicleRow from '../components/VehicleRow';
+import VehicleRow from '../pages/vehicle/components/VehicleRow';
 import { useNavigate } from 'react-router';
 
 const Search = () => {

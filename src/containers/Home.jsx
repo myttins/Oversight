@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import VehicleRow from '../components/VehicleRow';
+import VehicleRow from '../pages/vehicle/components/VehicleRow';
 
 const Home = () => {
   const [vehicleRows, setVehicleRows] = useState([]);

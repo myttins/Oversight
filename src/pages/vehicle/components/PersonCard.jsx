@@ -3,7 +3,7 @@ import PersonModal from './PersonModal';
 import ConfirmationPopUp from '../../../util/ConfirmationModal';
 
 const PersonCard = (props) => {
-  const { person } = props;
+  const { person, handleDelete } = props;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmatonModalVisible, setConfirmationModalVisible] =
@@ -39,7 +39,13 @@ const PersonCard = (props) => {
       )}
 
       {confirmatonModalVisible && (
-        <ConfirmationPopUp handleCloseModal={handleCloseConfirmationModal} />
+        <ConfirmationPopUp
+          handleCloseModal={handleCloseConfirmationModal}
+          handleConfirm={(e) => {
+            handleDelete(e, person.vehicle_driver_id)
+            setConfirmationModalVisible(false)
+          }}
+        />
       )}
     </div>
   );

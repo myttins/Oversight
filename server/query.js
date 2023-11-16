@@ -3,9 +3,9 @@ const query = {};
 query.getVehiclesAll = () => {
   return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name
   FROM vehicles v
-  JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-  JOIN people d ON vd.user_id = d.id
-  JOIN people o ON v.owner_id = o.id
+  LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id
+  LEFT JOIN people d ON vd.user_id = d.id
+  LEFT JOIN people o ON v.owner_id = o.id
   GROUP BY o.name, v.id
   ORDER BY v.plate ASC`;
 };
@@ -16,7 +16,9 @@ query.getVehicleInfoWithId = (id) => {
 };
 
 query.getDriversWithVehicleId = (id) => {
-  return `SELECT p.id, p.name, p.id_number, p.current_address, p.phone_number, p.driver_license_number, p.business_license_number, p.service_card_number
+  return `SELECT p.id, p.name, p.id_number, p.current_address, 
+  p.phone_number, p.driver_license_number, p.business_license_number, 
+  p.service_card_number, vd.id as vehicle_driver_id
   FROM people p
   JOIN vehicle_driver vd ON p.id = vd.user_id
   WHERE vd.vehicle_id = ${id}`;
@@ -64,6 +66,12 @@ query.updateVehicleInfoWithId = (id, vehicleInfo) => {
   activation_date='${activation_date}',
   registration_date='${registration_date}',
   notes='${notes}'
+  WHERE id=${id}`;
+};
+
+query.deletePersonWithVehicleId = (type, id) => {
+  const table = type === 'driver' ? 'vehicle_driver' : 'owner_driver';
+  return `DELETE FROM ${table}
   WHERE id=${id}`;
 };
 

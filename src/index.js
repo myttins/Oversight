@@ -7,7 +7,7 @@ import Home from './containers/Home';
 import Search from './containers/Search';
 import Error from './error/Error';
 import Login from './pages/login/LoginPage';
-import VehiclePage from './pages/vehicle/VehicleContainer';
+import VehicleContainer from './pages/vehicle/VehicleContainer';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       {
         path: 'vehicle/:id',
-        element: <VehiclePage />,
+        element: <VehicleContainer />,
       },
       {
         path: 'search',

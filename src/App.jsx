@@ -30,10 +30,6 @@ const App = () => {
     fetchAuth();
   }, []);
 
-  const validateToken = () => {
-    return false;
-  };
-
   return (
     <div className="px-6 min-w-[448px] max-w-5xl m-auto">
       <Navbar language={language} setLanguage={setLanguage} />

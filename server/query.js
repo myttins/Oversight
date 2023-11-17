@@ -4,7 +4,7 @@ query.getVehiclesAll = () => {
   return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name
   FROM vehicles v
   LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-  LEFT JOIN people d ON vd.user_id = d.id
+  LEFT JOIN people d ON vd.person_id = d.id
   LEFT JOIN people o ON v.owner_id = o.id
   GROUP BY o.name, v.id
   ORDER BY v.plate ASC`;
@@ -16,16 +16,16 @@ query.getVehicleInfoWithId = (id) => {
 };
 
 query.getDriversWithVehicleId = (id) => {
-  return `SELECT p.id, p.name, p.id_number, p.current_address, 
+  return `SELECT p.id, p.name, p.current_address, 
   p.phone_number, p.driver_license_number, p.business_license_number, 
   p.service_card_number, vd.id as foreign_id
   FROM people p
-  JOIN vehicle_driver vd ON p.id = vd.user_id
+  JOIN vehicle_driver vd ON p.id = vd.person_id
   WHERE vd.vehicle_id = ${id}`;
 };
 
 query.getOwnerWithVehicleId = (id) => {
-  return `SELECT p.id, p.name, p.id_number, p.current_address
+  return `SELECT p.id, p.name, p.current_address
   FROM vehicles v
   JOIN people p ON p.id = v.owner_id
   WHERE v.id = ${id}`;
@@ -69,10 +69,57 @@ query.updateVehicleInfoWithId = (id, vehicleInfo) => {
   WHERE id=${id}`;
 };
 
-query.deletePersonWithVehicleId = (type, id) => {
+query.deletePersonWithVehicleId = (type, personid, vehicleid) => {
   const table = type === 'driver' ? 'vehicle_driver' : 'owner_driver';
   return `DELETE FROM ${table}
+  WHERE person_id='${personid}' AND vehicle_id='${vehicleid}'`;
+};
+
+query.addPerson = (personInfo) => {
+  const {
+    id,
+    name,
+    current_address,
+    phone_number,
+    driver_license_number,
+    business_license_number,
+    service_card_number,
+  } = personInfo;
+
+  return `
+  INSERT INTO people (id, name, current_address, phone_number, 
+      driver_license_number, business_license_number, service_card_number)
+  OVERRIDING SYSTEM VALUE 
+  VALUES ('${id}', '${name}', '${current_address}', '${phone_number}', '${driver_license_number}',
+    '${business_license_number}', '${service_card_number}')`;
+};
+
+query.getPerson = (id) => {
+  return `SELECT * 
+  FROM people 
   WHERE id=${id}`;
+};
+
+query.updatePerson = (id, personInfo) => {
+  const {
+    name,
+    current_address,
+    phone_number,
+    driver_license_number,
+    business_license_number,
+    service_card_number,
+  } = personInfo;
+
+  return `
+  UPDATE people 
+  SET name='${name}', phone_number='${phone_number}', driver_license_number='${driver_license_number}', current_address='${current_address}', 
+  business_license_number='${business_license_number}', service_card_number='${service_card_number}'
+  WHERE id='${id}'`;
+};
+
+query.addDriverToVehicle = (personId, vehicleId) => {
+  return `INSERT INTO vehicle_driver (vehicle_id, person_id)
+  VALUES ('${vehicleId}', '${personId}')`;
 };
 
 module.exports = query;

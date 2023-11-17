@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
-import PersonModal from './PersonModal';
+import React, { useContext, useState } from 'react';
+
+import axios from 'axios';
+import { VehicleContext } from '../VehicleContainer.jsx';
+
+import PersonModal from './PersonModals/PersonModal';
 import ConfirmationPopUp from '../../../util/ConfirmationModal';
 
 const PersonCard = (props) => {
-  const { person, handleDelete } = props;
+  const { person, updateContainerState } = props;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmatonModalVisible, setConfirmationModalVisible] =
     useState(false);
 
+  const vehicleId = useContext(VehicleContext);
+
   const handleCloseConfirmationModal = () => {
     setConfirmationModalVisible(false);
   };
 
-  const handleDeleteButtonClick = (e) => {
-    e.stopPropagation();
-    setConfirmationModalVisible(true);
+  const handleCloseDetailsModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleDeleteButtonClick = async () => {
+    try {
+      const response = await axios.delete(
+        `/api/people?type=driver&vehicleid=${vehicleId}&personid=${person.id}`,
+      );
+      updateContainerState('delete', person);
+      setConfirmationModalVisible(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -25,7 +42,13 @@ const PersonCard = (props) => {
         onClick={() => setModalVisible(true)}
       >
         <div>{person.name}</div>
-        <button className="btn" onClick={handleDeleteButtonClick}>
+        <button
+          className="btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setConfirmationModalVisible(true);
+          }}
+        >
           DELETE
         </button>
       </div>
@@ -34,17 +57,15 @@ const PersonCard = (props) => {
         <PersonModal
           key={person.id}
           person={person}
-          setModalVisible={setModalVisible}
+          updateContainerState={updateContainerState}
+          handleCloseModal={handleCloseDetailsModal}
         />
       )}
 
       {confirmatonModalVisible && (
         <ConfirmationPopUp
           handleCloseModal={handleCloseConfirmationModal}
-          handleConfirm={(e) => {
-            handleDelete(e, person.foreign_id)
-            setConfirmationModalVisible(false)
-          }}
+          handleConfirm={handleDeleteButtonClick}
         />
       )}
     </div>

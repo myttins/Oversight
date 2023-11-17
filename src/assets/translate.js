@@ -15,7 +15,7 @@ const translate = {
   owner_info: ['OWNER INFO', '车主信息'],
   name: ['NAME', '姓名'],
   phone_number: ['PHONE NO.', '电话号'],
-  id_number: ['ID NO.', '身份証号'],
+  id: ['ID NO.', '身份証号'],
   driver_license_number: ['DRIVER LICENSE NO.', '驾驶证号'],
   current_address: ['CURRENT ADDRESS', '现住址'],
   business_license_number: ['BUSINESS LIC NO.', '从业证号'],

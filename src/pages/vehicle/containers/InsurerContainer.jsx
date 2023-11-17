@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router';
 import translate from '../../../assets/translate';
-import AddModal from '../components/PersonModal';
+import AddModal from '../components/PersonModals/PersonModal';
 
 const InsurerContainer = () => {
 

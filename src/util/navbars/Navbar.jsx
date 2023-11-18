@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Navbar = (props) => {
-  const { language, setLanguage } = props;
+  const { language, setLanguage, toggleSidebar } = props;
   const navigate = useNavigate();
   const linkStyle = 'pr-4 inline-block hover:underline underline-offset-4';
 
@@ -21,6 +21,7 @@ const Navbar = (props) => {
           Vehicle
         </Link>
       </div>
+      <button className='btn' onClick={toggleSidebar}>TOGGLE</button>
       <div>
         <button
           className="pr-4 inline-block hover:underline underline-offset-4"

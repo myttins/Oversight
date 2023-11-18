@@ -41,7 +41,7 @@ const VehicleContainer = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div>
+        <div >
           <VehicleInfoContainer
             vehicleInfo={vehicleInfo}
             setVehicleInfo={setVehicleInfo}

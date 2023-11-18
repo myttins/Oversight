@@ -36,55 +36,41 @@ const VehicleInfoContainer = (props) => {
   };
 
   return (
-    <div className='border p-4 m-4 bg-white'>
+    <div className="border p-4 m-4 bg-white">
       <div className="flex justify-between">
         <h1>
           {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}
         </h1>
-        <div className="">
-          {readOnly ? (
-            <button className="btn" onClick={() => setReadOnly(!readOnly)}>
-              EDIT
+
+        {readOnly ? (
+          <button className="btn" onClick={() => setReadOnly(!readOnly)}>
+            EDIT
+          </button>
+        ) : (
+          <div>
+            <button className="btn mx-2" onClick={() => setReadOnly(!readOnly)}>
+              CANCEL
             </button>
-          ) : (
-            <>
-              <button
-                className="btn mx-2"
-                onClick={() => setReadOnly(!readOnly)}
-              >
-                CANCEL
-              </button>
-              <button className="btn mx-2" onClick={handleVehicleInfoSave}>
-                SAVE
-              </button>
-            </>
-          )}
-        </div>
+            <button className="btn mx-2" onClick={handleVehicleInfoSave}>
+              SAVE
+            </button>
+          </div>
+        )}
       </div>
-      {fields.map((item) => {
-        if (item === 'plate') {
+      <div className="p-4">
+        {fields.map((item) => {
           return (
             <FormElement
               key={item}
               label={item}
               type={'text'}
-              readOnly={true}
+              readOnly={item === 'plate' ? true : readOnly}
               formInfo={vehicleInfo}
               setFormInfo={setVehicleInfo}
             />
           );
-        }
-        return (
-          <FormElement
-            key={item}
-            label={item}
-            type={'text'}
-            readOnly={readOnly}
-            formInfo={vehicleInfo}
-            setFormInfo={setVehicleInfo}
-          />
-        );
-      })}
+        })}
+      </div>
     </div>
   );
 };

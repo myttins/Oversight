@@ -15,7 +15,7 @@ router.delete('/', peopleController.deletePersonWithVehicleId, (req, res) => {
 router.post(
   '/',
   peopleController.addPerson,
-  peopleController.addDriverWithVehicleId,
+  peopleController.addPersonToVehicle,
   (req, res) => {
     return res.status(200).json({ message: 'person added successfully' });
   },

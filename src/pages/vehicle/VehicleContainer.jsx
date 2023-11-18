@@ -3,9 +3,9 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 
 // import Error from '../../error/Error';
-import DriverContainer from './containers/DriverContainer';
-import OwnerContainer from './containers/OwnerContainer';
 import VehicleInfoContainer from './containers/VehicleInfoContainer';
+import PersonContainer from './containers/PersonContainer';
+import InsurerContainer from './containers/InsurerContainer';
 
 export const VehicleContext = createContext(null);
 
@@ -15,12 +15,13 @@ const VehicleContainer = () => {
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [drivers, setDrivers] = useState([]);
   const [owner, setOwner] = useState([]);
+  const [insurer, setInsurer] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchVehicleData();
-  }, []);
+  }, [id]);
 
   const fetchVehicleData = async () => {
     try {
@@ -29,6 +30,7 @@ const VehicleContainer = () => {
       setVehicleInfo(response.data.vehicle);
       setDrivers(response.data.drivers);
       setOwner(response.data.owner);
+      setInsurer(response.data.insurer);
     } catch (error) {
       console.error(error);
     }
@@ -44,19 +46,22 @@ const VehicleContainer = () => {
             vehicleInfo={vehicleInfo}
             setVehicleInfo={setVehicleInfo}
           />
-
-          {/* <InsurerInfoForm /> */}
-          <OwnerContainer owner={owner} setOwner={setOwner} vehicleid={id} />
-          <DriverContainer
-            drivers={drivers}
-            setDrivers={setDrivers}
-            vehicleId={id}
+          <PersonContainer
+            people={owner}
+            setPeople={setOwner}
+            driverOrOwner={'owner'}
           />
+
+          <PersonContainer
+            people={drivers}
+            setPeople={setDrivers}
+            driverOrOwner={'driver'}
+          />
+          <InsurerContainer insurer={insurer} setInsurer={setInsurer} />
         </div>
       )}
     </VehicleContext.Provider>
   );
 };
 
-export default VehicleContainer
-
+export default VehicleContainer;

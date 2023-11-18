@@ -6,20 +6,19 @@ import VehicleRow from '../pages/vehicle/components/VehicleRow';
 const Home = () => {
   const [vehicleRows, setVehicleRows] = useState([]);
   useEffect(() => {
-    try {
-      fetchData();
-    } catch (e) {
-      console.log(e);
-    }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/vehicle');
+        setVehicleRows(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
   }, []);
 
-  const fetchData = async () => {
-    const response = await axios.get('/api/vehicle');
-    setVehicleRows(response.data);
-  };
-
   return (
-    <div>
+    <div className="border p-4 m-4 bg-white h-screen">
       <h1 className="mt-6 text-2xl">Vehicle</h1>
       <div className="mt-6 flex w-full border-b-2">
         <a className="w-1/6">PLATE</a>

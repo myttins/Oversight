@@ -9,6 +9,7 @@
 
 html {
   font-family: 'simplified-chinese';
+  @apply bg-slate-300
 }
 
 h1 {
@@ -21,9 +22,19 @@ h1 {
 }
 
 .btn:hover {
-  @apply bg-white text-black;
-  outline: solid black;
+  @apply scale-110
 }
+
+.btn-red {
+  @apply text-sm font-bold py-1 px-2 rounded;
+  @apply bg-red-700 text-white;
+}
+
+.btn-red:hover {
+  @apply bg-white text-red-700;
+  outline: solid red 2px;
+}
+
 
 .input {
   outline: solid blue 1px;

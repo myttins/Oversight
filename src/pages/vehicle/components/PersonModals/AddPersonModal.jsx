@@ -8,13 +8,13 @@ import FormElement from '../FormElement';
 import ErrorMessage from '../../../../util/ErrorMessage';
 
 const AddPersonModal = (props) => {
-  const { handleCloseModal, updateContainerState } = props;
+  const { handleCloseModal, updateContainerState, driverOrOwner } = props;
 
   const [personInfo, setPersonInfo] = useState({});
   const [inputMethod, setInputMethod] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { language } = useOutletContext(VehicleContext);
+  const { language } = useOutletContext();
 
   const vehicleId = useContext(VehicleContext);
 
@@ -27,9 +27,10 @@ const AddPersonModal = (props) => {
     'service_card_number',
   ];
 
+  // TODO add verification check that the input ID does not exist already to avoid adding duplicate persons
   const handleFormSubmit = async () => {
     // validate data
-    if (!personInfo.id) return;
+    if (!validateInputData(personInfo)) return;
 
     if (!inputMethod) {
       const data = await fetchPerson(personInfo.id);
@@ -39,8 +40,8 @@ const AddPersonModal = (props) => {
     }
 
     try {
-      const response = await axios.post(
-        `/api/people?input=${inputMethod}&type=driver&vehicleid=${vehicleId}&personid=${personInfo.id}`,
+      await axios.post(
+        `/api/people?input=${inputMethod}&type=${driverOrOwner}&vehicleid=${vehicleId}&personid=${personInfo.id}`,
         personInfo,
       );
 
@@ -55,12 +56,18 @@ const AddPersonModal = (props) => {
   };
 
   const handlePersonLookup = async () => {
-    const data = await fetchPerson(personInfo.id);
-    if (data.length === 0) {
-      setPersonInfo({ id: personInfo.id });
-      setErrorMessage('No Person Found. Manual Input.');
-    } else {
-      setPersonInfo(data[0]);
+    if (!validateInputData(personInfo)) return;
+
+    try {
+      const data = await fetchPerson(personInfo.id);
+      if (data.length === 0) {
+        setPersonInfo({ id: personInfo.id });
+        setErrorMessage('No Person Found. Manual Input.');
+      } else {
+        setPersonInfo(data[0]);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -73,10 +80,23 @@ const AddPersonModal = (props) => {
     }
   };
 
+  const validateInputData = (personInfo) => {
+    if (!personInfo.id) {
+      setErrorMessage('Invalid input');
+      return false;
+    }
+
+    // check to see if person already exists
+
+    return true;
+  };
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-      onClick={handleCloseModal}
+      onClick={() => {
+        handleCloseModal();
+      }}
     >
       <div
         className="bg-white relative w-8/12 h-5/6 p-10"
@@ -84,11 +104,13 @@ const AddPersonModal = (props) => {
       >
         <button
           className="btn absolute top-4 right-4"
-          onClick={handleCloseModal}
+          onClick={() => {
+            handleCloseModal();
+          }}
         >
           X
         </button>
-        <h1 className="text-2xl">{'ADD PERSON'}</h1>
+        <h1>{'ADD PERSON'}</h1>
         <span
           className={`p-1 ${inputMethod && 'underline'}`}
           onClick={() => {

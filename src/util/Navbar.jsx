@@ -5,15 +5,14 @@ import axios from 'axios';
 const Navbar = (props) => {
   const { language, setLanguage } = props;
   const navigate = useNavigate();
-  const linkStyle = 'pt-4 pr-4 inline-block hover:underline underline-offset-4';
-
+  const linkStyle = 'pr-4 inline-block hover:underline underline-offset-4';
 
   const handleLogout = async () => {
-    await axios.get('/api/auth/logout')
-    navigate('/login')
-  }
+    await axios.get('/api/auth/logout');
+    navigate('/login');
+  };
   return (
-    <div className="flex place-content-between m-auto max-w-5xl">
+    <div className="sticky top-0 flex place-content-between m-auto w-full border-b px-4 py-4 bg-white ">
       <div>
         <Link to={'/search'} className={linkStyle}>
           Search
@@ -21,20 +20,13 @@ const Navbar = (props) => {
         <Link to={'/'} className={linkStyle}>
           Vehicle
         </Link>
-        {/* <Link to={''} className={linkStyle}>
-          Drivers
-        </Link>
-        <Link to={''} className={linkStyle}>
-          Transactions
-        </Link> */}
       </div>
       <div>
-        
         <button
-          className="pt-4 pr-4 inline-block hover:underline underline-offset-4"
+          className="pr-4 inline-block hover:underline underline-offset-4"
           onClick={() => {
-            const newLanguage = !language
-            setLanguage(newLanguage)
+            const newLanguage = !language;
+            setLanguage(newLanguage);
             localStorage.setItem('language', newLanguage);
           }}
         >
@@ -43,7 +35,9 @@ const Navbar = (props) => {
         <Link to={'/vehicle/new'} className={linkStyle}>
           New
         </Link>
-        <button className='btn mx-2' onClick={handleLogout}>LOGOUT</button>
+        <button className="btn mx-2" onClick={handleLogout}>
+          LOGOUT
+        </button>
       </div>
     </div>
   );

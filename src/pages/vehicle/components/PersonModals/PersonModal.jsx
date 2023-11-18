@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router';
+import React, { useState } from 'react';
 import axios from 'axios';
-import translate from '../../../../assets/translate';
 import FormElement from '../FormElement';
 
 const PersonModal = (props) => {
@@ -9,8 +7,6 @@ const PersonModal = (props) => {
 
   const [readOnly, setReadOnly] = useState(!newPerson);
   const [personInfo, setPersonInfo] = useState(structuredClone(person));
-
-  const { language } = useOutletContext();
 
   const labels = [
     'id',
@@ -25,12 +21,9 @@ const PersonModal = (props) => {
   const handlePersonEdit = async () => {
     // fetch request
     try {
-      const response = await axios.put(
-        `/api/people/${personInfo.id}`,
-        personInfo,
-      );
+      await axios.put(`/api/people/${personInfo.id}`, personInfo);
       updateContainerState('edit', personInfo);
-      setReadOnly(true)
+      setReadOnly(true);
     } catch (error) {
       console.error(error);
     }
@@ -51,7 +44,7 @@ const PersonModal = (props) => {
         >
           X
         </button>
-        <h1 className="text-2xl">{newPerson ? 'ADD PERSON' : 'PERSON INFO'}</h1>
+        <h1>{newPerson ? 'ADD PERSON' : 'PERSON INFO'}</h1>
 
         {labels.map((label) => {
           return (
@@ -64,7 +57,7 @@ const PersonModal = (props) => {
             />
           );
         })}
-        <div className="absolute bottom-0 right-0 border">
+        <div className="absolute bottom-4 right-4 border">
           {readOnly ? (
             <button className="btn" onClick={() => setReadOnly(false)}>
               Edit

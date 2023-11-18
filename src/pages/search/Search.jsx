@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import VehicleRow from '../pages/vehicle/components/VehicleRow';
+import VehicleRow from '../vehicle/components/VehicleRow';
 import { useNavigate } from 'react-router';
 
 const Search = () => {
@@ -53,7 +53,7 @@ const Search = () => {
 
 
   return (
-    <div>
+    <div className='border p-4 m-4 bg-white h-screen'>
       <h1 className="mt-6 text-2xl">VEHICLE SEARCH</h1>
       <div>
         <input

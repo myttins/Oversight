@@ -7,7 +7,7 @@ import PersonModal from './PersonModals/PersonModal';
 import ConfirmationPopUp from '../../../util/ConfirmationModal';
 
 const PersonCard = (props) => {
-  const { person, updateContainerState } = props;
+  const { person, updateContainerState, driverOrOwner } = props;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmatonModalVisible, setConfirmationModalVisible] =
@@ -19,14 +19,14 @@ const PersonCard = (props) => {
     setConfirmationModalVisible(false);
   };
 
-  const handleCloseDetailsModal = () => {
-    setModalVisible(false);
+  const handleCloseModal = () => {
+    setModalVisible(() => false);
   };
 
   const handleDeleteButtonClick = async () => {
     try {
-      const response = await axios.delete(
-        `/api/people?type=driver&vehicleid=${vehicleId}&personid=${person.id}`,
+      await axios.delete(
+        `/api/people?type=${driverOrOwner}&vehicleid=${vehicleId}&personid=${person.id}`,
       );
       updateContainerState('delete', person);
       setConfirmationModalVisible(false);
@@ -36,29 +36,27 @@ const PersonCard = (props) => {
   };
 
   return (
-    <div>
-      <div
-        className="border p-4 m-2 cursor-pointer flex justify-between"
-        onClick={() => setModalVisible(true)}
+    <div
+      className="border p-4 m-2 cursor-pointer flex justify-between hover:outline"
+      onClick={() => setModalVisible(true)}
+    >
+      <div>{person.name}</div>
+      <button
+        className="btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          setConfirmationModalVisible(true);
+        }}
       >
-        <div>{person.name}</div>
-        <button
-          className="btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            setConfirmationModalVisible(true);
-          }}
-        >
-          DELETE
-        </button>
-      </div>
+        DELETE
+      </button>
 
       {modalVisible && (
         <PersonModal
           key={person.id}
           person={person}
           updateContainerState={updateContainerState}
-          handleCloseModal={handleCloseDetailsModal}
+          handleCloseModal={handleCloseModal}
         />
       )}
 
@@ -66,6 +64,7 @@ const PersonCard = (props) => {
         <ConfirmationPopUp
           handleCloseModal={handleCloseConfirmationModal}
           handleConfirm={handleDeleteButtonClick}
+          message={'Confirm Delete'}
         />
       )}
     </div>

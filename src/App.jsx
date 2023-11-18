@@ -31,7 +31,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="px-6 min-w-[448px] max-w-5xl m-auto">
+    <div className="sticky top-0 pb-4 min-w-[448px] max-w-7xl m-auto bg-slate-100 min-h-screen">
       <Navbar language={language} setLanguage={setLanguage} />
       <Outlet context={{ language }} />
     </div>

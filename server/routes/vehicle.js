@@ -11,7 +11,7 @@ const authController = require('../controllers/authController');
 const db = require('../models');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-const AWS = require('aws-sdk');
+// const AWS = require('aws-sdk');
 // const fs = require('fs');
 // const fileType = require('file-type');
 // const multiparty = require('multiparty');
@@ -32,9 +32,10 @@ router.get('/', async (req, res) => {
         o.name AS owner_name, 
         STRING_AGG(d.name, ', ') as driver_name
       FROM vehicles v
-      JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-      JOIN users d ON vd.user_id = d.id
-      JOIN users o ON v.owner_id = o.id
+      LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id
+      LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
+      JOIN people d ON vd.person_id = d.id
+      JOIN people o ON vo.person_id = o.id
       WHERE v.plate LIKE '%${query}%'
       GROUP BY o.name, v.id
       ORDER BY v.plate ASC
@@ -48,9 +49,10 @@ router.get('/', async (req, res) => {
         o.name AS owner_name, 
         STRING_AGG(d.name, ', ') as driver_name
       FROM vehicles v
-      JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-      JOIN users d ON vd.user_id = d.id
-      JOIN users o ON v.owner_id = o.id
+      LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id
+      LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
+      JOIN people d ON vd.person_id = d.id
+      JOIN people o ON vo.person_id = o.id
       GROUP BY o.name, v.id
       HAVING STRING_AGG(d.name, ', ') LIKE '%${query}%'
           OR o.name LIKE '%${query}%';
@@ -64,9 +66,19 @@ router.get('/', async (req, res) => {
 });
 
 router.get(
+  '/plate/:plate',
+  vehicleController.getVehicleWithPlate,
+  (req, res) => {
+    const { data } = res.locals;
+    return res.status(200).json(data);
+  },
+);
+
+router.get(
   '/:id',
   authController.verifyTokenFromCookie,
   vehicleController.getVehicleInfoWithId,
+  vehicleController.getInsurerWithVehicleId,
   peopleController.getDriversWithVehicleId,
   peopleController.getOwnerWithVehicleId,
   (_req, res) => {
@@ -74,11 +86,21 @@ router.get(
       vehicle: res.locals.vehicle,
       drivers: res.locals.drivers,
       owner: res.locals.owner,
+      insurer: res.locals.insurer,
     };
 
     return res.status(200).json(result);
   },
 );
+
+router.post('/insurer', vehicleController.addInsurer, (req, res) => {
+  return res.status(200).json({message: 'Insurer updated successfully'});
+});
+
+router.delete('/insurer', vehicleController.deleteInsurerWithVehicleId, (req, res) => {
+  return res.status(200).json({ message: 'Insurer deleted successfully.' });
+});
+
 
 router.post(
   '/:id',
@@ -86,9 +108,16 @@ router.post(
   vehicleController.updateVehicleInfoWithId,
   (req, res) => {
     const { id } = req.params;
-    return res.status(200).json({ message: `Vehicle ${id} updated successfully` });
+    return res
+      .status(200)
+      .json({ message: `Vehicle ${id} updated successfully.` });
   },
 );
+
+
+
+
+
 
 // router.post('/file', async (req, res) => {
 

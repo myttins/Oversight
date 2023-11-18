@@ -29,7 +29,6 @@ const VehicleInfoContainer = (props) => {
         `/api/vehicle/${vehicleInfo.id}`,
         vehicleInfo,
       );
-      console.log(response.data);
     } catch (error) {
       console.error('Error making POST request:', error);
     }
@@ -37,8 +36,8 @@ const VehicleInfoContainer = (props) => {
   };
 
   return (
-    <div>
-      <div className="mt-6 flex justify-between">
+    <div className='border p-4 m-4 bg-white'>
+      <div className="flex justify-between">
         <h1>
           {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}
         </h1>

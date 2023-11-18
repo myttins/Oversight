@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { VehicleContext } from '../VehicleContainer.jsx';
 
-import PersonModal from './PersonModals/PersonModal';
-import ConfirmationPopUp from '../../../util/ConfirmationModal';
+import PersonModal from './PersonModal.jsx';
+import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
 
 const PersonCard = (props) => {
   const { person, updateContainerState, driverOrOwner } = props;

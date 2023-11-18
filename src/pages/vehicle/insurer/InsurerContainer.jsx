@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import AddInsurerModal from '../components/PersonModals/AddInsurerModal';
+import AddInsurerModal from './AddInsurerModal.jsx';
 import { useNavigate } from 'react-router';
-import ConfirmationPopUp from '../../../util/ConfirmationModal';
+import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
 import { VehicleContext } from '../VehicleContainer.jsx';
 
 import axios from 'axios';
@@ -27,9 +27,14 @@ const InsurerContainer = (props) => {
     <div className="border p-4 m-4 bg-white">
       <div className="flex justify-between">
         <h1 className="text-2xl">{'INSURER INFO'}</h1>
-        <button className="btn" onClick={() => setAddInsurerModalVisible(true)}>
-          +
-        </button>
+        {insurer.length === 0 && (
+          <button
+            className="btn"
+            onClick={() => setAddInsurerModalVisible(true)}
+          >
+            +
+          </button>
+        )}
       </div>
 
       {insurer.map((vehicle) => (

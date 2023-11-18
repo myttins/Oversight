@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router';
 import axios from 'axios';
-import { VehicleContext } from '../../VehicleContainer';
+import { VehicleContext } from '../VehicleContainer';
 
-import translate from '../../../../assets/translate';
-import FormElement from '../FormElement';
-import ErrorMessage from '../../../../util/ErrorMessage';
+import translate from '../../../assets/translate';
+import FormElement from '../util/FormElement';
+import ErrorMessage from '../../../util/ErrorMessage';
 
 const AddPersonModal = (props) => {
   const { handleCloseModal, updateContainerState, driverOrOwner } = props;

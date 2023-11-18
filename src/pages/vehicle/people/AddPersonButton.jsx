@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddPersonModal from './PersonModals/AddPersonModal';
+import AddPersonModal from './AddPersonModal';
 
 const AddPersonButton = (props) => {
   const [personModalVisible, setPersonModalVisible] = useState(false);

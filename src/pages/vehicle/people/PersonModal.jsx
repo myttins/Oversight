@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import FormElement from '../FormElement';
+import FormElement from '../util/FormElement';
 
 const PersonModal = (props) => {
   const { handleCloseModal, newPerson, person, updateContainerState } = props;

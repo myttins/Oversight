@@ -4,9 +4,9 @@ import { VehicleContext } from '../VehicleContainer.jsx';
 
 import axios from 'axios';
 
-import translate from '../../../assets/translate';
-import PersonCard from '../components/PersonCard';
-import AddPersonButton from '../components/AddPersonButton';
+import translate from '../../../assets/translate.js';
+import PersonCard from './PersonCard.jsx';
+import AddPersonButton from './AddPersonButton.jsx';
 
 const PersonContainer = (props) => {
   const { language } = useOutletContext();

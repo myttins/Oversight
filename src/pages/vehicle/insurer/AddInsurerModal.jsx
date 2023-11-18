@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import FormElement from '../FormElement';
-import translate from '../../../../assets/translate';
+import FormElement from '../util/FormElement';
+import translate from '../../../assets/translate';
 import { useOutletContext } from 'react-router';
-import ErrorMessage from '../../../../util/ErrorMessage';
+import ErrorMessage from '../../../util/ErrorMessage';
 import axios from 'axios';
-import { VehicleContext } from '../../VehicleContainer';
+import { VehicleContext } from '../VehicleContainer';
 
 const AddInsurerModal = (props) => {
   const { closeModal, updateContainerState } = props;

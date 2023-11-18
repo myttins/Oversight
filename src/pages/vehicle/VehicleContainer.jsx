@@ -3,9 +3,9 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 
 // import Error from '../../error/Error';
-import VehicleInfoContainer from './containers/VehicleInfoContainer';
-import PersonContainer from './containers/PersonContainer';
-import InsurerContainer from './containers/InsurerContainer';
+import VehicleInfoContainer from './VehicleInfoContainer';
+import PersonContainer from './people/PersonContainer';
+import InsurerContainer from './insurer/InsurerContainer';
 
 export const VehicleContext = createContext(null);
 

@@ -3,11 +3,11 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import Home from './containers/Home';
 import Search from './pages/search/Search';
 import Error from './error/Error';
 import Login from './pages/login/LoginPage';
 import VehicleContainer from './pages/vehicle/VehicleContainer';
+import AllVehicles from './pages/vehicle/AllVehicles';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <Error status={404} />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <AllVehicles /> },
       {
         path: 'vehicle/:id',
         element: <VehicleContainer />,

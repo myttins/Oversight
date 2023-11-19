@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import VehicleRow from '../pages/vehicle/util/VehicleRow.jsx';
+import VehicleRow from './util/VehicleRow.jsx';
 
-const Home = () => {
+const AllVehicles = () => {
   const [vehicleRows, setVehicleRows] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -34,4 +34,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AllVehicles;

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ButtonWithIcon from '../ButtonWithIcon';
+import MenuIcon from '../../assets/icons/menu_icon.svg'
 
 const Navbar = (props) => {
   const { language, setLanguage, toggleSidebar } = props;
@@ -12,16 +14,11 @@ const Navbar = (props) => {
     navigate('/login');
   };
   return (
-    <div className="sticky top-0 flex place-content-between m-auto w-full border-b px-4 py-4 bg-white ">
-      <div>
-        <Link to={'/search'} className={linkStyle}>
-          Search
-        </Link>
-        <Link to={'/'} className={linkStyle}>
-          Vehicle
-        </Link>
+    <div className="sticky top-0 flex place-content-between align-middle m-auto w-full border-b p-4 bg-white ">
+      <div className='flex align-middle'>
+        <ButtonWithIcon alt={'menu'} icon={MenuIcon} onClick={toggleSidebar}/>
+        <h1 className='mx-4'>YINGBIN</h1>
       </div>
-      <button className='btn' onClick={toggleSidebar}>TOGGLE</button>
       <div>
         <button
           className="pr-4 inline-block hover:underline underline-offset-4"
@@ -33,9 +30,6 @@ const Navbar = (props) => {
         >
           {language ? '中文' : 'English'}
         </button>
-        <Link to={'/vehicle/new'} className={linkStyle}>
-          New
-        </Link>
         <button className="btn mx-2" onClick={handleLogout}>
           LOGOUT
         </button>

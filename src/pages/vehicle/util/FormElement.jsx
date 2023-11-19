@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useOutletContext } from 'react-router';
 import translate from '../../../assets/translate';
 
 const FormElement = (props) => {
   const { language } = useOutletContext();
 
-  const { label, type, readOnly, formInfo, setFormInfo } = props;
+  const { label, type, options, readOnly, formInfo, setFormInfo } = props;
+
+  useEffect( () => {
+    if (type === 'date' && !formInfo[label]) {
+      setFormInfo({ ...formInfo, [label]: getCurrentDate() });
+    }
+  })
+
+  const handleChange = (e) => {
+    setFormInfo({ ...formInfo, [label]: e.target.value.toUpperCase() });
+  };
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -20,19 +30,54 @@ const FormElement = (props) => {
     return `${year}-${month}-${day}`;
   };
 
+  const renderInput = (type) => {
+    switch (type) {
+      case 'text':
+        return (
+          <input
+            className="input w-2/3"
+            placeholder={translate[label][0]}
+            type={type}
+            readOnly={readOnly}
+            value={formInfo[label] || ''}
+            onChange={handleChange}
+          />
+        );
+      case 'date':
+        return (
+          <input
+            className="input w-2/3"
+            placeholder={translate[label][0]}
+            type={type}
+            readOnly={readOnly}
+            value={formInfo[label] || getCurrentDate()}
+            onChange={handleChange}
+          />
+        );
+      case 'dropdown':
+        return (
+          <select
+            className="input w-2/3"
+            value={formInfo[label] || 'GAS'}
+            disabled={readOnly}
+            onChange={handleChange}
+          >
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        );
+    }
+  };
+
   return (
     <div className="flex my-2">
       <label htmlFor={label} className="w-1/3">
         {language ? translate[label][0] : translate[label][1]}
       </label>
-      <input
-        className="input w-2/3"
-        placeholder={translate[label][0]}
-        type={type}
-        readOnly={readOnly}
-        value={formInfo[label] || (type === 'date' ? getCurrentDate() : '')}
-        onChange={(e) => setFormInfo({ ...formInfo, [label]: e.target.value.toUpperCase() })}
-      />
+      {renderInput(type)}
     </div>
   );
 };

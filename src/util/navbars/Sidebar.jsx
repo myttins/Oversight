@@ -34,7 +34,7 @@ const Sidebar = ({ isVisible }) => {
           } overflow-hidden`}
         >
           <StyledLink to={'/vehicle'}>ALL VEHICLES</StyledLink>
-          <StyledLink to={'/new'}>ADD NEW</StyledLink>
+          <StyledLink to={'/vehicle/new'}>ADD NEW</StyledLink>
         </div>
         <p>TRANSACTIONS</p>
         <p>REPORTS</p>

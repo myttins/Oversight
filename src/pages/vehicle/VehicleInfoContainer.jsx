@@ -5,30 +5,15 @@ import axios from 'axios';
 
 import FormElement from './util/FormElement';
 import translate from '../../assets/translate';
-import Error from '../../error/Error';
 
-const VehicleInfoContainer = (props) => {
+const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   const { language } = useOutletContext();
-  const { vehicleInfo, setVehicleInfo } = props;
 
-  const [readOnly, setReadOnly] = useState(true);
-  const fields = [
-    'plate',
-    'category',
-    'vehicle_model',
-    'engine_no',
-    'vehicle_color',
-    'vin',
-    'fuel_type',
-    'registration_date',
-  ];
+  const [readOnly, setReadOnly] = useState(!newVehicle);
 
   const handleVehicleInfoSave = async () => {
     try {
-      const response = await axios.post(
-        `/api/vehicle/${vehicleInfo.id}`,
-        vehicleInfo,
-      );
+      await axios.post(`/api/vehicle/${vehicleInfo.id}`, vehicleInfo);
     } catch (error) {
       console.error('Error making POST request:', error);
     }
@@ -43,7 +28,13 @@ const VehicleInfoContainer = (props) => {
         </h1>
 
         {readOnly ? (
-          <button className="btn" onClick={() => setReadOnly(!readOnly)}>
+          <button
+            className="btn"
+            onClick={() => {
+              setReadOnly(!readOnly);
+              console.log(vehicleInfo);
+            }}
+          >
             EDIT
           </button>
         ) : (
@@ -58,18 +49,73 @@ const VehicleInfoContainer = (props) => {
         )}
       </div>
       <div className="p-4">
-        {fields.map((item) => {
-          return (
-            <FormElement
-              key={item}
-              label={item}
-              type={'text'}
-              readOnly={item === 'plate' ? true : readOnly}
-              formInfo={vehicleInfo}
-              setFormInfo={setVehicleInfo}
-            />
-          );
-        })}
+        <FormElement
+          label={'plate'}
+          type={'text'}
+          readOnly={!newVehicle}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'category'}
+          type={'text'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'vehicle_model'}
+          type={'text'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'engine_no'}
+          type={'text'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'vehicle_color'}
+          type={'text'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'vin'}
+          type={'text'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'fuel_type'}
+          type={'dropdown'}
+          options={[
+            { label: 'GAS', value: 'GAS' },
+            { label: 'ELECTRIC', value: 'ELECTRIC' },
+          ]}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'registration_date'}
+          type={'date'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
+          label={'activation_date'}
+          type={'date'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
       </div>
     </div>
   );

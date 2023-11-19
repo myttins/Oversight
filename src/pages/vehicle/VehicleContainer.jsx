@@ -12,7 +12,7 @@ export const VehicleContext = createContext(null);
 const VehicleContainer = () => {
   const { id } = useParams();
 
-  const [vehicleInfo, setVehicleInfo] = useState({});
+  const [vehicleInfo, setVehicleInfo] = useState({activation_date: ''});
   const [drivers, setDrivers] = useState([]);
   const [owner, setOwner] = useState([]);
   const [insurer, setInsurer] = useState([]);
@@ -20,10 +20,14 @@ const VehicleContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchVehicleData();
+    if (id === 'new') {
+      clearState()
+    } else {
+      fetchVehicleDataAndSetState()
+    }
   }, [id]);
 
-  const fetchVehicleData = async () => {
+  const fetchVehicleDataAndSetState = async () => {
     try {
       const response = await axios.get('/api/vehicle/' + id);
       setIsLoading(false);
@@ -36,15 +40,35 @@ const VehicleContainer = () => {
     }
   };
 
+  const clearState = () => {
+    setVehicleInfo({});
+    setDrivers([]);
+    setOwner([]);
+    setInsurer([]);
+  }
+
+  if (id === 'new') {
+    return (
+      <div>
+        <VehicleInfoContainer
+          vehicleInfo={vehicleInfo}
+          setVehicleInfo={setVehicleInfo}
+          newVehicle={true}
+        />
+      </div>
+    );
+  }
+
   return (
     <VehicleContext.Provider value={id}>
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div >
+        <div>
           <VehicleInfoContainer
             vehicleInfo={vehicleInfo}
             setVehicleInfo={setVehicleInfo}
+            newVehicle={false}
           />
           <PersonContainer
             people={owner}

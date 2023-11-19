@@ -35,7 +35,7 @@ const PersonModal = (props) => {
       onClick={handleCloseModal}
     >
       <div
-        className="bg-white relative w-8/12 h-5/6 p-10"
+        className="absolute bg-white w-8/12 h-5/6 p-10 rounded-md"
         onClick={(e) => e.stopPropagation()}
       >
         <button

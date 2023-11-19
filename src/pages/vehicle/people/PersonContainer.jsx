@@ -15,21 +15,22 @@ const PersonContainer = (props) => {
   const vehicleId = useContext(VehicleContext);
 
   const updatePersonState = (type, personInfo) => {
-    if (type === 'add') {
-      const newPeople = people.slice();
-      newPeople.push(personInfo);
-      setPeople(newPeople);
-    } else if (type === 'delete') {
-      const newPeople = people.filter((driver) => driver.id !== personInfo.id);
-      setPeople(newPeople);
-    } else if (type === 'edit') {
-      const newPeople = people.slice();
-      for (let i = 0; i < newPeople.length; i++) {
-        if (newPeople[i].id === personInfo.id) {
-          newPeople[i] = personInfo;
+    switch (type) {
+      case 'add':
+        newPeople = people.slice();
+        newPeople.push(personInfo);
+        setPeople(newPeople);
+      case 'delete':
+        newPeople = people.filter((driver) => driver.id !== personInfo.id);
+        setPeople(newPeople);
+      case 'edit':
+        const newPeople = people.slice();
+        for (let i = 0; i < newPeople.length; i++) {
+          if (newPeople[i].id === personInfo.id) {
+            newPeople[i] = personInfo;
+          }
         }
-      }
-      setPeople(newPeople);
+        setPeople(newPeople);
     }
   };
 

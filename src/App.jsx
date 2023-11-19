@@ -6,9 +6,22 @@ import Sidebar from './util/navbars/Sidebar';
 
 const App = () => {
   const [language, setLanguage] = useState(true);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
 
   const navigate = useNavigate();
+
+  // Handles dynamic sidebar visibility
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarVisible(window.innerWidth > 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     localStorage.getItem('language') === null
@@ -46,7 +59,7 @@ const App = () => {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar isVisible={sidebarVisible} />
         <main
-          className={`flex-1 overflow-auto transition-all duration-300 ${
+          className={`relative flex-1 overflow-auto transition-all duration-300 ${
             sidebarVisible ? 'ml-64' : 'ml-0'
           }`}
         >

@@ -20,6 +20,7 @@ const Sidebar = ({ isVisible }) => {
       } transition-transform ease-in-out duration-300 bg-slate-200 p-5 w-64 overflow-auto`}
     >
       <div className="mb-4">
+        <StyledLink to={'/'}>DASHBOARD</StyledLink>
         <StyledLink to={'/search'}>SEARCH</StyledLink>
         <p
           className="cursor-pointer py-2"
@@ -32,18 +33,12 @@ const Sidebar = ({ isVisible }) => {
             openCategory['vehicles'] ? 'max-h-40' : 'max-h-0'
           } overflow-hidden`}
         >
-          <StyledLink to={'/'}>ALL VEHICLES</StyledLink>
+          <StyledLink to={'/vehicle'}>ALL VEHICLES</StyledLink>
           <StyledLink to={'/new'}>ADD NEW</StyledLink>
         </div>
-        <p>
-          TRANSACTIONS
-        </p>
-        <p>
-          REPORTS
-        </p>
-        <p>
-          INFO
-        </p>
+        <p>TRANSACTIONS</p>
+        <p>REPORTS</p>
+        <p>INFO</p>
         <p
           className="cursor-pointer py-2"
           onClick={() => toggleCategory('admin')}

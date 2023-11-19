@@ -8,6 +8,7 @@ import Error from './error/Error';
 import Login from './pages/login/LoginPage';
 import VehicleContainer from './pages/vehicle/VehicleContainer';
 import AllVehicles from './pages/vehicle/AllVehicles';
+import Dashboard from './pages/dashboard/Dashboard';
 
 const router = createBrowserRouter([
   {
@@ -15,10 +16,16 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <Error status={404} />,
     children: [
-      { index: true, element: <AllVehicles /> },
+      { index: true, element: <Dashboard /> },
       {
-        path: 'vehicle/:id',
-        element: <VehicleContainer />,
+        path: 'vehicle',
+        children: [
+          { index: true, element: <AllVehicles /> },
+          {
+            path: ':id',
+            element: <VehicleContainer />,
+          },
+        ],
       },
       {
         path: 'search',
@@ -34,7 +41,7 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
     errorElement: <Error status={404} />,
-  }
+  },
 ]);
 
 const root = createRoot(document.getElementById('root'));

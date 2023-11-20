@@ -1,4 +1,27 @@
-const query = {};
+const query = {
+  insert: {
+    newVehicle: (vehicleInfo) => {
+      const {
+        plate,
+        category,
+        vehicle_model,
+        engine_no,
+        vehicle_color,
+        vin,
+        fuel_type,
+        registration_date,
+        activation_date,
+        operating_license_no
+      } = vehicleInfo;
+
+      return `INSERT INTO vehicles (plate, category, vehicle_model, vehicle_color, vin, operating_license_no, 
+        fuel_type, activation_date, registration_date, notes, engine_no) 
+        VALUES ('${plate}', '${category}', '${vehicle_model}', '${category}', '${vehicle_color}', '${vin}','${operating_license_no}',
+        '${fuel_type}','${activation_date}','${registration_date}','${engine_no}')
+        RETURNING id`;
+    },
+  },
+};
 
 query.getVehiclesAll = () => {
   return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name
@@ -49,8 +72,8 @@ query.getInsurerWithVehicleId = (id) => {
 
 query.addInsurer = (vehicleId, insurerId) => {
   return `INSERT INTO vehicle_insurer (vehicle_id, insurer_vehicle_id)
-  VALUES (${vehicleId}, ${insurerId})`
-}
+  VALUES (${vehicleId}, ${insurerId})`;
+};
 
 query.createAccount = (username, password, role) => {
   return `INSERT INTO users (username, password, role)

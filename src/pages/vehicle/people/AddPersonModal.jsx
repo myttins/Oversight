@@ -86,7 +86,7 @@ const AddPersonModal = (props) => {
       return false;
     }
 
-    // check to see if person already exists
+    // TODO check to see if person already exists
 
     return true;
   };

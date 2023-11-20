@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
 
 import axios from 'axios';
 
 import FormElement from './util/FormElement';
 import translate from '../../assets/translate';
+import ErrorMessage from '../../error/ErrorMessage';
 
 const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   const { language } = useOutletContext();
+  const navigate = useNavigate();
 
   const [readOnly, setReadOnly] = useState(!newVehicle);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleVehicleInfoSave = async () => {
     try {
@@ -20,29 +23,67 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
     setReadOnly(true);
   };
 
+  const handleAddNewVehicle = async () => {
+    if (!inputIsValid()) return;
+
+    try {
+      const response = await axios.post('/api/vehicle/new', vehicleInfo);
+      const id = response.data.id;
+      navigate(`/vehicle/${id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const inputIsValid = () => {
+    if (
+      !vehicleInfo.plate ||
+      !vehicleInfo.vehicle_model ||
+      !vehicleInfo.category ||
+      !vehicleInfo.vehicle_model ||
+      !vehicleInfo.engine_no ||
+      !vehicleInfo.vehicle_color ||
+      !vehicleInfo.vin ||
+      !vehicleInfo.notes ||
+      !vehicleInfo.operating_license_no ||
+      !vehicleInfo.fuel_type
+    ) {
+      setErrorMessage('Invalid Input');
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className="border p-4 m-4 bg-white">
       <div className="flex justify-between">
         <h1>
           {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}
         </h1>
-
         {readOnly ? (
           <button
             className="btn"
             onClick={() => {
               setReadOnly(!readOnly);
-              console.log(vehicleInfo);
             }}
           >
             EDIT
           </button>
         ) : (
           <div>
-            <button className="btn mx-2" onClick={() => setReadOnly(!readOnly)}>
-              CANCEL
-            </button>
-            <button className="btn mx-2" onClick={handleVehicleInfoSave}>
+            {!newVehicle && (
+              <button
+                className="btn mx-2"
+                onClick={() => setReadOnly(!readOnly)}
+              >
+                CANCEL
+              </button>
+            )}
+            <button
+              className="btn mx-2"
+              onClick={newVehicle ? handleAddNewVehicle : handleVehicleInfoSave}
+            >
               SAVE
             </button>
           </div>
@@ -92,6 +133,13 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
           setFormInfo={setVehicleInfo}
         />
         <FormElement
+          label={'operating_license_no'}
+          type={'text'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
+        <FormElement
           label={'fuel_type'}
           type={'dropdown'}
           options={[
@@ -116,7 +164,15 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
           formInfo={vehicleInfo}
           setFormInfo={setVehicleInfo}
         />
+        <FormElement
+          label={'notes'}
+          type={'textarea'}
+          readOnly={readOnly}
+          formInfo={vehicleInfo}
+          setFormInfo={setVehicleInfo}
+        />
       </div>
+      {errorMessage.length > 0 ? <ErrorMessage message={errorMessage} /> : null}
     </div>
   );
 };

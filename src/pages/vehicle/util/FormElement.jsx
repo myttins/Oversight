@@ -7,11 +7,11 @@ const FormElement = (props) => {
 
   const { label, type, options, readOnly, formInfo, setFormInfo } = props;
 
-  useEffect( () => {
+  useEffect(() => {
     if (type === 'date' && !formInfo[label]) {
       setFormInfo({ ...formInfo, [label]: getCurrentDate() });
     }
-  })
+  });
 
   const handleChange = (e) => {
     setFormInfo({ ...formInfo, [label]: e.target.value.toUpperCase() });
@@ -68,6 +68,17 @@ const FormElement = (props) => {
               </option>
             ))}
           </select>
+        );
+      case 'textarea':
+        return (
+          <textarea
+            className="input w-2/3"
+            placeholder={translate[label][0]}
+            type={type}
+            readOnly={readOnly}
+            value={formInfo[label] || ''}
+            onChange={handleChange}
+          />
         );
     }
   };

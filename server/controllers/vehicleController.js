@@ -96,4 +96,18 @@ vehicleController.addInsurer = async (req, res, next) => {
   }
 };
 
+vehicleController.addVehicle = async (req, res, next) => {
+  try {
+    const queryStr = query.insert.newVehicle(req.body);
+    const data = await db.query(queryStr);
+    res.locals.vehicleId = data.rows[0].id
+    return next();
+  } catch (error) {
+    return next({
+      location: 'Error located in vehicleController.addVehicle',
+      error,
+    });
+  }
+};
+
 module.exports = vehicleController;

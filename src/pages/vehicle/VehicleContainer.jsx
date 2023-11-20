@@ -12,7 +12,7 @@ export const VehicleContext = createContext(null);
 const VehicleContainer = () => {
   const { id } = useParams();
 
-  const [vehicleInfo, setVehicleInfo] = useState({activation_date: ''});
+  const [vehicleInfo, setVehicleInfo] = useState({});
   const [drivers, setDrivers] = useState([]);
   const [owner, setOwner] = useState([]);
   const [insurer, setInsurer] = useState([]);
@@ -41,7 +41,9 @@ const VehicleContainer = () => {
   };
 
   const clearState = () => {
-    setVehicleInfo({});
+    setVehicleInfo({
+      fuel_type: 'GAS',
+    });
     setDrivers([]);
     setOwner([]);
     setInsurer([]);

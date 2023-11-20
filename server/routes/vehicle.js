@@ -93,14 +93,22 @@ router.get(
   },
 );
 
+router.post('/new', vehicleController.addVehicle, (req, res) => {
+  const vehicleId = res.locals.vehicleId;
+  return res.status(200).json({ message: 'Vehicle added.', id: vehicleId });
+});
+
 router.post('/insurer', vehicleController.addInsurer, (req, res) => {
-  return res.status(200).json({message: 'Insurer updated successfully'});
+  return res.status(200).json({ message: 'Insurer updated.' });
 });
 
-router.delete('/insurer', vehicleController.deleteInsurerWithVehicleId, (req, res) => {
-  return res.status(200).json({ message: 'Insurer deleted successfully.' });
-});
-
+router.delete(
+  '/insurer',
+  vehicleController.deleteInsurerWithVehicleId,
+  (req, res) => {
+    return res.status(200).json({ message: 'Insurer deleted successfully.' });
+  },
+);
 
 router.post(
   '/:id',
@@ -113,11 +121,6 @@ router.post(
       .json({ message: `Vehicle ${id} updated successfully.` });
   },
 );
-
-
-
-
-
 
 // router.post('/file', async (req, res) => {
 

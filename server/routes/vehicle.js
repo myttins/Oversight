@@ -18,50 +18,20 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 router.get('/', async (req, res) => {
   if (!req.query.type || !req.query.query) {
-    const queryStr = query.getVehiclesAll();
+    const queryStr = query.select.allVehicleTitles();
     var results = await db.query(queryStr);
-  } else {
-    const type = req.query.type === 'plate' ? 'v.plate' : 'd.name';
-    const query = req.query.query.toString().toUpperCase();
-
-    if (req.query.type === 'plate') {
-      const queryStr = `
-      SELECT 
-        v.id,
-        v.plate, 
-        o.name AS owner_name, 
-        STRING_AGG(d.name, ', ') as driver_name
-      FROM vehicles v
-      LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-      LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
-      JOIN people d ON vd.person_id = d.id
-      JOIN people o ON vo.person_id = o.id
-      WHERE v.plate LIKE '%${query}%'
-      GROUP BY o.name, v.id
-      ORDER BY v.plate ASC
-      `;
-      var results = await db.query(queryStr);
-    } else {
-      const queryStr = `
-      SELECT 
-        v.id,
-        v.plate, 
-        o.name AS owner_name, 
-        STRING_AGG(d.name, ', ') as driver_name
-      FROM vehicles v
-      LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-      LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
-      JOIN people d ON vd.person_id = d.id
-      JOIN people o ON vo.person_id = o.id
-      GROUP BY o.name, v.id
-      HAVING STRING_AGG(d.name, ', ') LIKE '%${query}%'
-          OR o.name LIKE '%${query}%';
-      `;
-
-      var results = await db.query(queryStr);
-    }
+    return res.status(200).json(results.rows);
   }
 
+  const plate = req.query.query.toString().toUpperCase();
+  if (req.query.type === 'plate') {
+    const queryStr = query.select.vehicleTitleWithPlate(plate);
+    const results = await db.query(queryStr);
+    return res.status(200).json(results.rows);
+  }
+
+  const queryStr = query.select.vehicleTitleWithName(name);
+  var results = await db.query(queryStr);
   return res.status(200).json(results.rows);
 });
 

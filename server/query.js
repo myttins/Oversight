@@ -11,55 +11,50 @@ const query = {
         fuel_type,
         registration_date,
         activation_date,
-        operating_license_no
+        operating_license_no,
+        notes
       } = vehicleInfo;
 
       return `INSERT INTO vehicles (plate, category, vehicle_model, vehicle_color, vin, operating_license_no, 
         fuel_type, activation_date, registration_date, notes, engine_no) 
-        VALUES ('${plate}', '${category}', '${vehicle_model}', '${category}', '${vehicle_color}', '${vin}','${operating_license_no}',
-        '${fuel_type}','${activation_date}','${registration_date}','${engine_no}')
+        VALUES ('${plate}', '${category}', '${vehicle_model}', '${vehicle_color}', '${vin}','${operating_license_no}',
+        '${fuel_type}','${activation_date}','${registration_date}','${notes}', '${engine_no}')
         RETURNING id`;
     },
   },
-};
-
-query.getVehiclesAll = () => {
-  return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name
-  FROM vehicles v
-  LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id
-  LEFT JOIN vehicle_owner od ON v.id = od.vehicle_id
-  LEFT JOIN people d ON vd.person_id = d.id
-  LEFT JOIN people o ON od.person_id = o.id
-  GROUP BY o.name, v.id
-  ORDER BY v.plate ASC`;
-};
-
-query.getVehicleInfoWithId = (id) => {
-  return `SELECT * from vehicles 
-  WHERE id = ${id}`;
-};
-
-query.getVehicleWithPlate = (plate) => {
-  return `SELECT * from vehicles 
-  WHERE plate = '${plate}'`;
-};
-
-query.getDriversWithVehicleId = (id) => {
-  return `SELECT p.id, p.name, p.current_address, 
-  p.phone_number, p.driver_license_number, p.business_license_number, 
-  p.service_card_number, vd.id as foreign_id
-  FROM people p
-  JOIN vehicle_driver vd ON p.id = vd.person_id
-  WHERE vd.vehicle_id = ${id}`;
-};
-
-query.getOwnerWithVehicleId = (id) => {
-  return `SELECT p.id, p.name, p.current_address, 
-  p.phone_number, p.driver_license_number, p.business_license_number, 
-  p.service_card_number
-  FROM people p
-  JOIN vehicle_owner vo ON p.id = vo.person_id
-  WHERE vo.vehicle_id = ${id}`;
+  select: {
+    allVehicleTitles: () => {
+      return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name FROM vehicles v
+      LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id LEFT JOIN vehicle_owner od ON v.id = od.vehicle_id
+      LEFT JOIN people d ON vd.person_id = d.id LEFT JOIN people o ON od.person_id = o.id
+      GROUP BY o.name, v.id ORDER BY v.plate ASC`;
+    },
+    vehicleTitleWithPlate: (plate) => {
+      return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name FROM vehicles v 
+      LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
+      JOIN people d ON vd.person_id = d.id JOIN people o ON vo.person_id = o.id
+      WHERE v.plate LIKE '%${plate}%' GROUP BY o.name, v.id ORDER BY v.plate ASC`
+    },
+    vehicleTitleWithName: (name) => {
+      return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name FROM vehicles v
+      LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
+      JOIN people d ON vd.person_id = d.id JOIN people o ON vo.person_id = o.id GROUP BY o.name, v.id
+      HAVING STRING_AGG(d.name, ', ') LIKE '%${query}%' OR o.name LIKE '%${query}%'`;
+    },
+    vehicleInfoWithPlate: (plate) => {
+      return `SELECT * from vehicles WHERE plate = '${plate}'`;
+    },
+    driverInfoWithVehicleId: (id) => {
+      return `SELECT p.id, p.name, p.current_address, p.phone_number, p.driver_license_number, p.business_license_number, 
+      p.service_card_number, vd.id as foreign_id
+      FROM people p JOIN vehicle_driver vd ON p.id = vd.person_id WHERE vd.vehicle_id = ${id}`;
+    },
+    ownerInfoWithVehicleId: (id) => {
+      return `SELECT p.id, p.name, p.current_address, p.phone_number, p.driver_license_number, p.business_license_number, p.service_card_number
+      FROM people p JOIN vehicle_owner vo ON p.id = vo.person_id WHERE vo.vehicle_id = ${id}`;
+    },
+    
+  }
 };
 
 query.getInsurerWithVehicleId = (id) => {

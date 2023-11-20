@@ -4,6 +4,7 @@ const query = require('../query');
 const vehicleController = {};
 
 vehicleController.getVehicleInfoWithId = async (req, res, next) => {
+  
   try {
     const queryStr = query.getVehicleInfoWithId(req.params.id);
     const data = await db.query(queryStr);
@@ -23,7 +24,7 @@ vehicleController.getVehicleInfoWithId = async (req, res, next) => {
 vehicleController.getVehicleWithPlate = async (req, res, next) => {
   try {
     const { plate } = req.params;
-    const queryStr = query.getVehicleWithPlate(plate);
+    const queryStr = query.select.vehicleInfoWithPlate(plate);
     const data = await db.query(queryStr);
     if (data.rows.length === 0) {
       return res.sendStatus(404);
@@ -32,7 +33,7 @@ vehicleController.getVehicleWithPlate = async (req, res, next) => {
     return next();
   } catch (error) {
     return next({
-      location: 'Error located in vehicleController.getVehicleInfoWithId',
+      location: 'Error located in vehicleController.getVehicleWithPlate',
       error,
     });
   }

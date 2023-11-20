@@ -5,7 +5,7 @@ const peopleController = {};
 
 peopleController.getDriversWithVehicleId = async (req, res, next) => {
   try {
-    const queryStr = query.getDriversWithVehicleId(req.params.id);
+    const queryStr = query.select.driverInfoWithVehicleId(req.params.id);
     const data = await db.query(queryStr);
     res.locals.drivers = data.rows;
     return next();
@@ -19,7 +19,7 @@ peopleController.getDriversWithVehicleId = async (req, res, next) => {
 
 peopleController.getOwnerWithVehicleId = async (req, res, next) => {
   try {
-    const queryStr = query.getOwnerWithVehicleId(req.params.id);
+    const queryStr = query.select.ownerInfoWithVehicleId(req.params.id);
     const data = await db.query(queryStr);
     res.locals.owner = data.rows;
     return next();
@@ -56,12 +56,11 @@ peopleController.addPersonToVehicle = async (req, res, next) => {
     return next();
   } catch (error) {
     return next({
-      location: 'Error located in peopleController.addDriverWithVehicleId',
+      location: 'Error located in peopleController.addPersonToVehicle',
       error,
     });
   }
 };
-
 
 peopleController.deletePersonWithVehicleId = async (req, res, next) => {
   try {

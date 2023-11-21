@@ -12,7 +12,7 @@ const query = {
         registration_date,
         activation_date,
         operating_license_no,
-        notes
+        notes,
       } = vehicleInfo;
 
       return `INSERT INTO vehicles (plate, category, vehicle_model, vehicle_color, vin, operating_license_no, 
@@ -21,6 +21,25 @@ const query = {
         '${fuel_type}','${activation_date}','${registration_date}','${notes}', '${engine_no}')
         RETURNING id, plate, category, vehicle_model, vehicle_color, vin, operating_license_no, fuel_type, activation_date, 
         registration_date, notes, engine_no`;
+    },
+    person: (person) => {
+      const {
+        id_no,
+        name,
+        phone_no,
+        driv_lic_no,
+        current_address,
+        business_lic_no,
+        service_card_no,
+      } = person;
+
+      return `INSERT INTO people (id_no, name, phone_no, driv_lic_no, current_address, business_lic_no, service_card_no)
+      VALUES ('${id_no}', '${name}', '${phone_no}', '${driv_lic_no}', '${current_address}', '${business_lic_no}', '${service_card_no}')
+      RETURNING id, id_no, name, phone_no, driv_lic_no, current_address, business_lic_no, service_card_no`;
+    },
+    personIntoVehicle: (driverOrOwner, personId, vehicleId) => {
+      return `INSERT INTO vehicle_${driverOrOwner} (vehicle_id, person_id)
+      VALUES ('${vehicleId}', '${personId}') RETURNING id, vehicle_id, person_id`;
     },
   },
   select: {
@@ -34,7 +53,7 @@ const query = {
       return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name FROM vehicles v 
       LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
       JOIN people d ON vd.person_id = d.id JOIN people o ON vo.person_id = o.id
-      WHERE v.plate LIKE '%${plate}%' GROUP BY o.name, v.id ORDER BY v.plate ASC`
+      WHERE v.plate LIKE '%${plate}%' GROUP BY o.name, v.id ORDER BY v.plate ASC`;
     },
     vehicleTitleWithName: (name) => {
       return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name FROM vehicles v
@@ -43,22 +62,24 @@ const query = {
       HAVING STRING_AGG(d.name, ', ') LIKE '%${name}%' OR o.name LIKE '%${name}%'`;
     },
     vehicleInfoWithId: (id) => {
-      return `SELECT * from vehicles WHERE id=${id}`
+      return `SELECT * from vehicles WHERE id=${id}`;
     },
     vehicleInfoWithPlate: (plate) => {
       return `SELECT * from vehicles WHERE plate = '${plate}'`;
     },
     driverInfoWithVehicleId: (id) => {
-      return `SELECT p.id, p.name, p.current_address, p.phone_number, p.driver_license_number, p.business_license_number, 
-      p.service_card_number, vd.id as foreign_id
+      return `SELECT p.id, p.name, p.current_address, p.phone_no, p.driv_lic_no, p.business_lic_no, 
+      p.service_card_no, vd.id as foreign_id
       FROM people p JOIN vehicle_driver vd ON p.id = vd.person_id WHERE vd.vehicle_id = ${id}`;
     },
     ownerInfoWithVehicleId: (id) => {
-      return `SELECT p.id, p.name, p.current_address, p.phone_number, p.driver_license_number, p.business_license_number, p.service_card_number
+      return `SELECT p.id, p.name, p.current_address, p.phone_no, p.driv_lic_no, p.business_lic_no, p.service_card_no
       FROM people p JOIN vehicle_owner vo ON p.id = vo.person_id WHERE vo.vehicle_id = ${id}`;
     },
-
-  }
+    personWithId: (id) => {
+      return `SELECT * FROM people WHERE id_no = '${id}'`;
+    },
+  },
 };
 
 query.getInsurerWithVehicleId = (id) => {
@@ -118,57 +139,58 @@ query.deletePersonWithVehicleId = (type, personid, vehicleid) => {
   WHERE person_id='${personid}' AND vehicle_id='${vehicleid}'`;
 };
 
-query.addPerson = (personInfo) => {
-  const {
-    id,
-    name,
-    current_address,
-    phone_number,
-    driver_license_number,
-    business_license_number,
-    service_card_number,
-  } = personInfo;
-
-  return `
-  INSERT INTO people (id, name, current_address, phone_number, 
-      driver_license_number, business_license_number, service_card_number)
-  OVERRIDING SYSTEM VALUE 
-  VALUES ('${id}', '${name}', '${current_address}', '${phone_number}', '${driver_license_number}',
-    '${business_license_number}', '${service_card_number}')`;
-};
-
-query.getPerson = (id) => {
-  return `SELECT * 
-  FROM people 
-  WHERE id=${id}`;
-};
-
 query.updatePerson = (id, personInfo) => {
   const {
     name,
     current_address,
-    phone_number,
-    driver_license_number,
-    business_license_number,
-    service_card_number,
+    phone_no,
+    driv_lic_no,
+    business_lic_no,
+    service_card_no,
   } = personInfo;
 
   return `
   UPDATE people 
-  SET name='${name}', phone_number='${phone_number}', driver_license_number='${driver_license_number}', current_address='${current_address}', 
-  business_license_number='${business_license_number}', service_card_number='${service_card_number}'
+  SET name='${name}', phone_no='${phone_no}', driv_lic_no='${driv_lic_no}', current_address='${current_address}', 
+  business_lic_no='${business_lic_no}', service_card_no='${service_card_no}'
   WHERE id='${id}'`;
 };
 
-query.addPersonToVehicle = (type, personId, vehicleId) => {
-  return `INSERT INTO ${
-    type === 'driver' ? 'vehicle_driver' : 'vehicle_owner'
-  } (vehicle_id, person_id)
-  VALUES ('${vehicleId}', '${personId}')`;
-};
 
 query.deleteInsurerWithVehicleId = (vehicleid, insurerid) => {
   return `DELETE FROM vehicle_insurer
   WHERE vehicle_id='${vehicleid}' AND insurer_vehicle_id='${insurerid}'`;
 };
 module.exports = query;
+
+// query.addPersonToVehicle = (type, personId, vehicleId) => {
+//   return `INSERT INTO ${
+//     type === 'driver' ? 'vehicle_driver' : 'vehicle_owner'
+//   } (vehicle_id, person_id)
+//   VALUES ('${vehicleId}', '${personId}')`;
+// };
+
+// query.addPerson = (personInfo) => {
+//   const {
+//     id,
+//     name,
+//     current_address,
+//     phone_no,
+//     driv_lic_no,
+//     business_lic_no,
+//     service_card_no,
+//   } = personInfo;
+
+//   return `
+//   INSERT INTO people (id, name, current_address, phone_no,
+//       driv_lic_no, business_lic_no, service_card_no)
+//   OVERRIDING SYSTEM VALUE
+//   VALUES ('${id}', '${name}', '${current_address}', '${phone_no}', '${driv_lic_no}',
+//     '${business_lic_no}', '${service_card_no}')`;
+// };
+
+// query.getPerson = (id) => {
+//   return `SELECT *
+//   FROM people
+//   WHERE id=${id}`;
+// };

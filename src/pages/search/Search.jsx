@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import VehicleRow from '../vehicle/util/VehicleRow.jsx';
 import { useNavigate } from 'react-router';
+import { MessageBannerContext } from '../../util/MessageBannerContext.jsx';
 
 const Search = () => {
   const [data, setData] = useState([]);
@@ -48,6 +49,12 @@ const Search = () => {
     const data = await response.json();
     navigate(`/search?type=${queryType}&query=${input}`);
     return data;
+  };
+
+  const { showMessage, hideMessage } = useContext(MessageBannerContext);
+
+  const handleSomeAction = () => {
+    showMessage('Action Successful');
   };
 
   return (
@@ -100,6 +107,9 @@ const Search = () => {
           </div>
         </div>
       )}
+
+<button className={'btn'}onClick={handleSomeAction}>MESSAGE</button>
+
     </div>
   );
 };

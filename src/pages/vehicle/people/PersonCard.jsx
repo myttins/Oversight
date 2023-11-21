@@ -20,7 +20,7 @@ const PersonCard = ({ person, handleDelete }) => {
         </Link>
         <div className="flex ">
           <span className="w-1/3">ID: {person.id}</span>{' '}
-          <span className="w-2/3">PHONE: {person.phone_number}</span>
+          <span className="w-2/3">PHONE: {person.phone_no}</span>
         </div>
       </div>
       <div className="mx-2 w-10 flex items-center justify-center">

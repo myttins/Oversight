@@ -21,10 +21,10 @@ const AddPersonModal = (props) => {
   const labels = [
     'name',
     'current_address',
-    'phone_number',
-    'driver_license_number',
-    'business_license_number',
-    'service_card_number',
+    'phone_no',
+    'driv_lic_no',
+    'business_lic_no',
+    'service_card_no',
   ];
 
   // TODO add verification check that the input ID does not exist already to avoid adding duplicate persons

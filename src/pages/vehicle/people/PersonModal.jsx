@@ -12,10 +12,10 @@ const PersonModal = (props) => {
     'id',
     'name',
     'current_address',
-    'phone_number',
-    'driver_license_number',
-    'business_license_number',
-    'service_card_number',
+    'phone_no',
+    'driv_lic_no',
+    'business_lic_no',
+    'service_card_no',
   ];
 
   const handlePersonEdit = async () => {

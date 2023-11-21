@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useOutletContext } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
 import { VehicleContext } from '../VehicleContainer.jsx';
 
 import axios from 'axios';
@@ -14,6 +14,8 @@ const PersonContainer = (props) => {
 
   const vehicleId = useContext(VehicleContext);
 
+  const navigate = useNavigate();
+
   const handleDelete = async (person) => {
     try {
       const response = await axios.delete(
@@ -26,6 +28,10 @@ const PersonContainer = (props) => {
       console.error(error);
     }
   };
+
+  const handleAdd = () => {
+    navigate(`/profile/new?redirect=true&to=vehicle&path=${vehicleId}&person=${driverOrOwner}`)
+  }
 
   return (
     <div className="border rounded-md my-4 p-4 bg-white">
@@ -40,7 +46,7 @@ const PersonContainer = (props) => {
           </h2>
         )}
         {(driverOrOwner === 'driver' || people.length === 0) && (
-          <button className={'btn'}>ADD</button>
+          <button className={'btn'} onClick={handleAdd}>ADD</button>
         )}
       </div>
       <div>

@@ -3,25 +3,14 @@ import { Outlet, useNavigate } from 'react-router';
 import axios from 'axios';
 import Navbar from './util/navbars/Navbar';
 import Sidebar from './util/navbars/Sidebar';
+import { MessageBannerProvider } from './util/MessageBannerContext';
+import MessageBanner from './util/MessageBanner';
 
 const App = () => {
   const [language, setLanguage] = useState(true);
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
 
   const navigate = useNavigate();
-
-  // Handles dynamic sidebar visibility
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setSidebarVisible(window.innerWidth > 768);
-  //   };
-
-  //   window.addEventListener('resize', handleResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, []);
 
   useEffect(() => {
     localStorage.getItem('language') === null
@@ -58,12 +47,16 @@ const App = () => {
       />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar isVisible={sidebarVisible} />
+
         <main
           className={`relative overflow-auto transition-all duration-300 p-4 min-w-[576px] max-w-[1200px] ${
             sidebarVisible ? 'ml-64' : 'ml-0'
           }`}
         >
-          <Outlet context={{ language }} />
+          <MessageBannerProvider>
+            <MessageBanner />
+            <Outlet context={{ language }} />
+          </MessageBannerProvider>
         </main>
       </div>
     </div>

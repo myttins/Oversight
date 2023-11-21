@@ -35,8 +35,10 @@ peopleController.addPerson = async (req, res, next) => {
   const person = req.body;
   if (req.query.input === 'true') return next();
   try {
-    const queryStr = query.addPerson(person);
+    const queryStr = query.insert.person(person);
     const data = await db.query(queryStr);
+    console.log('added person', data.rows)
+    res.locals.personId = data.rows[0].id
     return next();
   } catch (error) {
     return next({
@@ -47,12 +49,14 @@ peopleController.addPerson = async (req, res, next) => {
 };
 
 peopleController.addPersonToVehicle = async (req, res, next) => {
-  const personId = req.query.personid;
+  // const personId = req.query.personid;
   const vehicleId = req.query.vehicleid;
-  const type = req.query.type;
+  const driverOrOwner = req.query.type;
+  const personId = res.locals.personId
   try {
-    const queryStr = query.addPersonToVehicle(type, personId, vehicleId);
+    const queryStr = query.insert.personIntoVehicle(driverOrOwner, personId, vehicleId);
     const data = await db.query(queryStr);
+    console.log('added person to vehicle', data.rows)
     return next();
   } catch (error) {
     return next({
@@ -80,7 +84,7 @@ peopleController.deletePersonWithVehicleId = async (req, res, next) => {
 peopleController.getPerson = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const queryStr = query.getPerson(id);
+    const queryStr = query.select.personWithId(id);
     const data = await db.query(queryStr);
     res.locals.person = data.rows;
     return next();

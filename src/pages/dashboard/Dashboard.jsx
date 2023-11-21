@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Dashboard = () => {
-  return <div className="m-4 p-4 bg-white">DASHBOARD</div>;
+  return <div className="p-4 bg-white">DASHBOARD</div>;
 
 }
 

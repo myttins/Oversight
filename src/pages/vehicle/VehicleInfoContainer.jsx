@@ -56,7 +56,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   };
 
   return (
-    <div className="border p-4 m-4 bg-white">
+    <div className="border p-4 bg-white">
       <div className="flex justify-between">
         <h1>
           {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}

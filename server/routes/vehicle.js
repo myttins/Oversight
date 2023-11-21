@@ -30,6 +30,7 @@ router.get('/', async (req, res) => {
     return res.status(200).json(results.rows);
   }
 
+  const name = req.query.query;
   const queryStr = query.select.vehicleTitleWithName(name);
   var results = await db.query(queryStr);
   return res.status(200).json(results.rows);

@@ -11,17 +11,17 @@ const App = () => {
   const navigate = useNavigate();
 
   // Handles dynamic sidebar visibility
-  useEffect(() => {
-    const handleResize = () => {
-      setSidebarVisible(window.innerWidth > 768);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setSidebarVisible(window.innerWidth > 768);
+  //   };
 
-    window.addEventListener('resize', handleResize);
+  //   window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
 
   useEffect(() => {
     localStorage.getItem('language') === null
@@ -59,7 +59,7 @@ const App = () => {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar isVisible={sidebarVisible} />
         <main
-          className={`relative flex-1 overflow-auto transition-all duration-300 ${
+          className={`relative overflow-auto transition-all duration-300 p-4 min-w-[576px] max-w-[1200px] ${
             sidebarVisible ? 'ml-64' : 'ml-0'
           }`}
         >

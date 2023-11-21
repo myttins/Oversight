@@ -18,7 +18,7 @@ const AllVehicles = () => {
   }, []);
 
   return (
-    <div className="border p-4 m-4 bg-white h-screen">
+    <div className="border p-4 bg-white h-screen">
       <h1 className="mt-6 text-2xl">Vehicle</h1>
       <div className="mt-6 flex w-full border-b-2">
         <a className="w-1/6">PLATE</a>

@@ -9,6 +9,8 @@ import Login from './pages/login/LoginPage';
 import VehicleContainer from './pages/vehicle/VehicleContainer';
 import AllVehicles from './pages/vehicle/AllVehicles';
 import Dashboard from './pages/dashboard/Dashboard';
+import Profile from './pages/person/Person';
+import NewPerson from './pages/person/NewPerson';
 
 const router = createBrowserRouter([
   {
@@ -22,14 +24,28 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <AllVehicles /> },
           {
+            path: 'search',
+            element: <Search />,
+          },
+          {
             path: ':id',
             element: <VehicleContainer />,
           },
         ],
       },
       {
-        path: 'search',
-        element: <Search />,
+        path: 'person',
+        children: [
+          // { index: true, element: <AllPersons /> },
+          {
+            path: 'new',
+            element: <NewPerson />,
+          },
+          {
+            path: ':id',
+            element: <Profile />,
+          },
+        ],
       },
       {
         path: '*',

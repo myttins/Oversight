@@ -5,8 +5,8 @@ import { VehicleContext } from '../VehicleContainer.jsx';
 import axios from 'axios';
 
 import translate from '../../../assets/translate.js';
-import PersonCard from './PersonCard.jsx';
 import AddPersonButton from './AddPersonButton.jsx';
+import PersonCard from './PersonCard.jsx';
 
 const PersonContainer = (props) => {
   const { language } = useOutletContext();
@@ -14,54 +14,43 @@ const PersonContainer = (props) => {
 
   const vehicleId = useContext(VehicleContext);
 
-  const updatePersonState = (type, personInfo) => {
-    switch (type) {
-      case 'add':
-        newPeople = people.slice();
-        newPeople.push(personInfo);
-        setPeople(newPeople);
-      case 'delete':
-        newPeople = people.filter((driver) => driver.id !== personInfo.id);
-        setPeople(newPeople);
-      case 'edit':
-        const newPeople = people.slice();
-        for (let i = 0; i < newPeople.length; i++) {
-          if (newPeople[i].id === personInfo.id) {
-            newPeople[i] = personInfo;
-          }
-        }
-        setPeople(newPeople);
+  const handleDelete = async (person) => {
+    try {
+      const response = await axios.delete(
+        `/api/people?type=${driverOrOwner}&vehicleid=${vehicleId}&personid=${person.id}`,
+      );
+      setPeople((prevPeople) =>
+        prevPeople.filter((prev) => prev.id !== person.id),
+      );
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
-    <div className="border p-4 m-4 bg-white">
+    <div className="border rounded-md my-4 p-4 bg-white">
       <div className="flex justify-between">
         {driverOrOwner === 'driver' ? (
-          <h1 className="text-2xl">
+          <h2>
             {language ? translate.driver_info[0] : translate.driver_info[1]}
-          </h1>
+          </h2>
         ) : (
-          <h1 className="text-2xl">
+          <h2>
             {language ? translate.owner_info[0] : translate.owner_info[1]}
-          </h1>
+          </h2>
         )}
-
         {(driverOrOwner === 'driver' || people.length === 0) && (
-          <AddPersonButton
-            updateContainerState={updatePersonState}
-            driverOrOwner={driverOrOwner}
-          />
+          <button className={'btn'}>ADD</button>
         )}
       </div>
       <div>
         {people.map((person, i) => {
           return (
             <PersonCard
-              key={person.id}
+              key={i}
               person={person}
               driverOrOwner={driverOrOwner}
-              updateContainerState={updatePersonState}
+              handleDelete={handleDelete}
             />
           );
         })}

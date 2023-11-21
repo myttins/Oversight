@@ -19,7 +19,8 @@ const query = {
         fuel_type, activation_date, registration_date, notes, engine_no) 
         VALUES ('${plate}', '${category}', '${vehicle_model}', '${vehicle_color}', '${vin}','${operating_license_no}',
         '${fuel_type}','${activation_date}','${registration_date}','${notes}', '${engine_no}')
-        RETURNING id`;
+        RETURNING id, plate, category, vehicle_model, vehicle_color, vin, operating_license_no, fuel_type, activation_date, 
+        registration_date, notes, engine_no`;
     },
   },
   select: {
@@ -39,7 +40,10 @@ const query = {
       return `SELECT v.id, v.plate, o.name AS owner_name, STRING_AGG(d.name, ', ') as driver_name FROM vehicles v
       LEFT JOIN vehicle_driver vd ON v.id = vd.vehicle_id LEFT JOIN vehicle_owner vo ON v.id = vo.vehicle_id
       JOIN people d ON vd.person_id = d.id JOIN people o ON vo.person_id = o.id GROUP BY o.name, v.id
-      HAVING STRING_AGG(d.name, ', ') LIKE '%${query}%' OR o.name LIKE '%${query}%'`;
+      HAVING STRING_AGG(d.name, ', ') LIKE '%${name}%' OR o.name LIKE '%${name}%'`;
+    },
+    vehicleInfoWithId: (id) => {
+      return `SELECT * from vehicles WHERE id=${id}`
     },
     vehicleInfoWithPlate: (plate) => {
       return `SELECT * from vehicles WHERE plate = '${plate}'`;
@@ -53,7 +57,7 @@ const query = {
       return `SELECT p.id, p.name, p.current_address, p.phone_number, p.driver_license_number, p.business_license_number, p.service_card_number
       FROM people p JOIN vehicle_owner vo ON p.id = vo.person_id WHERE vo.vehicle_id = ${id}`;
     },
-    
+
   }
 };
 

@@ -43,34 +43,28 @@ const Search = () => {
 
   const sendQueryRequest = async (input, queryType) => {
     const response = await fetch(
-      `http://localhost:3000/vehicle?type=${queryType}&query=${input}`,
+      `/api/vehicle?type=${queryType}&query=${input}`,
     );
     const data = await response.json();
     navigate(`/search?type=${queryType}&query=${input}`);
     return data;
   };
 
-
-
   return (
-    <div className='border p-4 m-4 bg-white h-screen'>
+    <div className="border p-4 bg-white h-screen">
       <h1 className="mt-6 text-2xl">VEHICLE SEARCH</h1>
       <div>
         <input
           className="input"
           placeholder={`Search by ${queryType}`}
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value.toUpperCase())}
         ></input>
-        <button
-          className="btn"
-          text={query}
-          onClick={handleSearchClick}
-        >
+        <button className="btn" text={query} onClick={handleSearchClick}>
           SEARCH
         </button>
       </div>
-      <div className='my-2'>
+      <div className="my-2">
         <label>
           <input
             type="radio"

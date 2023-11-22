@@ -39,24 +39,26 @@ const App = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 overflow-hidden">
+    <div className="flex flex-col bg-zinc-100">
       <Navbar
         language={language}
         setLanguage={setLanguage}
         toggleSidebar={toggleSidebar}
       />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1">
         <Sidebar isVisible={sidebarVisible} />
 
         <main
-          className={`relative overflow-auto transition-all duration-300 p-4 w-full ${
+          className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
             sidebarVisible ? 'ml-64' : 'ml-0'
           }`}
         >
-          <MessageBannerProvider>
-            <MessageBanner />
-            <Outlet context={{ language }} />
-          </MessageBannerProvider>
+          <div className='w-full border max-w-[900px]'>
+            <MessageBannerProvider>
+              <MessageBanner />
+              <Outlet context={{ language }} />
+            </MessageBannerProvider>
+          </div>
         </main>
       </div>
     </div>

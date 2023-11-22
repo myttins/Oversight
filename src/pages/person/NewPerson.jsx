@@ -86,7 +86,7 @@ const NewPerson = () => {
   return (
     <div className="border p-4 bg-white h-screen">
       <h2>ADD NEW PERSON</h2>
-      <div>
+      <>
         <form>
           <label>ID: </label>
           <input
@@ -99,9 +99,7 @@ const NewPerson = () => {
             ENTER
           </button>
         </form>
-      </div>
-      {message.length > 0 && <ErrorMessage message={message} />}
-
+      </>
       {idSearched && (
         <div>
           <FormElement

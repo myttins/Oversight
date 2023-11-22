@@ -31,7 +31,8 @@ const MessageBanner = () => {
       {bannerContent.message}
       {bannerContent.style !== 'loading' && (
         <button
-          className="absolute top-2 right-2 text-lg text-white"
+          className={`absolute top-2 right-2 text-lg text-white transition-transform duration-300 ease-in-out 
+          ${isBannerVisible ? 'translate-y-0' : '-translate-y-full'}`}
           onClick={hideBanner}
         >
           &times;

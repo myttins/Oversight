@@ -7,7 +7,7 @@ const VehicleRow = (props) => {
 
   return (
     <div
-      className="flex w-full cursor-pointer py-2 hover:bg-slate-100"
+      className="flex w-full cursor-pointer py-2 hover:bg-zinc-100"
         onClick={() => navigate(`/vehicle/${data.id}`)}
     >
       <a className="w-1/6 min-w-min">{data.plate}</a>

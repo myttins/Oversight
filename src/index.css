@@ -9,7 +9,7 @@
 
 html {
   font-family: 'simplified-chinese';
-  @apply bg-slate-300
+  @apply bg-zinc-300
 }
 
 h1 {

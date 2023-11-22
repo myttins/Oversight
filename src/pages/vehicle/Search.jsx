@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import VehicleRow from '../vehicle/util/VehicleRow.jsx';
+import VehicleRow from './util/VehicleRow.jsx';
 import { useNavigate } from 'react-router';
 
 const Search = () => {
@@ -46,15 +46,8 @@ const Search = () => {
     return data;
   };
 
-  // pg_dump -U omwwoutr -s -d omwwoutr -f path/to/output_file.sql
-  // PG_URI=postgres://omwwoutr:xYOfqt0Gwlhs07q4LnfFU8a_RIGPCSTF@mahmud.db.elephantsql.com/omwwoutr
-  psql -U omwwoutr -d omwwoutr -h mahmud.db.elephantsql.com -p omwwoutr
-
-
-
-
   return (
-    <div className="border p-4 bg-white">
+    <div className="border p-4 bg-white h-screen">
       <h1 className="mt-6 text-2xl">VEHICLE SEARCH</h1>
       <div>
         <input

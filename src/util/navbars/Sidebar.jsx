@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import arrowIcon from '../../assets/icons/nav-arrow-down.svg';
 
 const StyledLink = ({ to, children }) => (
-  <Link to={to} className="block py-1 hover:text-gray-300">
+  <Link to={to} className="block px-3 py-1 rounded-md  hover:bg-zinc-100">
     {children}
   </Link>
 );
 
 const StyledTitle = ({ toggle, isOpen, children }) => (
   <div
-    className="flex items-center justify-between cursor-pointer py-1"
+    className="flex items-center justify-between cursor-pointer px-3 py-1 rounded-md hover:bg-zinc-100"
     onClick={toggle}
   >
     <p>{children}</p>
@@ -32,7 +32,7 @@ const Sidebar = ({ isVisible }) => {
     <aside
       className={`fixed h-full transform ${
         isVisible ? 'translate-x-0' : '-translate-x-full'
-      } transition-transform ease-in-out duration-300 bg-slate-200 p-5 w-64 overflow-auto`}
+      } transition-transform ease-in-out duration-300 bg-zinc-200 p-2 w-64 overflow-auto`}
     >
       <div className="mb-4">
         <StyledLink to={'/'}>DASHBOARD</StyledLink>

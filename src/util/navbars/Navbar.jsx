@@ -14,7 +14,7 @@ const Navbar = (props) => {
     navigate('/login');
   };
   return (
-    <div className="sticky top-0 flex place-content-between align-middle m-auto w-full border-b p-4 bg-white ">
+    <div className="z-10 sticky top-0 flex place-content-between align-middle m-auto w-full border-b p-4 bg-white ">
       <div className="flex align-middle">
         <ButtonWithIcon alt={'menu'} icon={MenuIcon} onClick={toggleSidebar} />
         <Link to={'/'}>

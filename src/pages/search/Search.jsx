@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import VehicleRow from '../vehicle/util/VehicleRow.jsx';
 import { useNavigate } from 'react-router';
-import { MessageBannerContext } from '../../util/MessageBannerContext.jsx';
 
 const Search = () => {
   const [data, setData] = useState([]);
@@ -14,6 +13,7 @@ const Search = () => {
   /**
    * Sends search query using URL params when page is refreshed in order to keep search results
    */
+
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const fetchDataOnLoad = async (query, queryType) => {
@@ -27,11 +27,6 @@ const Search = () => {
       fetchDataOnLoad(searchParams.get('query'), searchParams.get('type'));
     }
   }, []);
-
-  /**
-   * @TODO Create function that validates search input
-   */
-  const validateQueryInput = () => {};
 
   const handleSearchClick = async () => {
     if (input.length === 0) return;
@@ -49,12 +44,6 @@ const Search = () => {
     const data = await response.json();
     navigate(`/search?type=${queryType}&query=${input}`);
     return data;
-  };
-
-  const { showBanner, hideBanner } = useContext(MessageBannerContext);
-
-  const handleSomeAction = () => {
-    showBanner({style: 'success', message: 'loading message'});
   };
 
   return (

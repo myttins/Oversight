@@ -30,7 +30,7 @@ const PersonContainer = (props) => {
   };
 
   const handleAdd = () => {
-    navigate(`/profile/new?redirect=true&to=vehicle&path=${vehicleId}&person=${driverOrOwner}`)
+    navigate(`/people/new?redirect=true&to=vehicle&path=${vehicleId}&person=${driverOrOwner}`)
   }
 
   return (

@@ -33,7 +33,9 @@ peopleController.getOwnerWithVehicleId = async (req, res, next) => {
 
 peopleController.addPerson = async (req, res, next) => {
   const person = req.body;
-  if (req.query.input === 'true') return next();
+  if (req.query.input === 'true') {
+    res.locals.personId = person.id
+    return next();}
   try {
     const queryStr = query.insert.person(person);
     const data = await db.query(queryStr);
@@ -53,7 +55,10 @@ peopleController.addPersonToVehicle = async (req, res, next) => {
   const vehicleId = req.query.vehicleid;
   const driverOrOwner = req.query.type;
   const personId = res.locals.personId
+  console.log(vehicleId, driverOrOwner, personId)
   try {
+    console.log(1)
+
     const queryStr = query.insert.personIntoVehicle(driverOrOwner, personId, vehicleId);
     const data = await db.query(queryStr);
     console.log('added person to vehicle', data.rows)

@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import FormElement from '../vehicle/util/FormElement.jsx';
 import axios from 'axios';
 import ErrorMessage from '../../error/ErrorMessage.jsx';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { MessageBannerContext } from '../../util/MessageBannerContext.jsx';
 
 const NewPerson = () => {
   const [idSearched, setIdSearched] = useState(false);
   const [personFound, setPersonFound] = useState(false);
   const [person, setPerson] = useState({});
-  const [message, setMessage] = useState('');
 
   const [urlParams, setUrlParams] = useSearchParams();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { showBanner, hideBanner } = useContext(MessageBannerContext);
 
   const redirect = urlParams.get('redirect');
   const vehicleId = urlParams.get('path');
@@ -22,24 +23,28 @@ const NewPerson = () => {
     e.preventDefault();
 
     if (!person.id_no) {
-      setMessage('Invalid Input.');
-      return;
+      showBanner({style: 'error', message: 'Invalid input.'});
+      return; 
     }
 
     try {
+      showBanner({style: 'loading'});
       const response = await axios.get(`/api/people/${person.id_no}`);
+      hideBanner();
       if (response.data.length === 0) {
-        setMessage('No person found. Manual entry');
+        showBanner({style: 'neutral', message: 'No person found. Input info'});
         setPersonFound(false);
         setIdSearched(true);
         return;
       } else {
-        setMessage('Person found');
+        showBanner({style: 'neutral', message: 'Person found.'});
         setPersonFound(true);
         setIdSearched(true);
         setPerson(response.data[0]);
       }
     } catch (error) {
+      showBanner({style: 'error', message: error.response.data.message});
+
       console.error(error);
     }
   };
@@ -52,7 +57,6 @@ const NewPerson = () => {
   };
 
   const handleSubmit = async () => {
-    // TODO add data validation
     if (
       !person.id_no ||
       !person.name ||
@@ -71,10 +75,10 @@ const NewPerson = () => {
           `/api/people?input=${personFound}&type=${driverOrOwner}&vehicleid=${vehicleId}`,
           person,
         );
-
-        navigate(`/vehicle/${vehicleId}`)
+        navigate(`/vehicle/${vehicleId}`);
       }
     } catch (error) {
+      showBanner({style: 'error', message: error.response.data.message});
       console.error(error);
     }
   };

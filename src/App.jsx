@@ -49,7 +49,7 @@ const App = () => {
         <Sidebar isVisible={sidebarVisible} />
 
         <main
-          className={`relative overflow-auto transition-all duration-300 p-4 min-w-[576px] max-w-[1200px] ${
+          className={`relative overflow-auto transition-all duration-300 p-4 w-full ${
             sidebarVisible ? 'ml-64' : 'ml-0'
           }`}
         >

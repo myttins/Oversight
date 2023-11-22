@@ -51,10 +51,10 @@ const Search = () => {
     return data;
   };
 
-  const { showMessage, hideMessage } = useContext(MessageBannerContext);
+  const { showBanner, hideBanner } = useContext(MessageBannerContext);
 
   const handleSomeAction = () => {
-    showMessage('Action Successful');
+    showBanner({style: 'success', message: 'loading message'});
   };
 
   return (
@@ -108,8 +108,9 @@ const Search = () => {
         </div>
       )}
 
-<button className={'btn'}onClick={handleSomeAction}>MESSAGE</button>
-
+      <button className={'btn'} onClick={handleSomeAction}>
+        MESSAGE
+      </button>
     </div>
   );
 };

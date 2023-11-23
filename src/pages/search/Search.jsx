@@ -46,12 +46,6 @@ const Search = () => {
     return data;
   };
 
-  // pg_dump -U omwwoutr -s -d omwwoutr -f path/to/output_file.sql
-  // PG_URI=postgres://omwwoutr:xYOfqt0Gwlhs07q4LnfFU8a_RIGPCSTF@mahmud.db.elephantsql.com/omwwoutr
-  psql -U omwwoutr -d omwwoutr -h mahmud.db.elephantsql.com -p omwwoutr
-
-
-
 
   return (
     <div className="border p-4 bg-white">

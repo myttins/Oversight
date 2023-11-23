@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
   font-family: 'simplified-chinese';
   src: url('./assets/NotoSansSC-VariableFont_wght.ttf');
-}
+} */
 
 html {
-  font-family: 'simplified-chinese';
+  /* font-family: 'simplified-chinese'; */
   @apply bg-zinc-300
 }
 

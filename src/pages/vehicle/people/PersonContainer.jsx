@@ -5,7 +5,6 @@ import { VehicleContext } from '../VehicleContainer.jsx';
 import axios from 'axios';
 
 import translate from '../../../assets/translate.js';
-import AddPersonButton from './AddPersonButton.jsx';
 import PersonCard from './PersonCard.jsx';
 
 const PersonContainer = (props) => {

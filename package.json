@@ -5,7 +5,8 @@
   "main": "postcss.config.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./server/server.js & NODE_ENV=development webpack serve --open --hot",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production",
+    "serve": "node ./server/server.js"
   },
   "keywords": [],
   "author": "",

@@ -9,7 +9,7 @@ module.exports = {
     extensions: ['.jsx', '.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
     clean: true,
   },
@@ -21,7 +21,9 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-        pathRewrite: { '^/api': '' },
+      },
+      '/public': {
+        target: 'http://localhost:3000',
       },
     },
     host: 'localhost',

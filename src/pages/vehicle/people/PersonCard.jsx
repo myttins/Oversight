@@ -12,7 +12,7 @@ const PersonCard = ({ person, handleDelete }) => {
   return (
     <div className="border flex outline-2 m-2 p-1 mx-4 ">
       <div className="mx-2 w-[80px] aspect-w-1 aspect-h-1 p-1 flex items-center justify-center">
-        <img src="/api/static/profiles/1/pp/1.jpg" />
+        <img src="/public/profiles/1/pp/1.jpg" />
       </div>
       <div className="w-full mx-2 p-1 flex flex-col">
         <Link to={'/'} className=" hover:underline">

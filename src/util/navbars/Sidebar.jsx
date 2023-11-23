@@ -69,7 +69,24 @@ const Sidebar = ({ isVisible }) => {
           <StyledLink to={'/person/new'}>ADD NEW</StyledLink>
         </div>
 
-        <StyledLink to={''}>TRANSACTIONS</StyledLink>
+        <StyledTitle
+          toggle={() => toggleCategory('payments')}
+          isOpen={openCategory['payments']}
+        >
+          PAYMENTS
+        </StyledTitle>
+        <div
+          className={`pl-4 transition-all duration-300 ease-in-out ${
+            openCategory['payments'] ? 'max-h-40' : 'max-h-0'
+          } overflow-hidden`}
+        >
+          <StyledLink to={''}>ALL PAYMENTS</StyledLink>
+          <StyledLink to={''}>NEW PAYMENT</StyledLink>
+          <StyledLink to={''}>NEW FEE SCHEDULE</StyledLink>
+          <StyledLink to={''}>ALL FEE SCHEDULES</StyledLink>
+
+
+        </div>
         <StyledTitle
           toggle={() => toggleCategory('admin')}
           isOpen={openCategory['admin']}

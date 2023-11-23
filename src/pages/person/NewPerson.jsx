@@ -23,27 +23,30 @@ const NewPerson = () => {
     e.preventDefault();
 
     if (!person.id_no) {
-      showBanner({style: 'error', message: 'Invalid input.'});
-      return; 
+      showBanner({ style: 'error', message: 'Invalid input.' });
+      return;
     }
 
     try {
-      showBanner({style: 'loading'});
+      showBanner({ style: 'loading' });
       const response = await axios.get(`/api/people/${person.id_no}`);
       hideBanner();
       if (response.data.length === 0) {
-        showBanner({style: 'neutral', message: 'No person found. Input info'});
+        showBanner({
+          style: 'neutral',
+          message: 'No person found. Input info',
+        });
         setPersonFound(false);
         setIdSearched(true);
         return;
       } else {
-        showBanner({style: 'neutral', message: 'Person found.'});
+        showBanner({ style: 'neutral', message: 'Person found.' });
         setPersonFound(true);
         setIdSearched(true);
         setPerson(response.data[0]);
       }
     } catch (error) {
-      showBanner({style: 'error', message: error.response.data.message});
+      showBanner({ style: 'error', message: error.response.data.message });
       console.error(error);
     }
   };
@@ -51,7 +54,6 @@ const NewPerson = () => {
   const clearForm = () => {
     setIdSearched(false);
     setPersonFound(false);
-    setMessage('');
     setPerson({});
   };
 
@@ -65,7 +67,6 @@ const NewPerson = () => {
       !person.business_lic_no ||
       !person.service_card_no
     ) {
-      setMessage('Invalid input');
       return;
     }
     try {
@@ -77,7 +78,7 @@ const NewPerson = () => {
         navigate(`/vehicle/${vehicleId}`);
       }
     } catch (error) {
-      showBanner({style: 'error', message: error.response.data.message});
+      showBanner({ style: 'error', message: error.response.data.message });
       console.error(error);
     }
   };
@@ -94,9 +95,11 @@ const NewPerson = () => {
             value={person.id_no || ''}
             onChange={(e) => setPerson({ ...person, id_no: e.target.value })}
           ></input>
-          <button type="submit" className="btn" onClick={handleIdSearch}>
-            ENTER
-          </button>
+          {!idSearched && (
+            <button type="submit" className="btn" onClick={handleIdSearch}>
+              ENTER
+            </button>
+          )}
         </form>
       </>
       {idSearched && (

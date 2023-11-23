@@ -21,17 +21,22 @@ const search = require('./routes/search');
 const people = require('./routes/people');
 const auth = require('./routes/auth');
 
-app.use(cookieParser())
-app.use('/vehicle', vehicle);
-app.use('/search', search);
-app.use('/people', people);
-app.use('/auth', auth);
+app.use(cookieParser());
+app.use('/api/vehicle', vehicle);
+app.use('/api/search', search);
+app.use('/api/people', people);
+app.use('/api/auth', auth);
 
-app.use('/static', express.static(path.resolve(__dirname, './static')));
+// Serve static files from 'public' directory
+app.use('/public', express.static(path.join(__dirname, '../public')));
 
-// app.get('*', (req, res) => {
-//     return res.sendFile(path.join(__dirname, '../src/index.html'));
-//   });
+// Serve the React application
+app.use(express.static(path.join(__dirname, '../build')));
+
+// Serve the React application
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 app.use((err, req, res, _next) => {
   console.log(err);

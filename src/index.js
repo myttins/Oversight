@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import Search from './pages/search/Search';
+import Search from './pages/vehicle/Search';
 import Error from './error/Error';
 import Login from './pages/login/LoginPage';
 import VehicleContainer from './pages/vehicle/VehicleContainer';

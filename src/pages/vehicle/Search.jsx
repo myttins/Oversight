@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import VehicleRow from '../vehicle/util/VehicleRow.jsx';
+import VehicleRow from './util/VehicleRow.jsx';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';

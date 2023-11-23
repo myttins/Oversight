@@ -44,7 +44,6 @@ const NewPerson = () => {
       }
     } catch (error) {
       showBanner({style: 'error', message: error.response.data.message});
-
       console.error(error);
     }
   };

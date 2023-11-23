@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import VehicleRow from './util/VehicleRow.jsx';
+import { MessageBannerContext } from '../../util/MessageBannerContext.jsx';
 
 const AllVehicles = () => {
   const [vehicleRows, setVehicleRows] = useState([]);
+
+  const { showBanner } = useContext(MessageBannerContext);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/vehicle');
         setVehicleRows(response.data);
       } catch (error) {
+        showBanner({ style: 'error', message: error.response.data.message });
         console.error(error);
       }
     };

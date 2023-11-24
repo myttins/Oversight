@@ -14,7 +14,7 @@ const Search = () => {
   // URL params
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('query') || '');
-  
+
   let location = useLocation();
 
   const { showBanner, hideBanner } = useContext(MessageBannerContext);
@@ -22,16 +22,16 @@ const Search = () => {
   const handleSearchSubmit = (e) => {
     // navigate to url
     e.preventDefault();
-    setSearchParams({type: searchBy, query: input})
+    setSearchParams({ type: searchBy, query: input });
     setSearchTerm(input);
   };
 
   useEffect(() => {
-    if (searchTerm === ''){
-      setSearchResults([])
+    if (searchTerm === '') {
+      setSearchResults([]);
       return;
     }
-    
+
     const fetchData = async () => {
       try {
         showBanner({ style: 'loading' });

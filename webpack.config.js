@@ -61,12 +61,18 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
       publicPath: '/',
+      favicon: './src/favicon.ico',
     }),
   ],
   resolve: {

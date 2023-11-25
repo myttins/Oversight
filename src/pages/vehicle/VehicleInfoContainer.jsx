@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import FormElement from './util/FormElement';
 import translate from '../../assets/translate';
-import ErrorMessage from '../../error/ErrorMessage';
+import ErrorMessage from '../../util/error/ErrorMessage';
 
 const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   const { language } = useOutletContext();

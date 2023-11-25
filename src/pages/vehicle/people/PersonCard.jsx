@@ -1,9 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import ButtonWithIcon from '../../../util/ButtonWithIcon.jsx';
 import DeleteUserIcon from '../../../assets/icons/user-xmark.svg';
-import { VehicleContext } from '../VehicleContainer.jsx';
 import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
 
 const PersonCard = ({ person, handleDelete }) => {

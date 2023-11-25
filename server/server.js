@@ -20,12 +20,13 @@ const vehicle = require('./routes/vehicle');
 const search = require('./routes/search');
 const people = require('./routes/people');
 const auth = require('./routes/auth');
+const payments = require('./routes/payments');
 
 app.use(cookieParser());
 app.use('/api/vehicle', vehicle);
 app.use('/api/search', search);
 app.use('/api/people', people);
-app.use('/api/auth', auth);
+app.use('/api/payments', payments);
 
 // Serve static files from 'public' directory
 app.use('/public', express.static(path.join(__dirname, '../public')));

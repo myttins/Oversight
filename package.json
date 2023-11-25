@@ -4,7 +4,7 @@
   "description": "",
   "main": "postcss.config.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon ./server/server.js & NODE_ENV=development webpack serve --open --hot",
+    "dev": "NODE_ENV=development nodemon ./server/server.js & NODE_ENV=development webpack serve",
     "build": "webpack --mode production",
     "serve": "node ./server/server.js"
   },

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import VehicleRow from './util/VehicleRow.jsx';
-import { MessageBannerContext } from '../../util/MessageBannerContext.jsx';
+import { MessageBannerContext } from '../../util/MessageBannerContext.tsx';
 
 const AllVehicles = () => {
   const [vehicleRows, setVehicleRows] = useState([]);

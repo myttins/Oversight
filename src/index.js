@@ -11,6 +11,7 @@ import AllVehicles from './pages/vehicle/AllVehicles';
 import Dashboard from './pages/dashboard/Dashboard';
 import Profile from './pages/person/Person';
 import NewPerson from './pages/person/NewPerson';
+import Schedules from './pages/payments/Schedules';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,15 @@ const router = createBrowserRouter([
           {
             path: ':id',
             element: <Profile />,
+          },
+        ],
+      },
+      {
+        path: 'payments',
+        children: [
+          {
+            path: 'schedules',
+            element: <Schedules />,
           },
         ],
       },

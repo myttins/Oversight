@@ -83,7 +83,7 @@ const Sidebar = ({ isVisible }) => {
           <StyledLink to={''}>ALL PAYMENTS</StyledLink>
           <StyledLink to={''}>NEW PAYMENT</StyledLink>
           <StyledLink to={''}>NEW FEE SCHEDULE</StyledLink>
-          <StyledLink to={''}>ALL FEE SCHEDULES</StyledLink>
+          <StyledLink to={'/payments/schedules'}>ALL SCHEDULES</StyledLink>
 
 
         </div>

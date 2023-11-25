@@ -3,7 +3,7 @@ import VehicleRow from './util/VehicleRow.jsx';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { MessageBannerContext } from '../../util/MessageBannerContext.jsx';
+import { MessageBannerContext } from '../../util/MessageBannerContext';
 
 const Search = () => {
   // User inputs

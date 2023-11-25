@@ -31,11 +31,12 @@ app.use('/api/auth', auth);
 app.use('/public', express.static(path.join(__dirname, '../public')));
 
 // Serve the React application
-app.use(express.static(path.join(__dirname, '../build')));
-
-// Serve the React application
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
+app.use((req, res) => {
+  return res.status(404).json({ message: 'API route not found.' });
 });
 
 app.use((err, req, res, _next) => {

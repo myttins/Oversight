@@ -26,6 +26,7 @@ app.use(cookieParser());
 app.use('/api/vehicle', vehicle);
 app.use('/api/search', search);
 app.use('/api/people', people);
+app.use('/api/auth', auth);
 app.use('/api/payments', payments);
 
 // Serve static files from 'public' directory
@@ -40,11 +41,11 @@ app.use((req, res) => {
   return res.status(404).json({ message: 'API route not found.' });
 });
 
-app.use((err, req, res, _next) => {
-  console.log(err);
-  res
-    .status(err.status || 500)
-    .json({ error: 'Internal Server Error', message: err.message });
+app.use((error, req, res, _next) => {
+  console.log(error);
+  return res
+    .status(error.status || 500)
+    .json({ message: 'Internal Server Error' });
 });
 
 const PORT = parseInt(process.env.PORT) || 3000;

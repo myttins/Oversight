@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import VehicleRow from './util/VehicleRow.jsx';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { MessageBannerContext } from '../../util/MessageBannerContext';
+import { VehicleRow } from './AllVehicles';
 
 const Search = () => {
   // User inputs

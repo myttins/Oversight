@@ -80,7 +80,7 @@ const query = {
       return `SELECT * FROM people WHERE id_no = '${id}'`;
     },
     schedules: () => {
-      return `SELECT * FROM schedules`
+      return `SELECT * FROM schedules ORDER BY date_created DESC`
     }
   },
 };

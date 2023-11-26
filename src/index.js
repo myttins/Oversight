@@ -7,11 +7,11 @@ import Search from './pages/vehicle/Search';
 import Error from './util/error/Error';
 import Login from './pages/login/LoginPage';
 import VehicleContainer from './pages/vehicle/VehicleContainer';
-import AllVehicles from './pages/vehicle/AllVehicles';
 import Dashboard from './pages/dashboard/Dashboard';
 import Profile from './pages/person/Person';
 import NewPerson from './pages/person/NewPerson';
 import Schedules from './pages/payments/Schedules';
+import { AllVehicles } from './pages/vehicle/AllVehicles';
 
 const router = createBrowserRouter([
   {

@@ -11,6 +11,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Profile from './pages/person/Person';
 import NewPerson from './pages/person/NewPerson';
 import Schedules from './pages/payments/Schedules';
+import Payments from './pages/payments/Payments'
 import { AllVehicles } from './pages/vehicle/AllVehicles';
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: 'payments',
         children: [
+          {
+            path: 'all',
+            element: <Payments />,
+          },
           {
             path: 'schedules',
             element: <Schedules />,

@@ -41,11 +41,10 @@ h2 {
 
 
 .input {
-  outline: solid blue 2px;
-  @apply p-2;
+  @apply border;
+  @apply px-2;
   @apply uppercase;
 }
-
 .input:active {
 }
 
@@ -53,5 +52,5 @@ h2 {
 }
 
 .input:read-only {
-  outline: none;
+  
 }

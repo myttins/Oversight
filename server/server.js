@@ -35,22 +35,25 @@ app.use('/public', express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../build')));
 
 // Serve the React application
-app.get('*', (req, res) => {
+app.get('*', (_req, res) => {
   return res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
-app.use((req, res) => {
+app.use((_req, res) => {
   return res.status(404).json({ message: 'API route not found.' });
 });
 
-app.use((error, req, res, _next) => {
+app.use((error, _req, res, _next) => {
   console.log(error);
   return res
     .status(error.status || 500)
     .json({ message: 'Internal Server Error' });
 });
 
+const { initializeScheduledJobs } = require('./schedulers/paymentScheduler');
+
 const PORT = parseInt(process.env.PORT) || 3000;
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
+  initializeScheduledJobs(); // Initialize scheduled tasks
 });

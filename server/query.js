@@ -79,9 +79,12 @@ const query = {
     personWithId: (id) => {
       return `SELECT * FROM people WHERE id_no = '${id}'`;
     },
+    payments: () => {
+      return `SELECT * FROM payments`;
+    },
     schedules: () => {
-      return `SELECT * FROM schedules ORDER BY date_created DESC`
-    }
+      return `SELECT * FROM schedules ORDER BY date_created DESC`;
+    },
   },
 };
 
@@ -158,7 +161,6 @@ query.updatePerson = (id, personInfo) => {
   business_lic_no='${business_lic_no}', service_card_no='${service_card_no}'
   WHERE id='${id}'`;
 };
-
 
 query.deleteInsurerWithVehicleId = (vehicleid, insurerid) => {
   return `DELETE FROM vehicle_insurer

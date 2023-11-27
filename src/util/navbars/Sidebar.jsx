@@ -80,7 +80,7 @@ const Sidebar = ({ isVisible }) => {
             openCategory['payments'] ? 'max-h-40' : 'max-h-0'
           } overflow-hidden`}
         >
-          <StyledLink to={''}>ALL PAYMENTS</StyledLink>
+          <StyledLink to={'/payments/all'}>ALL PAYMENTS</StyledLink>
           <StyledLink to={''}>NEW PAYMENT</StyledLink>
           <StyledLink to={''}>NEW FEE SCHEDULE</StyledLink>
           <StyledLink to={'/payments/schedules'}>ALL SCHEDULES</StyledLink>

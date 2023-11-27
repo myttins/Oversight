@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { MessageBannerContext } from '../../util/MessageBannerContext';
 
 interface Payment {
   transaction_id: string;
@@ -29,7 +30,8 @@ const PaymentsRow: React.FC<PaymentRowProps> = ({ payment }) => {
 };
 
 const Payments = () => {
-  const [paymentsData, setPaymentsData] = useState([]);
+  const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
+  const { showBanner } = useContext(MessageBannerContext);
 
   const fetchAndSetPayments = async () => {
     try {
@@ -37,6 +39,7 @@ const Payments = () => {
       setPaymentsData(response.data);
     } catch (error) {
       console.error(error);
+      showBanner({style: 'error', message: 'Fetch failed.'})
     }
   };
   useEffect(() => {
@@ -55,7 +58,7 @@ const Payments = () => {
         <span className="w-2/6">TIME</span>
       </div>
       {paymentsData.map((payment) => (
-        <PaymentsRow payment={payment} />
+        <PaymentsRow key={payment.transaction_id} payment={payment} />
       ))}
     </div>
   );

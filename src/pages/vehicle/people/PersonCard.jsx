@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
-import AddButtonIcon from '../../../assets/icons/plus-square-solid.svg';
 import DeleteUserIcon from '../../../assets/icons/user-xmark.svg';
 import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
 

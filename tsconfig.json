@@ -6,7 +6,8 @@
     "jsx": "react",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true
   },
   "include": ["./src/**/*", "./server/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]

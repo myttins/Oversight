@@ -1,20 +1,19 @@
 import React, { useContext, useState } from 'react';
-import AddInsurerModal from './AddInsurerModal.jsx';
 import { useNavigate } from 'react-router';
 import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
 import { VehicleContext } from '../VehicleContainer.jsx';
+import DeleteUserIcon from '../../../assets/icons/user-xmark.svg';
 
 import axios from 'axios';
 import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
 import AddIcon from '../../../assets/icons/plus-square-solid.svg';
 
-const InsurerContainer = (props) => {
-  const { insurer, setInsurer } = props;
+const InsurerContainer = ({ insurer, setInsurer }) => {
+  const navigate = useNavigate();
+  const vehicleId = useContext(VehicleContext);
 
-  const [addInsurerModalVisible, setAddInsurerModalVisible] = useState(false);
-
-  const closeAddInsurerModal = () => {
-    setAddInsurerModalVisible(false);
+  const handleAddInsurer = () => {
+    navigate(`/vehicle/new-insurer?redirect=true&to=vehicle&path=${vehicleId}`);
   };
 
   const updateContainerState = (type, insurer) => {
@@ -32,7 +31,7 @@ const InsurerContainer = (props) => {
         {insurer.length === 0 && (
           <ButtonWithIcon
             icon={AddIcon}
-            onClick={() => setAddInsurerModalVisible(true)}
+            onClick={handleAddInsurer}
             alt={'Add Insurer'}
           />
         )}
@@ -45,13 +44,6 @@ const InsurerContainer = (props) => {
           updateContainerState={updateContainerState}
         />
       ))}
-
-      {addInsurerModalVisible && (
-        <AddInsurerModal
-          closeModal={closeAddInsurerModal}
-          updateContainerState={updateContainerState}
-        />
-      )}
     </div>
   );
 };
@@ -81,28 +73,25 @@ const VehicleCard = ({ vehicle, updateContainerState }) => {
   };
 
   return (
-    <div
-      className="border p-4 m-2 cursor-pointer flex justify-between hover:outline"
-      onClick={() => navigate(`/vehicle/${vehicle.id}`)}
-    >
-      <div>PLATE: {vehicle.plate}</div>
-      <button
-        className="btn"
+    <div className="border p-4 m-2 flex justify-between">
+      <div>
+        <h2 className={'cursor-pointer hover:underline'} onClick={() => navigate(`/vehicle/${vehicle.id}`)}>{vehicle.plate}</h2>
+      </div>
+      <ButtonWithIcon
+        alt={'delete'}
+        icon={DeleteUserIcon}
         onClick={(e) => {
           e.stopPropagation();
           setConfirmationModalVisible(true);
         }}
-      >
-        DELETE
-      </button>
+      />
 
-      {confirmationModalVisible && (
-        <ConfirmationPopUp
-          handleCloseModal={handleCloseConfirmationModal}
-          handleConfirm={handleDeleteButtonClick}
-          message={'Confirm Delete'}
-        />
-      )}
+      <ConfirmationPopUp
+        isOpen={confirmationModalVisible}
+        onClose={handleCloseConfirmationModal}
+        onConfirm={handleDeleteButtonClick}
+        message={'Confirm Delete'}
+      />
     </div>
   );
 };

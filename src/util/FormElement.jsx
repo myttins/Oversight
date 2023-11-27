@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useOutletContext } from 'react-router';
-import translate from '../assets/translate';
+import translate from '../assets/translate.js';
 
 const FormElement = (props) => {
   const { language } = useOutletContext();

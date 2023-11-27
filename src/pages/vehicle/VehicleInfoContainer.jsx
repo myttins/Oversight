@@ -7,6 +7,8 @@ import FormElement from '../../util/FormElement.jsx';
 import translate from '../../assets/translate';
 import ErrorMessage from '../../util/error/ErrorMessage';
 import { MessageBannerContext } from '../../util/MessageBannerContext.tsx';
+import ButtonWithIcon from '../../util/buttons/ButtonWithIcon.jsx';
+import EditIcon from '../../assets/icons/edit.svg';
 
 const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   const { language } = useOutletContext();
@@ -22,7 +24,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
       await axios.post(`/api/vehicle/${vehicleInfo.id}`, vehicleInfo);
     } catch (error) {
       console.error('Error making POST request:', error);
-      showBanner({style: 'error'})
+      showBanner({ style: 'error' });
     }
     setReadOnly(true);
   };
@@ -36,7 +38,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
       navigate(`/vehicle/${id}`);
     } catch (error) {
       console.error(error);
-      showBanner({style: 'error'})
+      showBanner({ style: 'error' });
     }
   };
 
@@ -63,18 +65,17 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   return (
     <div className="p-4 bg-white">
       <div className="flex justify-between">
-        <h1>
+        <h2>
           {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}
-        </h1>
+        </h2>
         {readOnly ? (
-          <button
-            className="btn"
+          <ButtonWithIcon
+            icon={EditIcon}
             onClick={() => {
               setReadOnly(!readOnly);
             }}
-          >
-            EDIT
-          </button>
+            alt={'edit'}
+          />
         ) : (
           <div>
             {!newVehicle && (
@@ -94,7 +95,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
           </div>
         )}
       </div>
-      <div className="p-4">
+      <div className="px-4">
         <FormElement
           label={'plate'}
           type={'text'}

@@ -13,6 +13,7 @@ import NewPerson from './pages/person/NewPerson';
 import Schedules from './pages/payments/Schedules';
 import Payments from './pages/payments/Payments'
 import { AllVehicles } from './pages/vehicle/AllVehicles';
+import AddInsurer from './pages/vehicle/insurer/AddInsurer.tsx'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
           {
             path: 'search',
             element: <Search />,
+          },
+          {
+            path: 'new-insurer',
+            element: <AddInsurer />,
           },
           {
             path: ':id',

@@ -41,9 +41,15 @@ h2 {
 
 
 .input {
-  outline: solid blue 1px;
-  @apply px-1;
+  outline: solid blue 2px;
+  @apply p-2;
   @apply uppercase;
+}
+
+.input:active {
+}
+
+.input:focus{
 }
 
 .input:read-only {

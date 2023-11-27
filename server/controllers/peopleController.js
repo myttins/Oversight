@@ -1,7 +1,23 @@
 const db = require('../models');
 const query = require('../query');
 
-const peopleController = {};
+const peopleController = {
+  getPerson: async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const queryStr = query.select.personWithId(id);
+      const data = await db.query(queryStr);
+      res.locals.person = data.rows;
+      // return next();
+      // return res.status(200).json(data.rows)
+    } catch (error) {
+      return next({
+        location: 'Error located in peopleController.getPerson',
+        error,
+      });
+    }
+  },
+};
 
 peopleController.getDriversWithVehicleId = async (req, res, next) => {
   try {
@@ -34,13 +50,14 @@ peopleController.getOwnerWithVehicleId = async (req, res, next) => {
 peopleController.addPerson = async (req, res, next) => {
   const person = req.body;
   if (req.query.input === 'true') {
-    res.locals.personId = person.id
-    return next();}
+    res.locals.personId = person.id;
+    return next();
+  }
   try {
     const queryStr = query.insert.person(person);
     const data = await db.query(queryStr);
-    console.log('added person', data.rows)
-    res.locals.personId = data.rows[0].id
+    console.log('added person', data.rows);
+    res.locals.personId = data.rows[0].id;
     return next();
   } catch (error) {
     return next({
@@ -54,14 +71,15 @@ peopleController.addPersonToVehicle = async (req, res, next) => {
   // const personId = req.query.personid;
   const vehicleId = req.query.vehicleid;
   const driverOrOwner = req.query.type;
-  const personId = res.locals.personId
-  console.log(vehicleId, driverOrOwner, personId)
+  const personId = res.locals.personId;
   try {
-    console.log(1)
-
-    const queryStr = query.insert.personIntoVehicle(driverOrOwner, personId, vehicleId);
+    const queryStr = query.insert.personIntoVehicle(
+      driverOrOwner,
+      personId,
+      vehicleId,
+    );
     const data = await db.query(queryStr);
-    console.log('added person to vehicle', data.rows)
+    console.log('added person to vehicle', data.rows);
     return next();
   } catch (error) {
     return next({
@@ -81,21 +99,6 @@ peopleController.deletePersonWithVehicleId = async (req, res, next) => {
   } catch (error) {
     return next({
       location: 'Error located in peopleController.deletePersonWithVehicleId',
-      error,
-    });
-  }
-};
-
-peopleController.getPerson = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const queryStr = query.select.personWithId(id);
-    const data = await db.query(queryStr);
-    res.locals.person = data.rows;
-    return next();
-  } catch (error) {
-    return next({
-      location: 'Error located in peopleController.getPerson',
       error,
     });
   }

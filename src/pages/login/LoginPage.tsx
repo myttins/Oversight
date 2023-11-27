@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import LoginPageAlert from './LoginPageAlert';
+
+type LoginPageAlertProps = {
+  message: string;
+};
+const LoginPageAlert: React.FC<LoginPageAlertProps> = ({ message }) => {
+  return <div className="border bg-red-300">{message}</div>;
+};
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -27,11 +33,11 @@ const Login = () => {
     }
   };
   return (
-    <div className="w-screen h-screen flex justify-center">
-      <div className="w-96 h-96 mt-10 outline p-4">
+    <div className="w-screen h-screen flex justify-center items-center">
+      <div className="w-96 h-96 mt-10 p-4 flex flex-col bg-white">
         <h1>LOGIN</h1>
         <input
-          className="normal-case border"
+          className="my-2 border px-4 py-1 focus:outline"
           value={credentials.username}
           placeholder="username"
           onChange={(e) =>
@@ -39,8 +45,9 @@ const Login = () => {
           }
         />
         <input
-          className="normal-case border"
+          className="my-2 border px-4 py-1"
           value={credentials.password}
+          type='password'
           placeholder="password"
           onChange={(e) =>
             setCredentials({ ...credentials, password: e.target.value })

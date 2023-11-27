@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import FormElement from '../vehicle/util/FormElement.jsx';
 import axios from 'axios';
-import ErrorMessage from '../../error/ErrorMessage.jsx';
+import ErrorMessage from '../../util/error/ErrorMessage.jsx';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { MessageBannerContext } from '../../util/MessageBannerContext.jsx';
+import { MessageBannerContext } from '../../util/MessageBannerContext';
 
 const NewPerson = () => {
   const [idSearched, setIdSearched] = useState(false);

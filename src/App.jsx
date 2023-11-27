@@ -53,7 +53,7 @@ const App = () => {
             sidebarVisible ? 'ml-64' : 'ml-0'
           }`}
         >
-          <div className='w-full border max-w-[900px]'>
+          <div className='w-full border max-w-[900px] min-w-[500px] overflow-auto'>
             <MessageBannerProvider>
               <MessageBanner />
               <Outlet context={{ language }} />

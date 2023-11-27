@@ -7,6 +7,14 @@ const paymentsController = {
     try {
       const queryStr = query.select.payments();
       const data = await db.query(queryStr);
+
+      // Format date into YYYY-MM-DD HH:MM
+      data.rows.forEach((item) => {
+        item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
+      });
+
+      
+
       res.locals.data = data.rows;
       return next();
     } catch (error) {

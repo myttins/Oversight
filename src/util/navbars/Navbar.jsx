@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ButtonWithIcon from '../ButtonWithIcon';
+import ButtonWithIcon from '../buttons/ButtonWithIcon';
 import MenuIcon from '../../assets/icons/menu_icon.svg';
 
 const Navbar = (props) => {

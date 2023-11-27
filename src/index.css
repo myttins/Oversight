@@ -9,7 +9,8 @@
 
 html {
   /* font-family: 'simplified-chinese'; */
-  @apply bg-zinc-300
+  @apply bg-zinc-300;
+  @apply text-sm;
 }
 
 h1 {

@@ -5,6 +5,8 @@ import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
 import { VehicleContext } from '../VehicleContainer.jsx';
 
 import axios from 'axios';
+import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
+import AddIcon from '../../../assets/icons/plus-square-solid.svg';
 
 const InsurerContainer = (props) => {
   const { insurer, setInsurer } = props;
@@ -24,16 +26,15 @@ const InsurerContainer = (props) => {
   };
 
   return (
-    <div className="border p-4 m-4 bg-white">
+    <div className="rounded-md p-4 my-4 bg-white">
       <div className="flex justify-between">
-        <h1 className="text-2xl">{'INSURER INFO'}</h1>
+        <h2>{'INSURER INFO'}</h2>
         {insurer.length === 0 && (
-          <button
-            className="btn"
+          <ButtonWithIcon
+            icon={AddIcon}
             onClick={() => setAddInsurerModalVisible(true)}
-          >
-            +
-          </button>
+            alt={'Add Insurer'}
+          />
         )}
       </div>
 

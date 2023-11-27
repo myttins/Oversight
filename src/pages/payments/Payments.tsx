@@ -1,8 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-const PaymentsRow: React.FC<any> = ({ payment }) => {
-  const { transaction_id, vehicle_id, amount, desciption, transaction_time } =
+interface Payment {
+  transaction_id: string;
+  vehicle_id: number;
+  amount: number;
+  description: string;
+  transaction_time: string;
+}
+
+type PaymentRowProps = {
+  payment: Payment
+}
+
+const PaymentsRow: React.FC<PaymentRowProps> = ({ payment }) => {
+  const { transaction_id, vehicle_id, amount, description, transaction_time } =
     payment;
 
   return (
@@ -10,7 +22,7 @@ const PaymentsRow: React.FC<any> = ({ payment }) => {
       <span className="w-1/6">{transaction_id}</span>
       <span className="w-1/6">{vehicle_id}</span>
       <span className="w-1/6">{amount}</span>
-      <span className="w-1/6">{desciption}</span>
+      <span className="w-1/6">{description}</span>
       <span className="w-2/6">{transaction_time}</span>
     </div>
   );

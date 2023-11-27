@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router';
 
 import axios from 'axios';
 
-import FormElement from './util/FormElement';
+import FormElement from '../../util/FormElement.jsx';
 import translate from '../../assets/translate';
 import ErrorMessage from '../../util/error/ErrorMessage';
+import { MessageBannerContext } from '../../util/MessageBannerContext.tsx';
 
 const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   const { language } = useOutletContext();
@@ -14,11 +15,14 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   const [readOnly, setReadOnly] = useState(!newVehicle);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const { showBanner } = useContext(MessageBannerContext);
+
   const handleVehicleInfoSave = async () => {
     try {
       await axios.post(`/api/vehicle/${vehicleInfo.id}`, vehicleInfo);
     } catch (error) {
       console.error('Error making POST request:', error);
+      showBanner({style: 'error'})
     }
     setReadOnly(true);
   };
@@ -32,6 +36,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
       navigate(`/vehicle/${id}`);
     } catch (error) {
       console.error(error);
+      showBanner({style: 'error'})
     }
   };
 
@@ -56,7 +61,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   };
 
   return (
-    <div className="border p-4 bg-white">
+    <div className="p-4 bg-white">
       <div className="flex justify-between">
         <h1>
           {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}

@@ -6,6 +6,8 @@ import axios from 'axios';
 
 import translate from '../../../assets/translate.js';
 import PersonCard from './PersonCard.jsx';
+import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
+import AddIcon from '../../../assets/icons/plus-square-solid.svg'
 
 const PersonContainer = (props) => {
   const { language } = useOutletContext();
@@ -33,7 +35,7 @@ const PersonContainer = (props) => {
   }
 
   return (
-    <div className="border rounded-md my-4 p-4 bg-white">
+    <div className="rounded-md my-4 p-4 bg-white">
       <div className="flex justify-between">
         {driverOrOwner === 'driver' ? (
           <h2>
@@ -45,7 +47,7 @@ const PersonContainer = (props) => {
           </h2>
         )}
         {(driverOrOwner === 'driver' || people.length === 0) && (
-          <button className={'btn'} onClick={handleAdd}>ADD</button>
+          <ButtonWithIcon onClick={handleAdd} icon={AddIcon}/>
         )}
       </div>
       <div>

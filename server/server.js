@@ -32,9 +32,11 @@ app.use('/api/payments', payments);
 // Serve static files from 'public' directory
 app.use('/public', express.static(path.join(__dirname, '../public')));
 
+app.use(express.static(path.join(__dirname, '../build')));
+
 // Serve the React application
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+app.get('*', (req, res) => {
+  return res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 app.use((req, res) => {

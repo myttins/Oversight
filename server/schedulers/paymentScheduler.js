@@ -32,19 +32,13 @@ const initializeScheduledJobs = async () => {
         jobs[row.schedule_id] = schedule.scheduleJob(
           '0 * * * *',
           async () =>
-            await addPayment(
-              row.schedule_id,
-              `${row.period} payment, schedule ${row.schedule_id}`,
-            ),
+            await addPayment(row.schedule_id, `${row.label} Schedule`),
         );
       } else if (row.period === 'D') {
         jobs[row.schedule_id] = schedule.scheduleJob(
           '0 5 * * *',
           async () =>
-            await addPayment(
-              row.schedule_id,
-              `${row.period} payment, schedule ${row.schedule_id}`,
-            ),
+            await addPayment(row.schedule_id, `${row.label} Schedule`),
         );
       }
     });

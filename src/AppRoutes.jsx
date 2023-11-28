@@ -14,6 +14,7 @@ import NewPerson from './pages/person/NewPerson';
 import Payments from './pages/payments/Payments';
 import Schedules from './pages/payments/Schedules';
 import { useLogin } from './contexts/LoginContext';
+import Vehicle from './pages/vehicle/Vehicle';
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -60,18 +61,23 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Dashboard />} />
-        <Route path="vehicle" element={<AllVehicles />} />
+        <Route path="vehicle" element={<Vehicle />}>
+          <Route path="vehicle/info" element={<AllVehicles />} />
+          <Route path="vehicle/payments" element={<AllVehicles />} />
+        </Route>
+        <Route path="vehicle/all" element={<AllVehicles />} />
         <Route path="vehicle/search" element={<Search />} />
         <Route path="vehicle/new-insurer" element={<AddInsurer />} />
-        <Route path="vehicle/:id" element={<VehicleContainer />} />
+        {/* <Route path="vehicle/:id" element={<VehicleContainer />} /> */}
+        <Route path="/vehicle/:id" element={<Vehicle />}>
+          <Route index element={<Navigate replace to="info" />} />
+          {/* <Route path="info" element={<VehicleInfo />} /> */}
+          {/* <Route path="payments" element={<VehiclePayments />} /> */}
+        </Route>
         <Route path="payments/all" element={<Payments />} />
         <Route path="payments/schedules" element={<Schedules />} />
         <Route path="*" element={<Error status={404} />} />
       </Route>
-
-      {/* <Route path="people" element={<NewPerson />}>
-        <Route path=":id" element={<></>} />
-      </Route> */}
     </Routes>
   );
 };

@@ -84,26 +84,36 @@ const NewPerson = () => {
   };
 
   return (
-    <div className="border p-4 bg-white h-screen">
+    <div className=" p-4 bg-white">
       <h2>ADD NEW PERSON</h2>
-      <>
-        <form>
-          <label>ID: </label>
-          <input
-            className="input"
-            readOnly={idSearched}
-            value={person.id_no || ''}
-            onChange={(e) => setPerson({ ...person, id_no: e.target.value })}
-          ></input>
-          {!idSearched && (
-            <button type="submit" className="btn" onClick={handleIdSearch}>
-              ENTER
+      {!idSearched ? (
+        <>
+          <form className="flex">
+            <label className="w-1/3">ID NO.</label>
+            <input
+              className="input w-1/3"
+              placeholder="ID NO."
+              onChange={(e) => setPerson({ ...person, id_no: e.target.value })}
+              value={person.id_no || ''}
+            />
+            <button
+              className="btn mx-4"
+              type={'submit'}
+              onClick={handleIdSearch}
+            >
+              SEARCH
             </button>
-          )}
-        </form>
-      </>
-      {idSearched && (
+          </form>
+        </>
+      ) : (
         <div>
+          <FormElement
+            label={'id'}
+            type={'text'}
+            readOnly={personFound}
+            formInfo={person}
+            setFormInfo={setPerson}
+          />
           <FormElement
             label={'name'}
             type={'text'}
@@ -146,14 +156,16 @@ const NewPerson = () => {
             formInfo={person}
             setFormInfo={setPerson}
           />
+          <div>
+            <button className="btn" onClick={clearForm}>
+              CLEAR
+            </button>
+            <button className="btn mx-2" onClick={handleSubmit}>
+              SAVE
+            </button>
+          </div>
         </div>
       )}
-      <button className="btn" onClick={clearForm}>
-        CLEAR
-      </button>
-      <button className="btn" onClick={handleSubmit}>
-        SAVE
-      </button>
     </div>
   );
 };

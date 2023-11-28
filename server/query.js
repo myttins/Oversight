@@ -85,7 +85,7 @@ const query = {
       return `SELECT * FROM people WHERE id_no = '${id}'`;
     },
     payments: () => {
-      return `SELECT * FROM payments`;
+      return `SELECT * FROM payments  ORDER BY transaction_time DESC`;
     },
     schedules: () => {
       return `SELECT * FROM schedules ORDER BY date_created DESC`;

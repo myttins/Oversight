@@ -52,7 +52,7 @@ const Schedules: React.FC = () => {
   const fetchData = async () => {
     try {
       showBanner({ style: 'loading' });
-      const response: AxiosResponse = await axios.get(
+      const response = await axios.get(
         '/api/payments/schedules',
       );
       setData(response.data);

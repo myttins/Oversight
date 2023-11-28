@@ -41,6 +41,11 @@ const query = {
       return `INSERT INTO vehicle_${driverOrOwner} (vehicle_id, person_id)
       VALUES ('${vehicleId}', '${personId}') RETURNING id, vehicle_id, person_id`;
     },
+    paymentWithVehicleId: (id, paymentInfo) => {
+      const { description, amount } = paymentInfo;
+      return `INSERT INTO payments (vehicle_id, description, amount)
+      VALUES ('${id}', '${description}', '${amount}')`;
+    },
   },
   select: {
     allVehicleTitles: () => {
@@ -89,8 +94,8 @@ const query = {
       return `SELECT p.transaction_id, p.description, p.amount, p.transaction_time, v.total_balance
       FROM payments p JOIN (SELECT vehicle_id, SUM(amount) as total_balance FROM payments 
       GROUP BY vehicle_id) v ON p.vehicle_id = v.vehicle_id WHERE p.vehicle_id = ${id}
-      ORDER BY p.transaction_time DESC`
-    }
+      ORDER BY p.transaction_time DESC`;
+    },
   },
 };
 

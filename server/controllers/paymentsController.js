@@ -64,6 +64,20 @@ const paymentsController = {
       });
     }
   },
+  addPaymentWithVehicleId: async (req, res, next) => {
+    const { id } = req.params;
+    
+    try {
+      const queryStr = query.insert.paymentWithVehicleId(id, req.body);
+      const data = await db.query(queryStr);
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in paymentsController.addPaymentWithVehicleId',
+        error,
+      });
+    }
+  },
 };
 
 module.exports = paymentsController;

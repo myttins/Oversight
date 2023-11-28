@@ -3,11 +3,13 @@ import { useNavigate, useParams } from 'react-router';
 import FormElement from '../../util/FormElement';
 import { useMessageBanner } from '../../contexts/MessageBannerContext';
 
+import axios from 'axios';
+
 const NewPayment = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form, setForm] = useState({});
-  const { showBanner } = useMessageBanner;
+  const { showBanner } = useMessageBanner();
   //     const { label, type, options, readOnly, formInfo, setFormInfo } = props;
 
   const handleSubmit = async (e) => {
@@ -17,7 +19,7 @@ const NewPayment = () => {
     }
     try {
       await axios.post(`/api/payments/${id}`, form);
-      navigate(`vehicle/${id}`);
+      navigate(`/vehicle/${id}/payments`);
     } catch (error) {
       console.error(error);
       showBanner({ style: 'error' });

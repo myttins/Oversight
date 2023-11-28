@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useMessageBanner } from '../../../contexts/MessageBannerContext';
 import axios from 'axios';
 
@@ -14,6 +14,7 @@ const VehiclePaymentRow = ({ payment }) => {
   );
 };
 const VehiclePayments = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { showBanner } = useMessageBanner();
 
@@ -33,13 +34,19 @@ const VehiclePayments = () => {
     fetchPaymentsAndSetState();
   }, [id]);
 
+  const handleAddPayment = () => {
+    navigate(`/payments/new/${id}`);
+  };
+
   return (
     <div className="p-4 bg-white my-4">
-      <header className='flex justify-between'>
+      <header className="flex justify-between">
         <h2>
           BALANCE: {payments.length === 0 ? '0' : payments[0].total_balance}
         </h2>
-        <button className='btn mx-2'>ADD</button>
+        <button className="btn mx-2" onClick={handleAddPayment}>
+          ADD
+        </button>
       </header>
       {payments.length === 0 ? (
         <span>NO PAYMENTS</span>

@@ -28,7 +28,7 @@ const AddInsurer = () => {
     operating_license_no: '',
     notes: '',
   });
-  const [searched, setSearched] = useState < boolean > false;
+  const [searched, setSearched] = useState(false);
 
   const handleSubmit = async () => {
     try {

@@ -6,21 +6,21 @@ import axios from 'axios';
 import translate from '../../../assets/translate.js';
 import PersonCard from './PersonCard.jsx';
 import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
-import AddIcon from '../../../assets/icons/plus-square-solid.svg'
+import AddIcon from '../../../assets/icons/plus-square-solid.svg';
 import { useLanguage } from '../../../contexts/LanguageContext.jsx';
 
 const PersonContainer = (props) => {
   const { language } = useLanguage();
   const { people, setPeople, driverOrOwner } = props;
 
-  const vehicleId = useParams()
+  const { id } = useParams();
 
   const navigate = useNavigate();
 
   const handleDelete = async (person) => {
     try {
       const response = await axios.delete(
-        `/api/people?type=${driverOrOwner}&vehicleid=${vehicleId}&personid=${person.id}`,
+        `/api/people?type=${driverOrOwner}&vehicleid=${id}&personid=${person.id}`,
       );
       setPeople((prevPeople) =>
         prevPeople.filter((prev) => prev.id !== person.id),
@@ -31,8 +31,10 @@ const PersonContainer = (props) => {
   };
 
   const handleAdd = () => {
-    navigate(`/people/new?redirect=true&to=vehicle&path=${vehicleId}&person=${driverOrOwner}`)
-  }
+    navigate(
+      `/people/new?redirect=true&to=vehicle&path=${id}&person=${driverOrOwner}`,
+    );
+  };
 
   return (
     <div className="rounded-md my-4 p-4 bg-white">
@@ -47,7 +49,7 @@ const PersonContainer = (props) => {
           </h2>
         )}
         {(driverOrOwner === 'driver' || people.length === 0) && (
-          <ButtonWithIcon onClick={handleAdd} icon={AddIcon}/>
+          <ButtonWithIcon onClick={handleAdd} icon={AddIcon} />
         )}
       </div>
       <div>

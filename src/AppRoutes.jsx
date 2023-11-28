@@ -75,6 +75,7 @@ const AppRoutes = () => {
           <Route path="info" element={<VehicleInfo />} />
           <Route path="payments" element={<VehiclePayments />} />
         </Route>
+        <Route path="people/new" element={<NewPerson />} />
         <Route path="payments/all" element={<Payments />} />
         <Route path="payments/schedules" element={<Schedules />} />
         <Route path="*" element={<Error status={404} />} />

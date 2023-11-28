@@ -55,5 +55,5 @@ const { initializeScheduledJobs } = require('./schedulers/paymentScheduler');
 const PORT = parseInt(process.env.PORT) || 3000;
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
-  // initializeScheduledJobs(); // Initialize scheduled tasks
+  initializeScheduledJobs(); // Initialize scheduled tasks
 });

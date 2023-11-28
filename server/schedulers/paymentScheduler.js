@@ -3,7 +3,7 @@ const db = require('../models');
 
 const jobs = {};
 
-const addPayment = async (scheduleId) => {
+const addPayment = async (scheduleId, label) => {
   try {
     // Get all vehicles where schedule matches row.schedule_id
     const vehicles = await db.query(
@@ -13,7 +13,7 @@ const addPayment = async (scheduleId) => {
     // For all vehicles, add a transaction
     for (row of vehicles.rows) {
       await db.query(`INSERT INTO payments (vehicle_id, amount, description)
-      VALUES (${row.id}, 100, 'Scheduled Payment')`);
+      VALUES (${row.id}, 100, '${label})`);
     }
   } catch (error) {
     console.log(error);
@@ -31,12 +31,20 @@ const initializeScheduledJobs = async () => {
       if (row.period === 'H') {
         jobs[row.schedule_id] = schedule.scheduleJob(
           '0 * * * *',
-          async () => await addPayment(row.schedule_id),
+          async () =>
+            await addPayment(
+              row.schedule_id,
+              `${row.period} payment, schedule ${row.schedule_id}`,
+            ),
         );
       } else if (row.period === 'D') {
         jobs[row.schedule_id] = schedule.scheduleJob(
           '0 5 * * *',
-          async () => await addPayment(row.schedule_id),
+          async () =>
+            await addPayment(
+              row.schedule_id,
+              `${row.period} payment, schedule ${row.schedule_id}`,
+            ),
         );
       }
     });

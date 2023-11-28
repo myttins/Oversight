@@ -8,8 +8,7 @@ const peopleController = {
       const queryStr = query.select.personWithId(id);
       const data = await db.query(queryStr);
       res.locals.person = data.rows;
-      // return next();
-      // return res.status(200).json(data.rows)
+      return next();
     } catch (error) {
       return next({
         location: 'Error located in peopleController.getPerson',

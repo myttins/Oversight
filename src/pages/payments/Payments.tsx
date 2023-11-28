@@ -1,8 +1,21 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { MessageBannerContext } from '../../util/MessageBannerContext';
 
-const PaymentsRow: React.FC<any> = ({ payment }) => {
-  const { transaction_id, vehicle_id, amount, desciption, transaction_time } =
+interface Payment {
+  transaction_id: string;
+  vehicle_id: number;
+  amount: number;
+  description: string;
+  transaction_time: string;
+}
+
+type PaymentRowProps = {
+  payment: Payment
+}
+
+const PaymentsRow: React.FC<PaymentRowProps> = ({ payment }) => {
+  const { transaction_id, vehicle_id, amount, description, transaction_time } =
     payment;
 
   return (
@@ -10,14 +23,15 @@ const PaymentsRow: React.FC<any> = ({ payment }) => {
       <span className="w-1/6">{transaction_id}</span>
       <span className="w-1/6">{vehicle_id}</span>
       <span className="w-1/6">{amount}</span>
-      <span className="w-1/6">{desciption}</span>
+      <span className="w-1/6">{description}</span>
       <span className="w-2/6">{transaction_time}</span>
     </div>
   );
 };
 
 const Payments = () => {
-  const [paymentsData, setPaymentsData] = useState([]);
+  const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
+  const { showBanner } = useContext(MessageBannerContext);
 
   const fetchAndSetPayments = async () => {
     try {
@@ -25,6 +39,7 @@ const Payments = () => {
       setPaymentsData(response.data);
     } catch (error) {
       console.error(error);
+      showBanner({style: 'error', message: 'Fetch failed.'})
     }
   };
   useEffect(() => {
@@ -43,7 +58,7 @@ const Payments = () => {
         <span className="w-2/6">TIME</span>
       </div>
       {paymentsData.map((payment) => (
-        <PaymentsRow payment={payment} />
+        <PaymentsRow key={payment.transaction_id} payment={payment} />
       ))}
     </div>
   );

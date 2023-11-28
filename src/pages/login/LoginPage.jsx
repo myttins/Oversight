@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { useLogin } from '../../contexts/LoginContext';
 
-type LoginPageAlertProps = {
-  message: string;
-};
-const LoginPageAlert: React.FC<LoginPageAlertProps> = ({ message }) => {
+const LoginPageAlert = ({ message }) => {
   return <div className="border bg-red-300">{message}</div>;
 };
 
@@ -15,18 +13,24 @@ const Login = () => {
     password: '',
   });
 
+  const {isLoggedIn, setIsLoggedIn} = useLogin();
   const [errorMessage, setErrorMessage] = useState('');
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/')
+    }
+  }, [])
 
   const handleLoginFormSubmit = async () => {
     if (!credentials.username || !credentials.password) {
       setErrorMessage('Invalid input.');
       return;
     }
-
     try {
       await axios.post('/api/auth/login', credentials);
+      setIsLoggedIn(true)
       navigate('/');
     } catch (err) {
       setErrorMessage('Login Failed');
@@ -34,10 +38,10 @@ const Login = () => {
   };
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="w-96 h-96 mt-10 p-4 flex flex-col bg-white">
+      <div className="w-96 h-60 mt-10 p-4 flex flex-col bg-white">
         <h1>LOGIN</h1>
         <input
-          className="my-2 border px-4 py-1 focus:outline"
+          className="my-2 border px-4 py-1"
           value={credentials.username}
           placeholder="username"
           onChange={(e) =>

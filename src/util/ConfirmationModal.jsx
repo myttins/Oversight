@@ -1,7 +1,6 @@
 import React from 'react';
 
-const ConfirmationPopUp = ({isOpen, onClose, onConfirm, message}) => {
-
+const ConfirmationPopUp = ({ isOpen, onClose, onConfirm, message }) => {
   if (!isOpen) return null;
 
   return (
@@ -10,17 +9,16 @@ const ConfirmationPopUp = ({isOpen, onClose, onConfirm, message}) => {
       onClick={(e) => e.stopPropagation()}
     >
       <div
-        className="bg-white relative w-96 h-60 p-4"
+        className="bg-white relative w-96 h-40 p-4 flex flex-col justify-between"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          className="btn absolute top-4 right-4"
-          onClick={onClose}
-        >
-          X
-        </button>
-        <div className="mt-20 flex justify-around">{message}</div>
-        <div className="w-full flex justify-between mt-20">
+        <div>
+          <button className="btn absolute top-4 right-4" onClick={onClose}>
+            X
+          </button>
+        </div>
+        <div className="flex justify-around items-center">{message}</div>
+        <div className="w-full flex justify-between">
           <button className="btn" onClick={onClose}>
             CANCEL
           </button>

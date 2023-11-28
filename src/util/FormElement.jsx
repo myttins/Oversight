@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useOutletContext } from 'react-router';
-import translate from '../../../assets/translate';
+import translate from '../assets/translate.js';
+import { useLanguage } from '../contexts/LanguageContext.jsx';
 
 const FormElement = (props) => {
-  const { language } = useOutletContext();
+  const { language } = useLanguage();
 
   const { label, type, options, readOnly, formInfo, setFormInfo } = props;
 
@@ -38,7 +38,6 @@ const FormElement = (props) => {
             className="input w-2/3"
             placeholder={translate[label][0]}
             type={type}
-            readOnly={readOnly}
             value={formInfo[label] || ''}
             onChange={handleChange}
           />
@@ -49,7 +48,6 @@ const FormElement = (props) => {
             className="input w-2/3"
             placeholder={translate[label][0]}
             type={type}
-            readOnly={readOnly}
             value={formInfo[label] || getCurrentDate()}
             onChange={handleChange}
           />
@@ -59,7 +57,6 @@ const FormElement = (props) => {
           <select
             className="input w-2/3"
             value={formInfo[label] || 'GAS'}
-            disabled={readOnly}
             onChange={handleChange}
           >
             {options.map((option) => (
@@ -75,7 +72,6 @@ const FormElement = (props) => {
             className="input w-2/3"
             placeholder={translate[label][0]}
             type={type}
-            readOnly={readOnly}
             value={formInfo[label] || ''}
             onChange={handleChange}
           />
@@ -88,7 +84,11 @@ const FormElement = (props) => {
       <label htmlFor={label} className="w-1/3">
         {language ? translate[label][0] : translate[label][1]}
       </label>
-      {renderInput(type)}
+      {readOnly ? (
+        <span className="w-2/3">{formInfo[label]}</span>
+      ) : (
+        renderInput(type)
+      )}
     </div>
   );
 };

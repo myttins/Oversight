@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
-import { VehicleContext } from '../VehicleContainer.jsx';
 import DeleteUserIcon from '../../../assets/icons/user-xmark.svg';
 
 import axios from 'axios';
@@ -10,7 +9,7 @@ import AddIcon from '../../../assets/icons/plus-square-solid.svg';
 
 const InsurerContainer = ({ insurer, setInsurer }) => {
   const navigate = useNavigate();
-  const vehicleId = useContext(VehicleContext);
+  const vehicleId = useParams();
 
   const handleAddInsurer = () => {
     navigate(`/vehicle/new-insurer?redirect=true&to=vehicle&path=${vehicleId}`);
@@ -51,7 +50,7 @@ const InsurerContainer = ({ insurer, setInsurer }) => {
 const VehicleCard = ({ vehicle, updateContainerState }) => {
   const navigate = useNavigate();
 
-  const vehicleId = useContext(VehicleContext);
+  const vehicleId = useParams();
 
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false);

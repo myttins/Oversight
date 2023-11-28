@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { VehicleContext } from '../VehicleContainer.jsx';
+import { useNavigate, useParams } from 'react-router';
 
 import axios from 'axios';
 
@@ -14,7 +13,7 @@ const PersonContainer = (props) => {
   const { language } = useLanguage();
   const { people, setPeople, driverOrOwner } = props;
 
-  const vehicleId = useContext(VehicleContext);
+  const vehicleId = useParams()
 
   const navigate = useNavigate();
 

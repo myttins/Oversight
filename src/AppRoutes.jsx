@@ -4,8 +4,7 @@ import { Outlet, Route, Routes } from 'react-router';
 import Dashboard from './pages/dashboard/Dashboard';
 import { AllVehicles } from './pages/vehicle/AllVehicles';
 import Search from './pages/vehicle/Search';
-import AddInsurer from './pages/vehicle/insurer/AddInsurer';
-import VehicleContainer from './pages/vehicle/VehicleContainer';
+import AddInsurer from './pages/vehicle/vehicleInfo/AddInsurer';
 import Login from './pages/login/LoginPage';
 import Error from './util/error/Error';
 import Navbar from './util/navbars/Navbar';
@@ -15,6 +14,9 @@ import Payments from './pages/payments/Payments';
 import Schedules from './pages/payments/Schedules';
 import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
+import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
+import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
+import { MessageBannerProvider } from './contexts/MessageBannerContext';
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -35,11 +37,11 @@ const MainLayout = ({ children }) => {
   };
 
   return (
-    <>
-      <ProtectedRoute>
-        <Navbar toggleSidebar={toggleSidebar} />
-        <div className="flex flex-1">
-          <Sidebar isVisible={sidebarVisible} />
+    <ProtectedRoute>
+      <Navbar toggleSidebar={toggleSidebar} />
+      <div className="flex flex-1">
+        <Sidebar isVisible={sidebarVisible} />
+        <MessageBannerProvider>
           <main
             className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
               sidebarVisible ? 'ml-64' : 'ml-0'
@@ -49,9 +51,9 @@ const MainLayout = ({ children }) => {
               <Outlet />
             </div>
           </main>
-        </div>
-      </ProtectedRoute>
-    </>
+        </MessageBannerProvider>
+      </div>
+    </ProtectedRoute>
   );
 };
 
@@ -68,11 +70,10 @@ const AppRoutes = () => {
         <Route path="vehicle/all" element={<AllVehicles />} />
         <Route path="vehicle/search" element={<Search />} />
         <Route path="vehicle/new-insurer" element={<AddInsurer />} />
-        {/* <Route path="vehicle/:id" element={<VehicleContainer />} /> */}
         <Route path="/vehicle/:id" element={<Vehicle />}>
           <Route index element={<Navigate replace to="info" />} />
-          {/* <Route path="info" element={<VehicleInfo />} /> */}
-          {/* <Route path="payments" element={<VehiclePayments />} /> */}
+          <Route path="info" element={<VehicleInfo />} />
+          <Route path="payments" element={<VehiclePayments />} />
         </Route>
         <Route path="payments/all" element={<Payments />} />
         <Route path="payments/schedules" element={<Schedules />} />

@@ -1,15 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-
-// import Error from '../../error/Error';
 import VehicleInfoContainer from './VehicleInfoContainer';
-import PersonContainer from './people/PersonContainer';
-import InsurerContainer from './insurer/InsurerContainer';
+import PersonContainer from './PersonContainer';
+import InsurerContainer from './InsurerContainer';
 
-export const VehicleContext = createContext(null);
-
-const VehicleContainer = () => {
+const VehicleInfo = () => {
   const { id } = useParams();
 
   const [vehicleInfo, setVehicleInfo] = useState({});
@@ -17,20 +13,17 @@ const VehicleContainer = () => {
   const [owner, setOwner] = useState([]);
   const [insurer, setInsurer] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     if (id === 'new') {
-      clearState()
+      clearState();
     } else {
-      fetchVehicleDataAndSetState()
+      fetchVehicleDataAndSetState();
     }
   }, [id]);
 
   const fetchVehicleDataAndSetState = async () => {
     try {
       const response = await axios.get('/api/vehicle/' + id);
-      setIsLoading(false);
       setVehicleInfo(response.data.vehicle);
       setDrivers(response.data.drivers);
       setOwner(response.data.owner);
@@ -47,7 +40,7 @@ const VehicleContainer = () => {
     setDrivers([]);
     setOwner([]);
     setInsurer([]);
-  }
+  };
 
   if (id === 'new') {
     return (
@@ -62,32 +55,25 @@ const VehicleContainer = () => {
   }
 
   return (
-    <VehicleContext.Provider value={id}>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <div>
-          <VehicleInfoContainer
-            vehicleInfo={vehicleInfo}
-            setVehicleInfo={setVehicleInfo}
-            newVehicle={false}
-          />
-          <PersonContainer
-            people={owner}
-            setPeople={setOwner}
-            driverOrOwner={'owner'}
-          />
+    <div>
+      <VehicleInfoContainer
+        vehicleInfo={vehicleInfo}
+        setVehicleInfo={setVehicleInfo}
+        newVehicle={false}
+      />
+      <PersonContainer
+        people={owner}
+        setPeople={setOwner}
+        driverOrOwner={'owner'}
+      />
 
-          <PersonContainer
-            people={drivers}
-            setPeople={setDrivers}
-            driverOrOwner={'driver'}
-          />
-          <InsurerContainer insurer={insurer} setInsurer={setInsurer} />
-        </div>
-      )}
-    </VehicleContext.Provider>
+      <PersonContainer
+        people={drivers}
+        setPeople={setDrivers}
+        driverOrOwner={'driver'}
+      />
+      <InsurerContainer insurer={insurer} setInsurer={setInsurer} />
+    </div>
   );
 };
-
-export default VehicleContainer;
+export default VehicleInfo;

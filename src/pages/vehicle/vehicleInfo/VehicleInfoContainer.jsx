@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router';
 
 import axios from 'axios';
 
-import FormElement from '../../util/FormElement.jsx';
-import translate from '../../assets/translate';
-import ErrorMessage from '../../util/error/ErrorMessage';
-import { MessageBannerContext } from '../../util/MessageBannerContext.tsx';
-import ButtonWithIcon from '../../util/buttons/ButtonWithIcon.jsx';
-import EditIcon from '../../assets/icons/edit.svg';
-import { useLanguage } from '../../contexts/LanguageContext.jsx';
+import FormElement from '../../../util/FormElement.jsx';
+import translate from '../../../assets/translate.js';
+import ErrorMessage from '../../../util/error/ErrorMessage.jsx';
+import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
+import EditIcon from '../../../assets/icons/edit.svg';
+import { useLanguage } from '../../../contexts/LanguageContext.jsx';
+import { MessageBannerContext } from '../../../contexts/MessageBannerContext.jsx';
 
 const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   const { language } = useLanguage();
@@ -64,7 +64,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   };
 
   return (
-    <div className="p-4 bg-white">
+    <div className="p-4 bg-white my-4">
       <div className="flex justify-between">
         <h2>
           {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}

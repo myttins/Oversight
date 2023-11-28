@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { MessageBannerContext } from '../../util/MessageBannerContext';
+import { MessageBannerContext } from '../../contexts/MessageBannerContext';
 import { VehicleRow } from './AllVehicles';
 
 const Search = () => {

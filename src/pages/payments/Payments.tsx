@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { MessageBannerContext } from '../../util/MessageBannerContext';
+import { MessageBannerContext } from '../../contexts/MessageBannerContext';
 
 interface Payment {
   transaction_id: string;

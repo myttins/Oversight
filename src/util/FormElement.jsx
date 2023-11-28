@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useOutletContext } from 'react-router';
 import translate from '../assets/translate.js';
+import { useLanguage } from '../contexts/LanguageContext.jsx';
 
 const FormElement = (props) => {
-  const { language } = useOutletContext();
+  const { language } = useLanguage();
 
   const { label, type, options, readOnly, formInfo, setFormInfo } = props;
 

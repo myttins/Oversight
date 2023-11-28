@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import axios from 'axios';
 
@@ -9,9 +9,10 @@ import ErrorMessage from '../../util/error/ErrorMessage';
 import { MessageBannerContext } from '../../util/MessageBannerContext.tsx';
 import ButtonWithIcon from '../../util/buttons/ButtonWithIcon.jsx';
 import EditIcon from '../../assets/icons/edit.svg';
+import { useLanguage } from '../../contexts/LanguageContext.jsx';
 
 const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
-  const { language } = useOutletContext();
+  const { language } = useLanguage();
   const navigate = useNavigate();
 
   const [readOnly, setReadOnly] = useState(!newVehicle);

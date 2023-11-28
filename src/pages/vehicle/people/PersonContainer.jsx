@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router';
+import { useNavigate } from 'react-router';
 import { VehicleContext } from '../VehicleContainer.jsx';
 
 import axios from 'axios';
@@ -8,9 +8,10 @@ import translate from '../../../assets/translate.js';
 import PersonCard from './PersonCard.jsx';
 import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
 import AddIcon from '../../../assets/icons/plus-square-solid.svg'
+import { useLanguage } from '../../../contexts/LanguageContext.jsx';
 
 const PersonContainer = (props) => {
-  const { language } = useOutletContext();
+  const { language } = useLanguage();
   const { people, setPeople, driverOrOwner } = props;
 
   const vehicleId = useContext(VehicleContext);

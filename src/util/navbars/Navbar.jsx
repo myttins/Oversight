@@ -3,15 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ButtonWithIcon from '../buttons/ButtonWithIcon';
 import MenuIcon from '../../assets/icons/menu_icon.svg';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { useLogin } from '../../contexts/LoginContext';
 
-const Navbar = (props) => {
-  const { language, setLanguage, toggleSidebar } = props;
+const Navbar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
-  const linkStyle = 'pr-4 inline-block hover:underline underline-offset-4';
+  const { language, setLanguage } = useLanguage();
+  const { isLoggedIn, setIsLoggedIn } = useLogin();
 
   const handleLogout = async () => {
     await axios.get('/api/auth/logout');
-    navigate('/login');
+    setIsLoggedIn(false);
   };
   return (
     <div className="z-10 sticky top-0 flex place-content-between align-middle m-auto w-full border-b p-4 bg-white ">

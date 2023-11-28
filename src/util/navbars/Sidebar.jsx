@@ -81,6 +81,7 @@ const Sidebar = ({ isVisible }) => {
           } overflow-hidden`}
         >
           <StyledLink to={'/payments/all'}>ALL PAYMENTS</StyledLink>
+          <StyledLink to={'/payments/new/1'}>NEW PAYMENT TEST</StyledLink>
           <StyledLink to={''}>NEW PAYMENT</StyledLink>
           <StyledLink to={''}>NEW FEE SCHEDULE</StyledLink>
           <StyledLink to={'/payments/schedules'}>ALL SCHEDULES</StyledLink>

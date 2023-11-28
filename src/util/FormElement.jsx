@@ -7,6 +7,12 @@ const FormElement = (props) => {
 
   const { label, type, options, readOnly, formInfo, setFormInfo } = props;
 
+  const labelText = translate[label]
+    ? language
+      ? translate[label][0]
+      : translate[label][1]
+    : label.toUpperCase();
+
   useEffect(() => {
     if (type === 'date' && !formInfo[label]) {
       setFormInfo({ ...formInfo, [label]: getCurrentDate() });
@@ -36,17 +42,33 @@ const FormElement = (props) => {
         return (
           <input
             className="input w-2/3"
-            placeholder={translate[label][0]}
+            placeholder={labelText}
             type={type}
             value={formInfo[label] || ''}
             onChange={handleChange}
+          />
+        );
+      case 'number':
+        return (
+          <input
+            className="input w-2/3"
+            placeholder={labelText}
+            type={'text'}
+            value={formInfo[label] || ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Allow only numbers, both positive and negative
+              if (/^-?\d*$/.test(value)) {
+                handleChange(e);
+              }
+            }}
           />
         );
       case 'date':
         return (
           <input
             className="input w-2/3"
-            placeholder={translate[label][0]}
+            placeholder={labelText}
             type={type}
             value={formInfo[label] || getCurrentDate()}
             onChange={handleChange}
@@ -70,7 +92,7 @@ const FormElement = (props) => {
         return (
           <textarea
             className="input w-2/3"
-            placeholder={translate[label][0]}
+            placeholder={labelText}
             type={type}
             value={formInfo[label] || ''}
             onChange={handleChange}
@@ -82,7 +104,7 @@ const FormElement = (props) => {
   return (
     <div className="flex my-2">
       <label htmlFor={label} className="w-1/3">
-        {language ? translate[label][0] : translate[label][1]}
+        {labelText}
       </label>
       {readOnly ? (
         <span className="w-2/3">{formInfo[label]}</span>

@@ -7,9 +7,9 @@ const VehiclePaymentRow = ({ payment }) => {
   return (
     <div className="flex w-full">
       <span className="w-1/6">{payment.transaction_id}</span>
-      <span className="w-1/6">{payment.description}</span>
+      <span className="w-2/6">{payment.description}</span>
       <span className="w-1/6">{payment.amount}</span>
-      <span className="w-1/6">{payment.transaction_time}</span>
+      <span className="w-2/6">{payment.transaction_time}</span>
     </div>
   );
 };
@@ -35,30 +35,27 @@ const VehiclePayments = () => {
 
   return (
     <div className="p-4 bg-white my-4">
-      <header>
-        {payments.length === 0 ? (
-          <>
-            <h2>BALANCE: 0</h2>
-            <span>NO PAYMENTS</span>
-          </>
-        ) : (
-          <>
-            <h2>BALANCE: {payments[0].total_balance}</h2>
-            <div className="flex w-full">
-              <span className="w-1/6">ID</span>
-              <span className="w-1/6">DESCRIPTION</span>
-              <span className="w-1/6">AMOUNT</span>
-              <span className="w-1/6">DATE</span>
-            </div>
-            {payments.map((payment) => (
-              <VehiclePaymentRow
-                key={payment.transaction_id}
-                payment={payment}
-              />
-            ))}
-          </>
-        )}
+      <header className='flex justify-between'>
+        <h2>
+          BALANCE: {payments.length === 0 ? '0' : payments[0].total_balance}
+        </h2>
+        <button className='btn mx-2'>ADD</button>
       </header>
+      {payments.length === 0 ? (
+        <span>NO PAYMENTS</span>
+      ) : (
+        <>
+          <div className="flex w-full">
+            <span className="w-1/6">ID</span>
+            <span className="w-2/6">DESC.</span>
+            <span className="w-1/6">AMOUNT</span>
+            <span className="w-2/6">DATE</span>
+          </div>
+          {payments.map((payment) => (
+            <VehiclePaymentRow key={payment.transaction_id} payment={payment} />
+          ))}
+        </>
+      )}
     </div>
   );
 };

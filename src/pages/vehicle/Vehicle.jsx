@@ -15,7 +15,7 @@ const Vehicle = ({ plate }) => {
           INFO
         </button>
         <button
-          className="btn"
+          className="btn ml-2"
           onClick={() => navigate(`/vehicle/${id}/payments`)}
         >
           PAYMENTS

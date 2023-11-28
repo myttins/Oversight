@@ -17,6 +17,7 @@ import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
 import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
 import { MessageBannerProvider } from './contexts/MessageBannerContext';
+import NewPayment from './pages/payments/NewPayment';
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -47,7 +48,7 @@ const MainLayout = ({ children }) => {
               sidebarVisible ? 'ml-64' : 'ml-0'
             }`}
           >
-            <div className="w-full border max-w-[900px] min-w-[500px] overflow-auto">
+            <div className="w-full max-w-[900px] min-w-[500px] overflow-auto">
               <Outlet />
             </div>
           </main>
@@ -77,6 +78,7 @@ const AppRoutes = () => {
         </Route>
         <Route path="people/new" element={<NewPerson />} />
         <Route path="payments/all" element={<Payments />} />
+        <Route path="payments/new/:id" element={<NewPayment />} />
         <Route path="payments/schedules" element={<Schedules />} />
         <Route path="*" element={<Error status={404} />} />
       </Route>

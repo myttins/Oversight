@@ -1,7 +1,9 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 // Creating context with a default value
 export const MessageBannerContext = createContext();
+
+export const useMessageBanner = () => useContext(MessageBannerContext);
 
 export const MessageBannerProvider = ({ children }) => {
   const [bannerContent, setBannerContent] = useState({

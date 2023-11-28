@@ -85,15 +85,18 @@ const query = {
     schedules: () => {
       return `SELECT * FROM schedules ORDER BY date_created DESC`;
     },
+    paymentsAndBalanceWithVehicleId: (id) => {
+      return `SELECT p.transaction_id, p.description, p.amount, p.transaction_time, v.total_balance
+      FROM payments p JOIN (SELECT vehicle_id, SUM(amount) as total_balance FROM payments 
+      GROUP BY vehicle_id) v ON p.vehicle_id = v.vehicle_id WHERE p.vehicle_id = ${id}
+      ORDER BY p.transaction_time DESC`
+    }
   },
 };
 
 query.getInsurerWithVehicleId = (id) => {
-  return `SELECT v.id, v.plate
-  FROM vehicles v
-  JOIN vehicle_insurer vo
-  ON v.id = vo.insurer_vehicle_id
-  WHERE vo.vehicle_id=${id}`;
+  return `SELECT v.id, v.plate FROM vehicles v
+  JOIN vehicle_insurer vo ON v.id = vo.insurer_vehicle_id WHERE vo.vehicle_id=${id}`;
 };
 
 query.addInsurer = (vehicleId, insurerId) => {

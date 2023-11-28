@@ -13,7 +13,7 @@ const addPayment = async (scheduleId, label) => {
     // For all vehicles, add a transaction
     for (row of vehicles.rows) {
       await db.query(`INSERT INTO payments (vehicle_id, amount, description)
-      VALUES (${row.id}, 100, '${label})`);
+      VALUES (${row.id}, 100, '${label}')`);
     }
   } catch (error) {
     console.log(error);

@@ -23,7 +23,7 @@ const VehicleInfo = () => {
 
   const fetchVehicleDataAndSetState = async () => {
     try {
-      const response = await axios.get('/api/vehicle/' + id);
+      const response = await axios.get(`/api/vehicle/info/${id}`);
       setVehicleInfo(response.data.vehicle);
       setDrivers(response.data.drivers);
       setOwner(response.data.owner);

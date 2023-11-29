@@ -45,8 +45,9 @@ router.get(
   },
 );
 
+
 router.get(
-  '/:id',
+  '/info/:id',
   authController.verifyTokenFromCookie,
   vehicleController.getVehicleInfoWithId,
   vehicleController.getInsurerWithVehicleId,
@@ -63,6 +64,10 @@ router.get(
     return res.status(200).json(result);
   },
 );
+
+router.get('/:id', vehicleController.getVehicleHeader, (req, res) => {
+  return res.status(200).json(res.locals.data)
+})
 
 router.post('/new', vehicleController.addVehicle, (req, res) => {
   const vehicleId = res.locals.vehicleId;

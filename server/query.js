@@ -66,6 +66,10 @@ const query = {
       JOIN people d ON vd.person_id = d.id JOIN people o ON vo.person_id = o.id GROUP BY o.name, v.id
       HAVING STRING_AGG(d.name, ', ') LIKE '%${name}%' OR o.name LIKE '%${name}%'`;
     },
+    vehicleHeaderInfoWithId: (id) => {
+      return `SELECT id, plate, active, activation_date FROM vehicles 
+      WHERE id=${id}`;
+    },
     vehicleInfoWithId: (id) => {
       return `SELECT * from vehicles WHERE id=${id}`;
     },

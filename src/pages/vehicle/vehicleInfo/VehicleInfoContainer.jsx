@@ -98,13 +98,6 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
       </div>
       <div className="px-4">
         <FormElement
-          label={'plate'}
-          type={'text'}
-          readOnly={!newVehicle}
-          formInfo={vehicleInfo}
-          setFormInfo={setVehicleInfo}
-        />
-        <FormElement
           label={'category'}
           type={'text'}
           readOnly={readOnly}

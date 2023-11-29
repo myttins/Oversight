@@ -1,14 +1,32 @@
 const db = require('../models');
 const query = require('../query');
 
-const vehicleController = {};
+const vehicleController = {
+  getVehicleHeader: async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const queryStr = query.select.vehicleHeaderInfoWithId(id);
+      const data = await db.query(queryStr);
+      if (data.rows.length === 0) {
+        return res.status(404).json({ message: 'Vehicle not found.' });
+      }
+      res.locals.data = data.rows[0];
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in vehicleController.getVehicleHeader',
+        error,
+      });
+    }
+  },
+};
 
 vehicleController.getVehicleInfoWithId = async (req, res, next) => {
   try {
     const queryStr = query.select.vehicleInfoWithId(req.params.id);
     const data = await db.query(queryStr);
     if (data.rows.length === 0) {
-      return res.sendStatus(404);
+      return res.status(404).json({ message: 'Vehicle not found.' });
     }
     res.locals.vehicle = data.rows[0];
     return next();
@@ -97,7 +115,7 @@ vehicleController.addVehicle = async (req, res, next) => {
   try {
     const queryStr = query.insert.newVehicle(req.body);
     const data = await db.query(queryStr);
-    res.locals.vehicleId = data.rows[0].id
+    res.locals.vehicleId = data.rows[0].id;
     return next();
   } catch (error) {
     return next({

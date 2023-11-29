@@ -6,7 +6,9 @@ const jobs = {};
 const addPayment = async (scheduleId, label, amount) => {
   try {
     // Get all vehicles where schedule matches row.schedule_id
-    const vehicles = await db.query(`SELECT id FROM vehicles WHERE vehicles.category = ${scheduleId}`);
+    const vehicles = await db.query(
+      `SELECT id FROM vehicles WHERE category = ${scheduleId} AND active = true`,
+    );
 
     // For all vehicles, add a transaction
     for (row of vehicles.rows) {

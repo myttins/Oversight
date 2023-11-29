@@ -10,14 +10,15 @@ import Error from './util/error/Error';
 import Navbar from './util/navbars/Navbar';
 import Sidebar from './util/navbars/Sidebar';
 import NewPerson from './pages/person/NewPerson';
-import Payments from './pages/payments/Payments';
-import Schedules from './pages/payments/Schedules';
+import AllPayments from './pages/payments/AllPayments';
+import Schedules from './pages/payments/schedules/Schedules';
 import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
 import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
 import { MessageBannerProvider } from './contexts/MessageBannerContext';
-import NewPayment from './pages/payments/NewPayment';
+import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
+import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -75,10 +76,10 @@ const AppRoutes = () => {
           <Route index element={<Navigate replace to="info" />} />
           <Route path="info" element={<VehicleInfo />} />
           <Route path="payments" element={<VehiclePayments />} />
+          <Route path="payments/new" element={<NewVehiclePayment />} />
         </Route>
         <Route path="people/new" element={<NewPerson />} />
-        <Route path="payments/all" element={<Payments />} />
-        <Route path="payments/new/:id" element={<NewPayment />} />
+        <Route path="payments/all" element={<AllPayments />} />
         <Route path="payments/schedules" element={<Schedules />} />
         <Route path="*" element={<Error status={404} />} />
       </Route>

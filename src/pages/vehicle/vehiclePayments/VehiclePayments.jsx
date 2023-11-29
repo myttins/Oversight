@@ -35,7 +35,7 @@ const VehiclePayments = () => {
   }, [id]);
 
   const handleAddPayment = () => {
-    navigate(`/payments/new/${id}`);
+    navigate(`new`);
   };
 
   return (

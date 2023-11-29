@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import FormElement from '../../util/FormElement';
-import { useMessageBanner } from '../../contexts/MessageBannerContext';
+import FormElement from '../../../util/FormElement';
+import { useMessageBanner } from '../../../contexts/MessageBannerContext';
 
 import axios from 'axios';
 
-const NewPayment = () => {
+const NewVehiclePayment = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form, setForm] = useState({});
@@ -27,10 +27,7 @@ const NewPayment = () => {
   };
 
   return (
-    <div className="bg-white p-4">
-      <header>
-        <h2>ADD PAYMENT FOR VEHICLE {id}</h2>
-      </header>
+    <div className="bg-white p-4 my-4">
       <form onSubmit={handleSubmit}>
         <FormElement
           label={'description'}
@@ -54,4 +51,4 @@ const NewPayment = () => {
   );
 };
 
-export default NewPayment;
+export default NewVehiclePayment;

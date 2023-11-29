@@ -2,19 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { MessageBannerContext } from '../../contexts/MessageBannerContext';
 
-interface Payment {
-  transaction_id: string;
-  vehicle_id: number;
-  amount: number;
-  description: string;
-  transaction_time: string;
-}
-
-type PaymentRowProps = {
-  payment: Payment
-}
-
-const PaymentsRow: React.FC<PaymentRowProps> = ({ payment }) => {
+const PaymentsRow = ({ payment }) => {
   const { transaction_id, vehicle_id, amount, description, transaction_time } =
     payment;
 
@@ -29,8 +17,8 @@ const PaymentsRow: React.FC<PaymentRowProps> = ({ payment }) => {
   );
 };
 
-const Payments = () => {
-  const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
+const NewPayments = () => {
+  const [paymentsData, setPaymentsData] = useState([]);
   const { showBanner } = useContext(MessageBannerContext);
 
   const fetchAndSetPayments = async () => {
@@ -64,4 +52,4 @@ const Payments = () => {
   );
 };
 
-export default Payments;
+export default NewPayments;

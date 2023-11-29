@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { MessageBannerContext } from '../../contexts/MessageBannerContext';
+import { MessageBannerContext } from '../../../contexts/MessageBannerContext';
 import axios, { AxiosResponse } from 'axios';
 
 interface Schedule {

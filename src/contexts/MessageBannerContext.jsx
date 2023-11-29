@@ -1,8 +1,38 @@
-// MessageBanner.js
-import React, { useContext } from 'react';
-import { MessageBannerContext } from './MessageBannerContext';
+import React, { createContext, useContext, useState } from 'react';
 
-const MessageBanner = () => {
+// Creating context with a default value
+export const MessageBannerContext = createContext();
+
+export const useMessageBanner = () => useContext(MessageBannerContext);
+
+export const MessageBannerProvider = ({ children }) => {
+  const [bannerContent, setBannerContent] = useState({
+    style: 'neutral',
+  });
+  const [isBannerVisible, setIsBannerVisible] = useState(false);
+
+  const showBanner = (bannerContent, duration = 7000) => {
+    setBannerContent(bannerContent);
+    setIsBannerVisible(true);
+    if (bannerContent.message !== 'Loading') {
+      setTimeout(() => setIsBannerVisible(false), duration);
+    }
+  };
+
+  const hideBanner = () => {
+    setIsBannerVisible(false);
+  };
+
+  return (
+    <MessageBannerContext.Provider
+      value={{ bannerContent, isBannerVisible, showBanner, hideBanner }}
+    >
+      {children}
+    </MessageBannerContext.Provider>
+  );
+};
+
+export const MessageBanner = () => {
   const { bannerContent, isBannerVisible, hideBanner } =
     useContext(MessageBannerContext);
 
@@ -41,5 +71,3 @@ const MessageBanner = () => {
     </div>
   );
 };
-
-export default MessageBanner;

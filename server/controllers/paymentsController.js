@@ -10,16 +10,37 @@ const paymentsController = {
 
       // Format date into YYYY-MM-DD HH:MM
       data.rows.forEach((item) => {
-        item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
+        item.transaction_time = dayjs(item.transaction_time).format(
+          'YYYY-MM-DD HH:mm',
+        );
       });
-
-      
 
       res.locals.data = data.rows;
       return next();
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.getPayments',
+        error,
+      });
+    }
+  },
+  getPaymentsWithVehicleId: async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const queryStr = query.select.paymentsAndBalanceWithVehicleId(id);
+      const data = await db.query(queryStr);
+      data.rows.forEach((item) => {
+        item.transaction_time = dayjs(item.transaction_time).format(
+          'YYYY-MM-DD HH:mm',
+        );
+      });
+
+      res.locals.data = data.rows;
+      return next();
+    } catch (error) {
+      return next({
+        location:
+          'Error located in paymentsController.getPaymentsWithVehicleId',
         error,
       });
     }
@@ -39,6 +60,19 @@ const paymentsController = {
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.getSchedules',
+        error,
+      });
+    }
+  },
+  addPaymentWithVehicleId: async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const queryStr = query.insert.paymentWithVehicleId(id, req.body);
+      const data = await db.query(queryStr);
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in paymentsController.addPaymentWithVehicleId',
         error,
       });
     }

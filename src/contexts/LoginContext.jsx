@@ -7,24 +7,21 @@ const LoginContext = createContext();
 export const useLogin = () => useContext(LoginContext);
 
 export const LoginProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
 
-  const verifyUser = async () => {
-    try {
-      await axios.get('/api/auth');
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error('Authentication failed', error);
-    }
-  };
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/'); // Redirect to dashboard or some protected route
-    }
-  }, [isLoggedIn]);
+    const verifyUser = async () => {
+      try {
+        await axios.get('/api/auth');
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error('Authentication failed', error);
+        setIsLoggedIn(false);
+        navigate('/login')
+      }
+    };
 
-  useEffect(() => {
     verifyUser();
   }, []);
 

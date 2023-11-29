@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { MessageBannerContext } from '../../util/MessageBannerContext.tsx';
 import { useNavigate } from 'react-router';
+import { MessageBannerContext } from '../../contexts/MessageBannerContext';
 
 export const VehicleRow = (props) => {
   const { data } = props;
@@ -54,4 +54,3 @@ export const AllVehicles = () => {
     </div>
   );
 };
-

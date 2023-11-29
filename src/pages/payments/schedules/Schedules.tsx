@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { MessageBannerContext } from '../../util/MessageBannerContext';
+import { MessageBannerContext } from '../../../contexts/MessageBannerContext';
 import axios, { AxiosResponse } from 'axios';
 
 interface Schedule {
@@ -52,7 +52,7 @@ const Schedules: React.FC = () => {
   const fetchData = async () => {
     try {
       showBanner({ style: 'loading' });
-      const response: AxiosResponse = await axios.get(
+      const response = await axios.get(
         '/api/payments/schedules',
       );
       setData(response.data);

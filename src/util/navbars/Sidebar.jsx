@@ -48,12 +48,13 @@ const Sidebar = ({ isVisible }) => {
             openCategory['vehicles'] ? 'max-h-40' : 'max-h-0'
           } overflow-hidden`}
         >
+          <StyledLink to={'/vehicle/1'}>TEST</StyledLink>
           <StyledLink to={'/vehicle/search'}>SEARCH</StyledLink>
-          <StyledLink to={'/vehicle'}>ALL VEHICLES</StyledLink>
+          <StyledLink to={'/vehicle/all'}>ALL VEHICLES</StyledLink>
           <StyledLink to={'/vehicle/new'}>ADD NEW</StyledLink>
         </div>
-
-        <StyledTitle
+        {/* TODO: PEOPLE CATEGORY */}
+        {/* <StyledTitle
           toggle={() => toggleCategory('people')}
           isOpen={openCategory['people']}
         >
@@ -67,8 +68,7 @@ const Sidebar = ({ isVisible }) => {
           <StyledLink to={''}>ALL PEOPLE</StyledLink>
           <StyledLink to={''}>SEARCH</StyledLink>
           <StyledLink to={'/person/new'}>ADD NEW</StyledLink>
-        </div>
-
+        </div> */}
         <StyledTitle
           toggle={() => toggleCategory('payments')}
           isOpen={openCategory['payments']}
@@ -81,11 +81,8 @@ const Sidebar = ({ isVisible }) => {
           } overflow-hidden`}
         >
           <StyledLink to={'/payments/all'}>ALL PAYMENTS</StyledLink>
-          <StyledLink to={''}>NEW PAYMENT</StyledLink>
           <StyledLink to={''}>NEW FEE SCHEDULE</StyledLink>
           <StyledLink to={'/payments/schedules'}>ALL SCHEDULES</StyledLink>
-
-
         </div>
         <StyledTitle
           toggle={() => toggleCategory('admin')}

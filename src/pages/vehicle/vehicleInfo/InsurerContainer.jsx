@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
-import { VehicleContext } from '../VehicleContainer.jsx';
 import DeleteUserIcon from '../../../assets/icons/user-xmark.svg';
 
 import axios from 'axios';
@@ -10,10 +9,10 @@ import AddIcon from '../../../assets/icons/plus-square-solid.svg';
 
 const InsurerContainer = ({ insurer, setInsurer }) => {
   const navigate = useNavigate();
-  const vehicleId = useContext(VehicleContext);
+  const { id } = useParams();
 
   const handleAddInsurer = () => {
-    navigate(`/vehicle/new-insurer?redirect=true&to=vehicle&path=${vehicleId}`);
+    navigate(`/vehicle/new-insurer?redirect=true&to=vehicle&path=${id}`);
   };
 
   const updateContainerState = (type, insurer) => {
@@ -51,7 +50,7 @@ const InsurerContainer = ({ insurer, setInsurer }) => {
 const VehicleCard = ({ vehicle, updateContainerState }) => {
   const navigate = useNavigate();
 
-  const vehicleId = useContext(VehicleContext);
+  const { id } = useParams();
 
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false);
@@ -63,7 +62,7 @@ const VehicleCard = ({ vehicle, updateContainerState }) => {
   const handleDeleteButtonClick = async () => {
     try {
       await axios.delete(
-        `/api/vehicle/insurer/?insurerid=${vehicle.id}&vehicleid=${vehicleId}`,
+        `/api/vehicle/insurer/?insurerid=${vehicle.id}&vehicleid=${id}`,
       );
       updateContainerState('delete', {});
       setConfirmationModalVisible(false);
@@ -75,7 +74,12 @@ const VehicleCard = ({ vehicle, updateContainerState }) => {
   return (
     <div className="border p-4 m-2 flex justify-between">
       <div>
-        <h2 className={'cursor-pointer hover:underline'} onClick={() => navigate(`/vehicle/${vehicle.id}`)}>{vehicle.plate}</h2>
+        <h2
+          className={'cursor-pointer hover:underline'}
+          onClick={() => navigate(`/vehicle/${vehicle.id}`)}
+        >
+          {vehicle.plate}
+        </h2>
       </div>
       <ButtonWithIcon
         alt={'delete'}

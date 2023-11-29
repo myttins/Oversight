@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { MessageBannerContext } from '../../../util/MessageBannerContext';
+
 import { useSearchParams } from 'react-router-dom';
-import { Vehicle } from '../../../types';
 import FormElement from '../../../util/FormElement.jsx';
 
 import axios from 'axios';
+import { MessageBannerContext } from '../../../contexts/MessageBannerContext.jsx';
 
 const AddInsurer = () => {
   const { showBanner, hideBanner } = useContext(MessageBannerContext);
@@ -14,7 +14,7 @@ const AddInsurer = () => {
   const redirect = urlParams.get('redirect');
   const vehicleId = urlParams.get('path');
 
-  const [vehicle, setVehicle] = useState<Vehicle>({
+  const [vehicle, setVehicle] = useState({
     id: '',
     plate: '',
     category: 0,
@@ -28,14 +28,14 @@ const AddInsurer = () => {
     operating_license_no: '',
     notes: '',
   });
-  const [searched, setSearched] = useState<boolean>(false);
+  const [searched, setSearched] = useState(false);
 
   const handleSubmit = async () => {
     try {
       await axios.post(
         `/api/vehicle/insurer?vehicleid=${vehicleId}&insurerid=${vehicle.id}`,
       );
-      navigate(`/vehicle/${vehicleId}`)
+      navigate(`/vehicle/${vehicleId}`);
     } catch (error) {
       console.error(error);
       showBanner({ style: 'error', message: 'Failed to add insurer.' });
@@ -184,7 +184,9 @@ const AddInsurer = () => {
             <button className="btn" onClick={clearInputs}>
               CLEAR
             </button>
-            <button className="btn mx-2" onClick={handleSubmit}>SAVE</button>
+            <button className="btn mx-2" onClick={handleSubmit}>
+              SAVE
+            </button>
           </div>
         </div>
       )}

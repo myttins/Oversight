@@ -157,13 +157,13 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
           formInfo={vehicleInfo}
           setFormInfo={setVehicleInfo}
         />
-        <FormElement
+        {/* <FormElement
           label={'activation_date'}
           type={'date'}
           readOnly={readOnly}
           formInfo={vehicleInfo}
           setFormInfo={setVehicleInfo}
-        />
+        /> */}
         <FormElement
           label={'notes'}
           type={'textarea'}

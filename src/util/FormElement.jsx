@@ -78,7 +78,7 @@ const FormElement = (props) => {
         return (
           <select
             className="input w-2/3"
-            value={formInfo[label] || 'GAS'}
+            value={formInfo[label] || options[0]}
             onChange={handleChange}
           >
             {options.map((option) => (

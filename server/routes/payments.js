@@ -10,6 +10,10 @@ router.get('/schedules', paymentsController.getSchedules, (req, res) => {
   return res.status(200).json(res.locals.data);
 });
 
+router.post('/schedule', paymentsController.addSchedule, (req, res) => {
+  return res.status(200).json({message: 'Schedule added succesfully'})
+})
+
 // Gets all transactions for a given vehicle, including balance
 router.get('/:id', paymentsController.getPaymentsWithVehicleId, (req, res) => {
   return res.status(200).json(res.locals.data);

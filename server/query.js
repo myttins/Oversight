@@ -46,6 +46,11 @@ const query = {
       return `INSERT INTO payments (vehicle_id, description, amount)
       VALUES ('${id}', '${description}', '${amount}')`;
     },
+    schedule: (schedule) => {
+      const { label, amount, expression, description } = schedule;
+      return `INSERT INTO schedules (label, amount, expression, description) 
+      VALUES ('${label}', '${amount}', '${expression}', '${description}')`;
+    },
   },
   select: {
     allVehicleTitles: () => {

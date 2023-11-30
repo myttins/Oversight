@@ -3,11 +3,17 @@ import FormElement from '../../../util/FormElement';
 
 import axios from 'axios';
 import { useMessageBanner } from '../../../contexts/MessageBannerContext';
+import { useNavigate } from 'react-router';
 
 const NewSchedule = () => {
-  const [form, setForm] = useState({ period: 'month', day: 1, frequency: 1 });
+  const [form, setForm] = useState({
+    period: 'month',
+    day: '1',
+    frequency: '1',
+  });
   const [labelAndAmount, setLabelAndAmount] = useState({});
   const { showBanner } = useMessageBanner();
+  const navigate = useNavigate()
 
   const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
   const months = [
@@ -23,7 +29,6 @@ const NewSchedule = () => {
     'NOV',
     'DEC',
   ];
-
 
   const days = [];
   for (let i = 1; i < 32; i++) {
@@ -43,12 +48,17 @@ const NewSchedule = () => {
         expression: expression,
         description: description,
       };
-      await axios.post('/api/payments/schedule', body);
+      const response = await axios.post('/api/payments/schedule', body);
+      showBanner({
+        style: 'success',
+        message: response.data.message,
+      });
+      navigate('/payments/schedules')
     } catch (error) {
       console.error(error);
       showBanner({
         style: 'error',
-        message: error.message || error.response.data.message
+        message: error.message || error.response.data.message,
       });
     }
   };
@@ -84,7 +94,8 @@ const NewSchedule = () => {
       if (!form.day) return false;
     } else if (form.period === 'year') {
       if (form.month === '2' && form.day > '28') return false;
-      if (form.month === ('4' || '6' || '9' || '11') && form.day > '30') return false;
+      if (form.month === ('4' || '6' || '9' || '11') && form.day > '30')
+        return false;
     } else {
       return false;
     }

@@ -16,7 +16,10 @@ import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
 import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
-import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
+import {
+  MessageBanner,
+  MessageBannerProvider,
+} from './contexts/MessageBannerContext';
 import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewSchedule from './pages/payments/schedules/NewSchedule';
@@ -44,19 +47,18 @@ const MainLayout = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex flex-1">
         <Sidebar isVisible={sidebarVisible} />
-
-        <main
-          className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
-            sidebarVisible ? 'ml-64' : 'ml-0'
-          }`}
-        >
-          <div className="w-full max-w-[900px] min-w-[500px] overflow-auto">
-            <MessageBannerProvider>
+        <MessageBannerProvider>
+          <main
+            className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
+              sidebarVisible ? 'ml-64' : 'ml-0'
+            }`}
+          >
+            <div className="w-full max-w-[900px] min-w-[500px] overflow-auto">
               <MessageBanner />
               <Outlet />
-            </MessageBannerProvider>
-          </div>
-        </main>
+            </div>
+          </main>
+        </MessageBannerProvider>
       </div>
     </ProtectedRoute>
   );

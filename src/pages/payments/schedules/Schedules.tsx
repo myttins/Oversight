@@ -51,12 +51,10 @@ const Schedules: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      showBanner({ style: 'loading' });
       const response = await axios.get(
         '/api/payments/schedules',
       );
       setData(response.data);
-      hideBanner();
     } catch (error: unknown) {
       console.error(error);
       // Type narrowing to check if error is an AxiosError

@@ -13,22 +13,10 @@ const NewSchedule = () => {
   });
   const [labelAndAmount, setLabelAndAmount] = useState({});
   const { showBanner } = useMessageBanner();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-  const months = [
-    'JAN',
-    'FEB',
-    'MAR',
-    'APR',
-    'MAY',
-    'JUNE',
-    'JULY',
-    'AUG',
-    'SEPT',
-    'NOV',
-    'DEC',
-  ];
+  const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUNE', 'JULY', 'AUG', 'SEPT', 'NOV', 'DEC'];
 
   const days = [];
   for (let i = 1; i < 32; i++) {
@@ -39,8 +27,7 @@ const NewSchedule = () => {
     try {
       if (!labelAndAmount.label || !labelAndAmount.amount) return;
       if (!validateData(form)) throw Error('Invalid input.');
-      const { expression, description } =
-        generateExpressionAndDescription(form);
+      const { expression, description } = generateExpressionAndDescription(form);
 
       const body = {
         label: labelAndAmount.label,
@@ -49,17 +36,13 @@ const NewSchedule = () => {
         description: description,
       };
       const response = await axios.post('/api/payments/schedule', body);
-      showBanner({
-        style: 'success',
-        message: response.data.message,
-      });
-      navigate('/payments/schedules')
+      showBanner({ style: 'success', message: response.data.message });
+      setTimeout(() => {
+        navigate('/payments/schedules');
+      }, 500);
     } catch (error) {
       console.error(error);
-      showBanner({
-        style: 'error',
-        message: error.message || error.response.data.message,
-      });
+      showBanner({ style: 'error', message: axios.isAxiosError(error) ? error.response.data.message : error.message });
     }
   };
 
@@ -94,8 +77,7 @@ const NewSchedule = () => {
       if (!form.day) return false;
     } else if (form.period === 'year') {
       if (form.month === '2' && form.day > '28') return false;
-      if (form.month === ('4' || '6' || '9' || '11') && form.day > '30')
-        return false;
+      if (form.month === ('4' || '6' || '9' || '11') && form.day > '30') return false;
     } else {
       return false;
     }
@@ -110,9 +92,7 @@ const NewSchedule = () => {
           <div className={outerDivStyle}>
             <div>YEAR</div>
             <span>DESCRIPTION: </span>
-            <span>{`EVERY YEAR ON ${months[form.month - 1] || '__'} ${
-              form.day
-            }`}</span>
+            <span>{`EVERY YEAR ON ${months[form.month - 1] || '__'} ${form.day}`}</span>
             <FormElement
               label={'month'}
               type={'dropdown'}
@@ -125,7 +105,7 @@ const NewSchedule = () => {
             />
             <FormElement
               label={'day'}
-              type="dropdown"
+              type='dropdown'
               options={days}
               readOnly={false}
               formInfo={form}
@@ -138,26 +118,16 @@ const NewSchedule = () => {
           <div className={outerDivStyle}>
             <div>MONTH</div>
             <span>DESCRIPTION: </span>
-            <span>
-              {`EVERY ${form.frequency || '__'} MONTH(S) ON DAY ${
-                form.day || '__'
-              }`}
-            </span>
+            <span>{`EVERY ${form.frequency || '__'} MONTH(S) ON DAY ${form.day || '__'}`}</span>
             <FormElement
               label={'day'}
-              type="dropdown"
+              type='dropdown'
               options={days}
               readOnly={false}
               formInfo={form}
               setFormInfo={setForm}
             />
-            <FormElement
-              label={'frequency'}
-              type="number"
-              readOnly={false}
-              formInfo={form}
-              setFormInfo={setForm}
-            />
+            <FormElement label={'frequency'} type='number' readOnly={false} formInfo={form} setFormInfo={setForm} />
           </div>
         );
       case 'week':
@@ -168,7 +138,7 @@ const NewSchedule = () => {
             <span>{`EVERY ${daysOfWeek[form.day - 1]}`}</span>
             <FormElement
               label={'day'}
-              type="dropdown"
+              type='dropdown'
               options={daysOfWeek.map((day, i) => {
                 return { label: day, value: i + 1 };
               })}
@@ -188,18 +158,18 @@ const NewSchedule = () => {
     }
   };
   return (
-    <div className="bg-white p-4">
+    <div className='bg-white p-4'>
       <h1>NEW SCHEDULE</h1>
       <FormElement
         label={'label'}
-        type="text"
+        type='text'
         readOnly={false}
         formInfo={labelAndAmount}
         setFormInfo={setLabelAndAmount}
       />
       <FormElement
         label={'amount'}
-        type="number"
+        type='number'
         readOnly={false}
         formInfo={labelAndAmount}
         setFormInfo={setLabelAndAmount}
@@ -229,7 +199,7 @@ const NewSchedule = () => {
         HOUR
       </button>
       {renderBox()}
-      <button className="btn" onClick={handleSubmit}>
+      <button className='btn' onClick={handleSubmit}>
         SUBMIT
       </button>
     </div>

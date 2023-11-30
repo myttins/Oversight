@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Outlet, Route, Routes } from 'react-router';
-import Dashboard from './pages/dashboard/Dashboard';
+const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 import { AllVehicles } from './pages/vehicle/AllVehicles';
-import Search from './pages/vehicle/Search';
+const Search = lazy(() => import('./pages/vehicle/Search'));
 import AddInsurer from './pages/vehicle/vehicleInfo/AddInsurer';
 import Login from './pages/login/LoginPage';
 import Error from './util/error/Error';
@@ -16,20 +16,20 @@ import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
 import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
-import {
-  MessageBanner,
-  MessageBannerProvider,
-} from './contexts/MessageBannerContext';
+import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
 import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
-import NewSchedule from './pages/payments/schedules/NewSchedule';
+const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
+
+
+
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
 
   if (!isLoggedIn) {
     // Redirect to the login page if not logged in
-    return <Navigate to="/login" replace />;
+    return <Navigate to='/login' replace />;
   }
 
   return children;
@@ -45,7 +45,7 @@ const MainLayout = () => {
   return (
     <ProtectedRoute>
       <Navbar toggleSidebar={toggleSidebar} />
-      <div className="flex flex-1">
+      <div className='flex flex-1'>
         <Sidebar isVisible={sidebarVisible} />
         <MessageBannerProvider>
           <main
@@ -53,7 +53,7 @@ const MainLayout = () => {
               sidebarVisible ? 'ml-64' : 'ml-0'
             }`}
           >
-            <div className="w-full max-w-[900px] min-w-[500px] overflow-auto">
+            <div className='w-full max-w-[900px] min-w-[500px] overflow-auto'>
               <MessageBanner />
               <Outlet />
             </div>
@@ -66,30 +66,32 @@ const MainLayout = () => {
 
 const AppRoutes = () => {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="vehicle" element={<Vehicle />}>
-          <Route path="vehicle/info" element={<AllVehicles />} />
-          <Route path="vehicle/payments" element={<AllVehicles />} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<MainLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path='vehicle' element={<Vehicle />}>
+            <Route path='vehicle/info' element={<AllVehicles />} />
+            <Route path='vehicle/payments' element={<AllVehicles />} />
+          </Route>
+          <Route path='vehicle/all' element={<AllVehicles />} />
+          <Route path='vehicle/search' element={<Search />} />
+          <Route path='vehicle/new-insurer' element={<AddInsurer />} />
+          <Route path='/vehicle/:id' element={<Vehicle />}>
+            <Route index element={<Navigate replace to='info' />} />
+            <Route path='info' element={<VehicleInfo />} />
+            <Route path='payments' element={<VehiclePayments />} />
+            <Route path='payments/new' element={<NewVehiclePayment />} />
+          </Route>
+          <Route path='people/new' element={<NewPerson />} />
+          <Route path='payments/all' element={<AllPayments />} />
+          <Route path='payments/schedules' element={<Schedules />} />
+          <Route path='payments/schedules/new' element={<NewSchedule />} />
+          <Route path='*' element={<Error status={404} />} />
         </Route>
-        <Route path="vehicle/all" element={<AllVehicles />} />
-        <Route path="vehicle/search" element={<Search />} />
-        <Route path="vehicle/new-insurer" element={<AddInsurer />} />
-        <Route path="/vehicle/:id" element={<Vehicle />}>
-          <Route index element={<Navigate replace to="info" />} />
-          <Route path="info" element={<VehicleInfo />} />
-          <Route path="payments" element={<VehiclePayments />} />
-          <Route path="payments/new" element={<NewVehiclePayment />} />
-        </Route>
-        <Route path="people/new" element={<NewPerson />} />
-        <Route path="payments/all" element={<AllPayments />} />
-        <Route path="payments/schedules" element={<Schedules />} />
-        <Route path="payments/schedules/new" element={<NewSchedule />} />
-        <Route path="*" element={<Error status={404} />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </Suspense>
   );
 };
 

@@ -16,9 +16,10 @@ import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
 import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
-import { MessageBannerProvider } from './contexts/MessageBannerContext';
+import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
 import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
+import NewSchedule from './pages/payments/schedules/NewSchedule';
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -31,7 +32,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
 
   const toggleSidebar = () => {
@@ -43,17 +44,19 @@ const MainLayout = ({ children }) => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex flex-1">
         <Sidebar isVisible={sidebarVisible} />
-        <MessageBannerProvider>
-          <main
-            className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
-              sidebarVisible ? 'ml-64' : 'ml-0'
-            }`}
-          >
-            <div className="w-full max-w-[900px] min-w-[500px] overflow-auto">
+
+        <main
+          className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
+            sidebarVisible ? 'ml-64' : 'ml-0'
+          }`}
+        >
+          <div className="w-full max-w-[900px] min-w-[500px] overflow-auto">
+            <MessageBannerProvider>
+              <MessageBanner />
               <Outlet />
-            </div>
-          </main>
-        </MessageBannerProvider>
+            </MessageBannerProvider>
+          </div>
+        </main>
       </div>
     </ProtectedRoute>
   );
@@ -81,6 +84,7 @@ const AppRoutes = () => {
         <Route path="people/new" element={<NewPerson />} />
         <Route path="payments/all" element={<AllPayments />} />
         <Route path="payments/schedules" element={<Schedules />} />
+        <Route path="payments/schedules/new" element={<NewSchedule />} />
         <Route path="*" element={<Error status={404} />} />
       </Route>
     </Routes>

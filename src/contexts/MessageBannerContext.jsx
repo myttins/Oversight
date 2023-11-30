@@ -14,7 +14,7 @@ export const MessageBannerProvider = ({ children }) => {
   const showBanner = (bannerContent, duration = 7000) => {
     setBannerContent(bannerContent);
     setIsBannerVisible(true);
-    if (bannerContent.message !== 'Loading') {
+    if (bannerContent.style !== 'loading') {
       setTimeout(() => setIsBannerVisible(false), duration);
     }
   };

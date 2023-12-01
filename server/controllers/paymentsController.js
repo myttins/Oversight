@@ -1,6 +1,7 @@
 const db = require('../models');
 const query = require('../query');
 const dayjs = require('dayjs');
+const { scheduleJob } = require('../schedulers/paymentScheduler');
 
 const paymentsController = {
   getPayments: async (req, res, next) => {
@@ -10,9 +11,7 @@ const paymentsController = {
 
       // Format date into YYYY-MM-DD HH:MM
       data.rows.forEach((item) => {
-        item.transaction_time = dayjs(item.transaction_time).format(
-          'YYYY-MM-DD HH:mm',
-        );
+        item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
       });
 
       res.locals.data = data.rows;
@@ -30,17 +29,14 @@ const paymentsController = {
       const queryStr = query.select.paymentsAndBalanceWithVehicleId(id);
       const data = await db.query(queryStr);
       data.rows.forEach((item) => {
-        item.transaction_time = dayjs(item.transaction_time).format(
-          'YYYY-MM-DD HH:mm',
-        );
+        item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
       });
 
       res.locals.data = data.rows;
       return next();
     } catch (error) {
       return next({
-        location:
-          'Error located in paymentsController.getPaymentsWithVehicleId',
+        location: 'Error located in paymentsController.getPaymentsWithVehicleId',
         error,
       });
     }
@@ -68,10 +64,22 @@ const paymentsController = {
     try {
       const queryStr = query.insert.schedule(req.body);
       const data = await db.query(queryStr);
+      res.locals.data = data.rows[0];
       return next()
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.addSchedule',
+        error,
+      });
+    }
+  },
+  addScheduleToJobs: async (req, res, next) => {
+    try {
+      await scheduleJob(res.locals.data)
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in paymentsController.addScheduleToJobs',
         error,
       });
     }

@@ -10,7 +10,7 @@ router.get('/schedules', paymentsController.getSchedules, (req, res) => {
   return res.status(200).json(res.locals.data);
 });
 
-router.post('/schedule', paymentsController.addSchedule, (req, res) => {
+router.post('/schedule', paymentsController.addSchedule, paymentsController.addScheduleToJobs, (req, res) => {
   return res.status(200).json({message: 'Schedule added succesfully'})
 })
 

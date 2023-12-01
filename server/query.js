@@ -49,7 +49,8 @@ const query = {
     schedule: (schedule) => {
       const { label, amount, expression, description } = schedule;
       return `INSERT INTO schedules (label, amount, expression, description) 
-      VALUES ('${label}', '${amount}', '${expression}', '${description}')`;
+      VALUES ('${label}', '${amount}', '${expression}', '${description}') 
+      RETURNING schedule_id, label, amount, expression`;
     },
   },
   select: {

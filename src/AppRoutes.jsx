@@ -19,6 +19,7 @@ import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
 import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
 import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
+import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 
 
@@ -81,7 +82,7 @@ const AppRoutes = () => {
           <Route path='/vehicle/:id' element={<Vehicle />}>
             <Route index element={<Navigate replace to='info' />} />
             <Route path='info' element={<VehicleInfo />} />
-            <Route path='payments' element={<VehiclePayments />} />
+            <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>
           <Route path='people/new' element={<NewPerson />} />

@@ -7,7 +7,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useLogin } from '../../contexts/LoginContext';
 
 const Navbar = ({ toggleSidebar }) => {
-  const navigate = useNavigate();
   const { language, setLanguage } = useLanguage();
   const { isLoggedIn, setIsLoggedIn } = useLogin();
 

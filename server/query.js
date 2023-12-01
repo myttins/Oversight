@@ -95,7 +95,7 @@ const query = {
       return `SELECT * FROM people WHERE id_no = '${id}'`;
     },
     payments: () => {
-      return `SELECT * FROM payments  ORDER BY transaction_time DESC`;
+      return `SELECT * FROM payments ORDER BY transaction_time DESC`;
     },
     schedules: () => {
       return `SELECT * FROM schedules ORDER BY date_created DESC`;
@@ -185,35 +185,3 @@ query.deleteInsurerWithVehicleId = (vehicleid, insurerid) => {
   WHERE vehicle_id='${vehicleid}' AND insurer_vehicle_id='${insurerid}'`;
 };
 module.exports = query;
-
-// query.addPersonToVehicle = (type, personId, vehicleId) => {
-//   return `INSERT INTO ${
-//     type === 'driver' ? 'vehicle_driver' : 'vehicle_owner'
-//   } (vehicle_id, person_id)
-//   VALUES ('${vehicleId}', '${personId}')`;
-// };
-
-// query.addPerson = (personInfo) => {
-//   const {
-//     id,
-//     name,
-//     current_address,
-//     phone_no,
-//     driv_lic_no,
-//     business_lic_no,
-//     service_card_no,
-//   } = personInfo;
-
-//   return `
-//   INSERT INTO people (id, name, current_address, phone_no,
-//       driv_lic_no, business_lic_no, service_card_no)
-//   OVERRIDING SYSTEM VALUE
-//   VALUES ('${id}', '${name}', '${current_address}', '${phone_no}', '${driv_lic_no}',
-//     '${business_lic_no}', '${service_card_no}')`;
-// };
-
-// query.getPerson = (id) => {
-//   return `SELECT *
-//   FROM people
-//   WHERE id=${id}`;
-// };

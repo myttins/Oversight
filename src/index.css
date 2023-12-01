@@ -14,11 +14,11 @@ html {
 }
 
 h1 {
-  @apply text-2xl
+  @apply text-2xl;
 }
 
 h2 {
-  @apply text-xl
+  @apply text-xl;
 }
 
 .btn {
@@ -27,7 +27,7 @@ h2 {
 }
 
 .btn:hover {
-  @apply scale-110
+  @apply scale-110;
 }
 
 .btn-red {
@@ -40,18 +40,17 @@ h2 {
   outline: solid red 2px;
 }
 
-
 .input {
   @apply border;
   @apply px-2;
   @apply uppercase;
 }
-.input:active {
-}
 
-.input:focus{
+.loading {
+  animation: c1 1s linear infinite alternate;
 }
-
-.input:read-only {
-  
+@keyframes c1 {
+  to {
+    opacity: 0;
+  }
 }

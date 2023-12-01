@@ -77,7 +77,8 @@ const NewSchedule = () => {
       if (!form.day) return false;
     } else if (form.period === 'year') {
       if (form.month === '2' && form.day > '28') return false;
-      if (form.month === ('4' || '6' || '9' || '11') && form.day > '30') return false;
+      if (form.month === '4' || form.month === '6' || form.month === '9' || (form.month === '11' && form.day > '30'))
+        return false;
     } else {
       return false;
     }

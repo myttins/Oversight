@@ -6,6 +6,7 @@ const VehicleSchedule = ({ schedules }) => {
   // useParams, useSearchParams
   // contexts
   // useSate
+
   return (
     <div className='bg-white p-4 my-4'>
       <h2>SCHEDULES</h2>
@@ -20,9 +21,8 @@ const VehicleSchedule = ({ schedules }) => {
             <span className='w-2/6'>CREATED</span>
           </div>
           {schedules.map((schedule) => (
-            <ScheduleRow schedule={schedule} />
+            <ScheduleRow key={schedule.schedule_id} schedule={schedule} />
           ))}
-          <ScheduleRow />
         </>
       )}
     </div>

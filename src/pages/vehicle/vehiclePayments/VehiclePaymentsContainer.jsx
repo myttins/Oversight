@@ -19,11 +19,12 @@ const VehiclePaymentsContainer = () => {
   const fetchPaymentsAndSetState = async () => {
     try {
       const response = await axios.get(`/api/payments/${id}`);
-      setPayments(response.data);
+      setPayments(response.data.payments);
+      setSchedules(response.data.schedules);
       setLoading(false);
     } catch (error) {
       console.error(error);
-      showBanner({ style: 'error' });
+      showBanner({ style: 'error'});
     }
   };
 

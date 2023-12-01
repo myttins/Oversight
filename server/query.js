@@ -23,15 +23,7 @@ const query = {
         registration_date, notes, engine_no`;
     },
     person: (person) => {
-      const {
-        id_no,
-        name,
-        phone_no,
-        driv_lic_no,
-        current_address,
-        business_lic_no,
-        service_card_no,
-      } = person;
+      const { id_no, name, phone_no, driv_lic_no, current_address, business_lic_no, service_card_no } = person;
 
       return `INSERT INTO people (id_no, name, phone_no, driv_lic_no, current_address, business_lic_no, service_card_no)
       VALUES ('${id_no}', '${name}', '${phone_no}', '${driv_lic_no}', '${current_address}', '${business_lic_no}', '${service_card_no}')
@@ -94,11 +86,15 @@ const query = {
     personWithId: (id) => {
       return `SELECT * FROM people WHERE id_no = '${id}'`;
     },
-    payments: () => {
-      return `SELECT * FROM payments ORDER BY transaction_time DESC`;
-    },
     schedules: () => {
       return `SELECT * FROM schedules ORDER BY date_created DESC`;
+    },
+    schedulesWithVehicleId: (id) => {
+      return `SELECT s.schedule_id, s.label, s.amount, vs.date_added FROM schedules s JOIN vehicle_schedule vs ON s.schedule_id = vs.schedule_id
+      WHERE vs.vehicle_id = 1 ORDER BY vs.date_added DESC`;
+    },
+    payments: () => {
+      return `SELECT * FROM payments ORDER BY transaction_time DESC`;
     },
     paymentsAndBalanceWithVehicleId: (id) => {
       return `SELECT p.transaction_id, p.description, p.amount, p.transaction_time, v.total_balance
@@ -164,14 +160,7 @@ query.deletePersonWithVehicleId = (type, personid, vehicleid) => {
 };
 
 query.updatePerson = (id, personInfo) => {
-  const {
-    name,
-    current_address,
-    phone_no,
-    driv_lic_no,
-    business_lic_no,
-    service_card_no,
-  } = personInfo;
+  const { name, current_address, phone_no, driv_lic_no, business_lic_no, service_card_no } = personInfo;
 
   return `
   UPDATE people 

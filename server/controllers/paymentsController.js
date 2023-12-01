@@ -32,11 +32,29 @@ const paymentsController = {
         item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
       });
 
-      res.locals.data = data.rows;
+      res.locals.payments = data.rows;
       return next();
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.getPaymentsWithVehicleId',
+        error,
+      });
+    }
+  },
+  getSchedulesWithVehicleId: async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+      const queryStr = query.select.schedulesWithVehicleId(id);
+      const data = await db.query(queryStr);
+      data.rows.forEach((item) => {
+        item.date_created = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
+      });
+      res.locals.schedules = data.rows;
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in paymentsController.getSchedulesWithVehicleId',
         error,
       });
     }
@@ -65,7 +83,7 @@ const paymentsController = {
       const queryStr = query.insert.schedule(req.body);
       const data = await db.query(queryStr);
       res.locals.data = data.rows[0];
-      return next()
+      return next();
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.addSchedule',
@@ -75,7 +93,7 @@ const paymentsController = {
   },
   addScheduleToJobs: async (req, res, next) => {
     try {
-      await scheduleJob(res.locals.data)
+      await scheduleJob(res.locals.data);
       return next();
     } catch (error) {
       return next({

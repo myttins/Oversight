@@ -4,6 +4,7 @@ import axios from 'axios';
 import VehicleInfoContainer from './VehicleInfoContainer';
 import PersonContainer from './PersonContainer';
 import InsurerContainer from './InsurerContainer';
+import Loading from '../../../util/Loading';
 
 const VehicleInfo = () => {
   const { id } = useParams();
@@ -12,6 +13,8 @@ const VehicleInfo = () => {
   const [drivers, setDrivers] = useState([]);
   const [owner, setOwner] = useState([]);
   const [insurer, setInsurer] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id === 'new') {
@@ -28,6 +31,7 @@ const VehicleInfo = () => {
       setDrivers(response.data.drivers);
       setOwner(response.data.owner);
       setInsurer(response.data.insurer);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -45,35 +49,21 @@ const VehicleInfo = () => {
   if (id === 'new') {
     return (
       <div>
-        <VehicleInfoContainer
-          vehicleInfo={vehicleInfo}
-          setVehicleInfo={setVehicleInfo}
-          newVehicle={true}
-        />
+        <VehicleInfoContainer vehicleInfo={vehicleInfo} setVehicleInfo={setVehicleInfo} newVehicle={true} />
       </div>
     );
   }
 
-  return (
-    <div>
-      <VehicleInfoContainer
-        vehicleInfo={vehicleInfo}
-        setVehicleInfo={setVehicleInfo}
-        newVehicle={false}
-      />
-      <PersonContainer
-        people={owner}
-        setPeople={setOwner}
-        driverOrOwner={'owner'}
-      />
+  return loading ? (
+    <Loading />
+  ) : (
+    <>
+      <VehicleInfoContainer vehicleInfo={vehicleInfo} setVehicleInfo={setVehicleInfo} newVehicle={false} />
+      <PersonContainer people={owner} setPeople={setOwner} driverOrOwner={'owner'} />
 
-      <PersonContainer
-        people={drivers}
-        setPeople={setDrivers}
-        driverOrOwner={'driver'}
-      />
+      <PersonContainer people={drivers} setPeople={setDrivers} driverOrOwner={'driver'} />
       <InsurerContainer insurer={insurer} setInsurer={setInsurer} />
-    </div>
+    </>
   );
 };
 export default VehicleInfo;

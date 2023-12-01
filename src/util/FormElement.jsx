@@ -7,15 +7,13 @@ const FormElement = (props) => {
 
   const { label, type, options, readOnly, formInfo, setFormInfo } = props;
 
-  const labelText = translate[label]
-    ? language
-      ? translate[label][0]
-      : translate[label][1]
-    : label.toUpperCase();
+  const labelText = translate[label] ? (language ? translate[label][0] : translate[label][1]) : label.toUpperCase();
 
   useEffect(() => {
     if (type === 'date' && !formInfo[label]) {
       setFormInfo({ ...formInfo, [label]: getCurrentDate() });
+    } else if (type === 'dropdown' && !formInfo[label]) {
+      setFormInfo({ ...formInfo, [label]: options[0].value });
     }
   });
 
@@ -41,7 +39,7 @@ const FormElement = (props) => {
       case 'text':
         return (
           <input
-            className="input w-2/3"
+            className='input w-2/3'
             placeholder={labelText}
             type={type}
             value={formInfo[label] || ''}
@@ -51,7 +49,7 @@ const FormElement = (props) => {
       case 'number':
         return (
           <input
-            className="input w-2/3"
+            className='input w-2/3'
             placeholder={labelText}
             type={'text'}
             value={formInfo[label] || ''}
@@ -67,7 +65,7 @@ const FormElement = (props) => {
       case 'date':
         return (
           <input
-            className="input w-2/3"
+            className='input w-2/3'
             placeholder={labelText}
             type={type}
             value={formInfo[label] || getCurrentDate()}
@@ -76,11 +74,7 @@ const FormElement = (props) => {
         );
       case 'dropdown':
         return (
-          <select
-            className="input w-2/3"
-            value={formInfo[label] || options[0]}
-            onChange={handleChange}
-          >
+          <select className='input w-2/3' value={formInfo[label] || options[0].value} onChange={handleChange}>
             {options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -91,7 +85,7 @@ const FormElement = (props) => {
       case 'textarea':
         return (
           <textarea
-            className="input w-2/3"
+            className='input w-2/3'
             placeholder={labelText}
             type={type}
             value={formInfo[label] || ''}
@@ -102,15 +96,11 @@ const FormElement = (props) => {
   };
 
   return (
-    <div className="flex my-2">
-      <label htmlFor={label} className="w-1/3">
+    <div className='flex my-2'>
+      <label htmlFor={label} className='w-1/3'>
         {labelText}
       </label>
-      {readOnly ? (
-        <span className="w-2/3">{formInfo[label]}</span>
-      ) : (
-        renderInput(type)
-      )}
+      {readOnly ? <span className='w-2/3'>{formInfo[label]}</span> : renderInput(type)}
     </div>
   );
 };

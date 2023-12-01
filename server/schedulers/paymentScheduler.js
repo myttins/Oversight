@@ -29,11 +29,11 @@ const scheduleJob = async (job) => {
 const initializeScheduledJobs = async () => {
   try {
     // Select all rows from fee_schedules table
-    const data = await db.query('SELECT * FROM schedules');
+    const data = await db.query('SELECT * FROM schedules WHERE active = true');
     // For each item in fee_schedule, create a new job and add it to jobs object
     data.rows.forEach((row) => scheduleJob(row));
   } catch (error) {
-    console.error('Error initializing scheduled jobs:', error);
+    console.error('Error in paymentScheduler.initializeScheduledJobs: ', error);
   }
 };
 

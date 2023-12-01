@@ -20,6 +20,7 @@ import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerCo
 import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
+import NewVehicle from './pages/vehicle/vehicleInfo/NewVehicle';
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 
 
@@ -78,6 +79,7 @@ const AppRoutes = () => {
           </Route>
           <Route path='vehicle/all' element={<AllVehicles />} />
           <Route path='vehicle/search' element={<Search />} />
+          <Route path='vehicle/new' element={<NewVehicle />} />
           <Route path='vehicle/new-insurer' element={<AddInsurer />} />
           <Route path='/vehicle/:id' element={<Vehicle />}>
             <Route index element={<Navigate replace to='info' />} />

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router';
 
 import axios from 'axios';
 
@@ -11,11 +10,10 @@ import EditIcon from '../../../assets/icons/edit.svg';
 import { useLanguage } from '../../../contexts/LanguageContext.jsx';
 import { MessageBannerContext } from '../../../contexts/MessageBannerContext.jsx';
 
-const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
+const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo }) => {
   const { language } = useLanguage();
-  const navigate = useNavigate();
 
-  const [readOnly, setReadOnly] = useState(!newVehicle);
+  const [readOnly, setReadOnly] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
   const { showBanner } = useContext(MessageBannerContext);
@@ -28,19 +26,6 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
       showBanner({ style: 'error' });
     }
     setReadOnly(true);
-  };
-
-  const handleAddNewVehicle = async () => {
-    if (!inputIsValid()) return;
-
-    try {
-      const response = await axios.post('/api/vehicle/new', vehicleInfo);
-      const id = response.data.id;
-      navigate(`/vehicle/${id}`);
-    } catch (error) {
-      console.error(error);
-      showBanner({ style: 'error' });
-    }
   };
 
   const inputIsValid = () => {
@@ -64,11 +49,9 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
   };
 
   return (
-    <div className="p-4 bg-white my-4">
-      <div className="flex justify-between">
-        <h2>
-          {language ? translate.vehicle_info[0] : translate.vehicle_info[1]}
-        </h2>
+    <div className='p-4 bg-white my-4'>
+      <div className='flex justify-between'>
+        <h2>{language ? translate.vehicle_info[0] : translate.vehicle_info[1]}</h2>
         {readOnly ? (
           <ButtonWithIcon
             icon={EditIcon}
@@ -79,24 +62,17 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo, newVehicle }) => {
           />
         ) : (
           <div>
-            {!newVehicle && (
-              <button
-                className="btn mx-2"
-                onClick={() => setReadOnly(!readOnly)}
-              >
-                CANCEL
-              </button>
-            )}
-            <button
-              className="btn mx-2"
-              onClick={newVehicle ? handleAddNewVehicle : handleVehicleInfoSave}
-            >
+            <button className='btn mx-2' onClick={() => setReadOnly(!readOnly)}>
+              CANCEL
+            </button>
+
+            <button className='btn mx-2' onClick={handleVehicleInfoSave}>
               SAVE
             </button>
           </div>
         )}
       </div>
-      <div className="px-4">
+      <div className='px-4'>
         <FormElement
           label={'category'}
           type={'text'}

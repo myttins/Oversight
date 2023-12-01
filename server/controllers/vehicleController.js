@@ -19,6 +19,26 @@ const vehicleController = {
       });
     }
   },
+  addVehicle: async (req, res, next) => {
+    try {
+      // check if plate exists already
+      let queryStr = query.select.vehicleInfoWithPlate(req.body.plate)
+      let data = await db.query(queryStr);
+      if (data.rows.length > 0){
+        return res.status(500).json({message: 'Vehicle already exists'})
+      }
+
+      queryStr = query.insert.newVehicle(req.body);
+      data = await db.query(queryStr);
+      res.locals.vehicleId = data.rows[0].id;
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in vehicleController.addVehicle',
+        error,
+      });
+    }
+  },
 };
 
 vehicleController.getVehicleInfoWithId = async (req, res, next) => {
@@ -106,20 +126,6 @@ vehicleController.addInsurer = async (req, res, next) => {
   } catch (error) {
     return next({
       location: 'Error located in vehicleController.addInsurer',
-      error,
-    });
-  }
-};
-
-vehicleController.addVehicle = async (req, res, next) => {
-  try {
-    const queryStr = query.insert.newVehicle(req.body);
-    const data = await db.query(queryStr);
-    res.locals.vehicleId = data.rows[0].id;
-    return next();
-  } catch (error) {
-    return next({
-      location: 'Error located in vehicleController.addVehicle',
       error,
     });
   }

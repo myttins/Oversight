@@ -24,10 +24,13 @@ h2 {
 .btn {
   @apply text-sm font-bold py-1 px-2 rounded;
   @apply bg-black text-white;
+  @apply transition-transform;
+  @apply duration-300;
+  @apply ease-in-out;
 }
 
 .btn:hover {
-  @apply scale-110;
+  @apply translate-y-0.5;
 }
 
 .btn-red {

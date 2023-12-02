@@ -14,6 +14,11 @@ router.get('/schedules/vehicle/:id', paymentsController.getSchedulesMinusExistin
   return res.status(200).json(res.locals.data)
 })
 
+router.post('/schedules/vehicle/:id', paymentsController.addScheduleToVehicle, (req, res) => {
+  return res.status(200).json(res.locals.data)
+})
+
+
 router.post('/schedule', paymentsController.addSchedule, paymentsController.addScheduleToJobs, (req, res) => {
   return res.status(200).json({ message: 'Schedule added succesfully' });
 });

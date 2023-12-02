@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { useMessageBanner } from '../../../contexts/MessageBannerContext';
 import Loading from '../../../util/Loading';
 import Table from '../../../util/Table';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 const NewVehicleSchedule = () => {
+  const navigate = useNavigate();
   const { showBanner } = useMessageBanner();
   const { id } = useParams();
 
@@ -45,6 +46,21 @@ const NewVehicleSchedule = () => {
     fetchData();
   }, []);
 
+  const handleAdd = async () => {
+    if (selectedSchedules.length === 0) return;
+
+    try {
+      const response = await axios.post(`/api/payments/schedules/vehicle/${id}`, selectedSchedules)
+      showBanner({style: 'success', message:'Schedules added'})
+      navigate(`/vehicle/${id}/payments`)
+    } catch (error) {
+      showBanner({
+        style: 'error',
+        message: axios.isAxiosError(error) ? error.response.data.message : 'Internal server error',
+      });
+    }
+  };
+
   if (loading)
     return (
       <div className='bg-white p-4'>
@@ -69,7 +85,7 @@ const NewVehicleSchedule = () => {
             size={{ height: 'h-32' }}
           />
         </div>
-        <button className='btn'>ADD {selectedSchedules.length} SELECTED</button>
+        <button className='btn' onClick={handleAdd}>ADD {selectedSchedules.length} SELECTED</button>
       </div>
       <div className='py-4'>
         <h2>SELECT SCHEDULES</h2>

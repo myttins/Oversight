@@ -23,7 +23,7 @@ const VehicleSchedule = ({ schedules }) => {
 
   return (
     <div className='bg-white p-4 my-4'>
-      <header className='flex justify-between'>
+      <header className='flex justify-between py-4'>
         <h2>SCHEDULES</h2>
         <button className='btn mx-2' onClick={handleAddSchedule}>
           ADD

@@ -44,6 +44,11 @@ const query = {
       VALUES ('${label}', '${amount}', '${expression}', '${description}') 
       RETURNING schedule_id, label, amount, expression`;
     },
+    scheduleToVehicle: (scheduleId, vehicleId) => {
+      return  `INSERT INTO vehicle_schedule (schedule_id, vehicle_id)
+      VALUES (${scheduleId}, ${vehicleId}) 
+      RETURNING schedule_id, vehicle_id, date_added`
+    }
   },
   select: {
     allVehicleTitles: () => {

@@ -18,7 +18,7 @@ const VehiclePayments = ({ payments }) => {
 
   return (
     <div className='p-4 bg-white my-4'>
-      <header className='flex justify-between'>
+      <header className='flex justify-between py-4'>
         <h2>BALANCE: {payments.length === 0 ? '0' : payments[0].total_balance}</h2>
         <button className='btn mx-2' onClick={handleAddPayment}>
           ADD

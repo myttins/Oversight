@@ -124,6 +124,23 @@ const paymentsController = {
       });
     }
   },
+
+  addScheduleToVehicle: async (req, res, next) => {
+    const vehicleId = req.params.id;
+    try {
+      req.body.forEach(async (row) => {
+        const queryStr = query.insert.scheduleToVehicle(row.schedule_id, vehicleId);
+        const data = await db.query(queryStr);
+        res.locals.data = data;
+      });
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in paymentsController.addScheduleToVehicle',
+        error,
+      });
+    }
+  },
   addPaymentWithVehicleId: async (req, res, next) => {
     const { id } = req.params;
     try {

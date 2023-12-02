@@ -48,7 +48,7 @@ router.get(
 
 router.get(
   '/info/:id',
-  authController.verifyTokenFromCookie,
+  // authController.verifyTokenFromCookie,
   vehicleController.getVehicleInfoWithId,
   vehicleController.getInsurerWithVehicleId,
   peopleController.getDriversWithVehicleId,

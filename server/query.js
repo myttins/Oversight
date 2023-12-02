@@ -94,7 +94,8 @@ const query = {
       WHERE vs.vehicle_id = 1 ORDER BY vs.date_added DESC`;
     },
     payments: () => {
-      return `SELECT * FROM payments ORDER BY transaction_time DESC`;
+      return `SELECT p.transaction_id, v.plate as vehicle_id, p.amount, p.description, p.transaction_time FROM payments p
+      JOIN vehicles v ON p.vehicle_id = v.id ORDER BY p.transaction_time DESC`;
     },
     paymentsAndBalanceWithVehicleId: (id) => {
       return `SELECT p.transaction_id, p.description, p.amount, p.transaction_time, v.total_balance

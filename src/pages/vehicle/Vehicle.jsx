@@ -34,7 +34,7 @@ const Vehicle = () => {
           <Loading />
         ) : (
           <>
-            <header className='align-middle flex items-center'>
+            <header className='align-middle flex items-center py-6 px-4'>
               <h1>
                 <span>吉</span>
                 <span className='text-base mr-2'>A</span>

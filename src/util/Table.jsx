@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import SortArrow from '../assets/icons/arrow-separate-vertical.svg';
 
-const Table = ({ columns, data, filter }) => {
+const Table = ({ columns, data, filter, checkbox }) => {
   const widthClasses = {
     1: 'w-1/12',
     2: 'w-2/12',
@@ -13,13 +13,23 @@ const Table = ({ columns, data, filter }) => {
 
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'ascending' });
   const [filters, setFilters] = useState({});
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const handleRowSelection = (index) => {
+    const newSelectedRows = selectedRows.includes(index)
+      ? selectedRows.filter((id) => id !== index)
+      : [...selectedRows, index];
+    setSelectedRows(newSelectedRows);
+  };
 
   const handleSort = (key) => {
+    // Adjusting handleSort to account for special checkbox column
+    let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      setSortConfig({ key, direction: 'descending' });
-    } else {
-      setSortConfig({ key, direction: 'ascending' });
+      direction = 'descending';
     }
+
+    setSortConfig({ key, direction });
   };
 
   const handleFilterChange = (key, value) => {
@@ -41,8 +51,15 @@ const Table = ({ columns, data, filter }) => {
       });
     }
 
-    // Sorting
-    if (sortConfig !== null) {
+    if (sortConfig.key === 'checkbox') {
+      sortedItems.sort((a, b) => {
+        const aChecked = selectedRows.includes(a[columns[0].value]);
+        const bChecked = selectedRows.includes(b[columns[0].value]);
+        if (aChecked && !bChecked) return -1;
+        if (!aChecked && bChecked) return 1;
+        return 0;
+      });
+    } else {
       sortedItems.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
           return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -59,7 +76,9 @@ const Table = ({ columns, data, filter }) => {
 
   return (
     <div className='p-2'>
+      {/* Table filter input boxes */}
       <div className='flex w-full p-2'>
+        {checkbox && <span className='w-6'></span>}
         {filter &&
           columns.map((column, i) => (
             <input
@@ -71,7 +90,15 @@ const Table = ({ columns, data, filter }) => {
             />
           ))}
       </div>
+
+      {/* Table column titles */}
       <div className='flex w-full bg-zinc-100 p-2'>
+        {checkbox && (
+          <span className='w-6 flex items-center justify-between cursor-pointer ' onClick={() => handleSort('checkbox')}>
+            <img className={'h-4'} src={SortArrow} />
+          </span>
+        )}
+
         {columns.map((column, i) => {
           if (column.sort)
             return (
@@ -99,8 +126,18 @@ const Table = ({ columns, data, filter }) => {
       {sortedAndFilteredData.map((row, i) => (
         <div
           key={i}
-          className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:scale-[1.01] hover:bg-zinc-50 transition-transform duration-300'
+          className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300'
         >
+          {checkbox && (
+            <span className='w-6'>
+              <input
+                type='checkbox'
+                onChange={() => handleRowSelection(row[columns[0].value])}
+                checked={selectedRows.includes(row[columns[0].value])}
+                className='mr-2'
+              />
+            </span>
+          )}
           {columns.map((column, i) => (
             <span key={i} className={`${widthClasses[column.width]} px-2 ${column.style || ''}`}>
               {row[column.value]}

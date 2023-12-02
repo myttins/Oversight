@@ -22,6 +22,7 @@ import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 import NewVehicle from './pages/vehicle/vehicleInfo/NewVehicle';
 import Loading from './util/Loading';
+import NewVehicleSchedule from './pages/vehicle/vehiclePayments/NewVehicleSchedule';
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 
 const ProtectedRoute = ({ children }) => {
@@ -36,7 +37,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const MainLayout = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -46,7 +47,7 @@ const MainLayout = () => {
     <ProtectedRoute>
       <Navbar toggleSidebar={toggleSidebar} />
       <div className='flex flex-1'>
-        <Sidebar isVisible={sidebarVisible} />
+        <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible}/>
 
         <MessageBannerProvider>
           {/* To make the main layout resize dynamically, add ${sidebarVisible ? 'ml-64' : 'ml-0'} to main */}
@@ -92,6 +93,7 @@ const AppRoutes = () => {
           <Route path='/vehicle/:id' element={<Vehicle />}>
             <Route index element={<Navigate replace to='info' />} />
             <Route path='info' element={<VehicleInfo />} />
+            <Route path='new-schedule' element={<NewVehicleSchedule />} />
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>

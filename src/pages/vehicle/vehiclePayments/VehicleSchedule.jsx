@@ -1,8 +1,11 @@
 import React from 'react';
 import Table from '../../../util/Table';
+import { useNavigate, useParams } from 'react-router';
 
 const VehicleSchedule = ({ schedules }) => {
-  // navigate
+  const navigate = useNavigate();
+
+  const { id } = useParams();
   // useParams, useSearchParams
   // contexts
   // useSate
@@ -15,8 +18,8 @@ const VehicleSchedule = ({ schedules }) => {
   ];
 
   const handleAddSchedule = () => {
-
-  }
+    navigate(`/vehicle/${id}/new-schedule`);
+  };
 
   return (
     <div className='bg-white p-4 my-4'>

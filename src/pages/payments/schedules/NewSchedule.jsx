@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FormElement from '../../../util/FormElement';
 
 import axios from 'axios';
@@ -67,6 +67,7 @@ const NewSchedule = () => {
     }
   };
 
+  // Validates that inputs are correct, days arent logically impossible (i.e. Feb 31st)
   const validateData = (form) => {
     if (form.period === 'hour') {
       return true;

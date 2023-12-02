@@ -1,16 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
-
-const VehiclePaymentRow = ({ payment }) => {
-  return (
-    <div className='flex w-full'>
-      <span className='w-1/6'>{payment.transaction_id}</span>
-      <span className='w-2/6'>{payment.description}</span>
-      <span className='w-1/6'>{payment.amount}</span>
-      <span className='w-2/6'>{payment.transaction_time}</span>
-    </div>
-  );
-};
+import React from 'react';
+import { useNavigate } from 'react-router';
+import Table from '../../../util/Table';
 
 const VehiclePayments = ({ payments }) => {
   const navigate = useNavigate();
@@ -18,6 +8,13 @@ const VehiclePayments = ({ payments }) => {
   const handleAddPayment = () => {
     navigate(`new`);
   };
+
+  const tableColumns = [
+    { title: 'ID', value: 'transaction_id', width: 2, style: '', sort: true },
+    { title: 'DESCRIPTION', value: 'description', width: 4, style: 'truncate', sort: false },
+    { title: 'AMOUNT', value: 'amount', width: 2, style: '', sort: true },
+    { title: 'DATE', value: 'transaction_time', width: 4, style: 'truncate', sort: true },
+  ];
 
   return (
     <div className='p-4 bg-white my-4'>
@@ -30,17 +27,7 @@ const VehiclePayments = ({ payments }) => {
       {payments.length === 0 ? (
         <span>NO PAYMENTS</span>
       ) : (
-        <>
-          <div className='flex w-full'>
-            <span className='w-1/6'>ID</span>
-            <span className='w-2/6'>DESC.</span>
-            <span className='w-1/6'>AMOUNT</span>
-            <span className='w-2/6'>DATE</span>
-          </div>
-          {payments.map((payment) => (
-            <VehiclePaymentRow key={payment.transaction_id} payment={payment} />
-          ))}
-        </>
+        <Table columns={tableColumns} data={payments} filter={true} />
       )}
     </div>
   );

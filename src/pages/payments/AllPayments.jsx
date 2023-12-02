@@ -11,12 +11,11 @@ const NewPayments = () => {
   const [loading, setLoading] = useState(true);
 
   const tableColumns = [
-    { title: 'ID', value: 'transaction_id', width: 1, style: '', filter: false },
-    { title: 'VEHICLE', value: 'vehicle_id', width: 2, style: 'font-bold', filter: false },
-    { title: 'AMOUNT', value: 'amount', width: 2, style: '', filter: false },
-    { title: 'DESCRIPTION', value: 'description', width: 4, style: '', filter: false },
-    { title: 'TIME', value: 'transaction_time', width: 2, style: 'truncate ', filter: false },
-    { title: '', value: '', width: 1, style: '', filter: false },
+    { title: 'ID', value: 'transaction_id', width: 1, style: '', sort: true },
+    { title: 'VEHICLE', value: 'vehicle_id', width: 2, style: 'font-bold', sort: false },
+    { title: 'AMOUNT', value: 'amount', width: 2, style: '', sort: false },
+    { title: 'DESCRIPTION', value: 'description', width: 4, style: '', sort: false },
+    { title: 'TIME', value: 'transaction_time', width: 3, style: 'truncate ', sort: true },
   ];
 
   const fetchAndSetPayments = async () => {
@@ -40,7 +39,7 @@ const NewPayments = () => {
       <header className='py-6 px-4'>
         <h1>PAYMENTS</h1>
       </header>
-      <Table columns={tableColumns} data={paymentsData} />
+      <Table columns={tableColumns} data={paymentsData} filter={true} />
     </div>
   );
 };

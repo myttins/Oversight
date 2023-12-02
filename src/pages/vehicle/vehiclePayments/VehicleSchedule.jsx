@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScheduleRow } from '../../payments/schedules/Schedules';
+import Table from '../../../util/Table';
 
 const VehicleSchedule = ({ schedules }) => {
   // navigate
@@ -7,23 +7,21 @@ const VehicleSchedule = ({ schedules }) => {
   // contexts
   // useSate
 
+  const tableColumns = [
+    { title: 'ID', value: 'schedule_id', width: 2, style: '', sort: true },
+    { title: 'LABEL', value: 'label', width: 4, style: 'truncate', sort: false },
+    { title: 'AMOUNT', value: 'amount', width: 2, style: '', sort: true },
+    { title: 'CREATED', value: 'date_created', width: 4, style: 'truncate', sort: true },
+  ];
+
   return (
     <div className='bg-white p-4 my-4'>
       <h2>SCHEDULES</h2>
       {!schedules || schedules.length === 0 ? (
         <div>NO SCHEDULES</div>
       ) : (
-        <div className='p-2'>
-          <div className='flex w-full bg-zinc-100 p-2'>
-            <span className='w-1/12 pl-2 font-bold'>ID</span>
-            <span className='w-2/6 pl-2 font-bold'>LABEL</span>
-            <span className='w-1/6 pl-2 font-bold'>AMOUNT</span>
-            <span className='w-2/6'>CREATED</span>
-          </div>
-          {schedules.map((schedule) => (
-            <ScheduleRow key={schedule.schedule_id} schedule={schedule} />
-          ))}
-        </div>
+        <Table columns={tableColumns} data={schedules} filter={false}/>
+
       )}
     </div>
   );

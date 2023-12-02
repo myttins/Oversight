@@ -21,10 +21,8 @@ import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 import NewVehicle from './pages/vehicle/vehicleInfo/NewVehicle';
+import Loading from './util/Loading';
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
-
-
-
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -49,12 +47,16 @@ const MainLayout = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className='flex flex-1'>
         <Sidebar isVisible={sidebarVisible} />
+
         <MessageBannerProvider>
-          <main
-            className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
-              sidebarVisible ? 'ml-64' : 'ml-0'
-            }`}
-          >
+          {/* To make the main layout resize dynamically, add ${sidebarVisible ? 'ml-64' : 'ml-0'} to main */}
+          <main className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full`}>
+            {sidebarVisible ? (
+              <div
+                className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 z-1'
+                onClick={toggleSidebar}
+              ></div>
+            ) : null}
             <div className='w-full max-w-[900px] min-w-[500px] overflow-auto'>
               <MessageBanner />
               <Outlet />
@@ -68,7 +70,13 @@ const MainLayout = () => {
 
 const AppRoutes = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className='p-4 bg-white m-4'>
+          <Loading />
+        </div>
+      }
+    >
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<MainLayout />}>

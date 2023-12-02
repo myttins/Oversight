@@ -14,14 +14,23 @@ const VehicleSchedule = ({ schedules }) => {
     { title: 'CREATED', value: 'date_created', width: 4, style: 'truncate', sort: true },
   ];
 
+  const handleAddSchedule = () => {
+
+  }
+
   return (
     <div className='bg-white p-4 my-4'>
-      <h2>SCHEDULES</h2>
+      <header className='flex justify-between'>
+        <h2>SCHEDULES</h2>
+        <button className='btn mx-2' onClick={handleAddSchedule}>
+          ADD
+        </button>
+      </header>
+
       {!schedules || schedules.length === 0 ? (
         <div>NO SCHEDULES</div>
       ) : (
-        <Table columns={tableColumns} data={schedules} filter={false}/>
-
+        <Table columns={tableColumns} data={schedules} filter={false} />
       )}
     </div>
   );

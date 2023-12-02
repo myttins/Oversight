@@ -38,7 +38,7 @@ const NewVehiclePayment = () => {
         />
         <FormElement
           label={'amount'}
-          type={'number'}
+          type={'decimal'}
           readOnly={false}
           formInfo={form}
           setFormInfo={setForm}

@@ -62,6 +62,23 @@ const FormElement = (props) => {
             }}
           />
         );
+      case 'decimal':
+        return (
+          <input
+            className='input w-2/3'
+            placeholder={labelText}
+            type={'text'}
+            value={formInfo[label] || ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Allow only numbers, both positive and negative
+              if (/^-?\d*(\.\d{0,2})?$/.test(value)) {
+                handleChange(e);
+              }
+            }}
+          />
+        );
+
       case 'date':
         return (
           <input

@@ -13,7 +13,7 @@ const NewPayments = () => {
   const tableColumns = [
     { title: 'ID', value: 'transaction_id', width: 1, style: '', sort: true },
     { title: 'VEHICLE', value: 'vehicle_id', width: 2, style: 'font-bold', sort: false },
-    { title: 'AMOUNT', value: 'amount', width: 2, style: '', sort: false },
+    { title: 'AMOUNT', value: 'amount', width: 2, style: '', sort: true },
     { title: 'DESCRIPTION', value: 'description', width: 4, style: '', sort: false },
     { title: 'TIME', value: 'transaction_time', width: 3, style: 'truncate ', sort: true },
   ];

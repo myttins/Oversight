@@ -9,8 +9,9 @@ const paymentsController = {
       const queryStr = query.select.payments();
       const data = await db.query(queryStr);
 
-      // Format date into YYYY-MM-DD HH:MM
+      // Format date into YYYY-MM-DD HH:MM and converts 
       data.rows.forEach((item) => {
+        item.amount = parseFloat(item.amount);
         item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
       });
 
@@ -29,6 +30,7 @@ const paymentsController = {
       const queryStr = query.select.paymentsAndBalanceWithVehicleId(id);
       const data = await db.query(queryStr);
       data.rows.forEach((item) => {
+        item.amount = parseFloat(item.amount);
         item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
       });
 

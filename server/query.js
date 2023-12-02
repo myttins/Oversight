@@ -93,6 +93,10 @@ const query = {
       return `SELECT s.schedule_id, s.label, s.amount, vs.date_added FROM schedules s JOIN vehicle_schedule vs ON s.schedule_id = vs.schedule_id
       WHERE vs.vehicle_id = 1 ORDER BY vs.date_added DESC`;
     },
+    schedulesMinusExisting: (id) => {
+      return `SELECT s.* FROM schedules s LEFT JOIN vehicle_schedule vs ON s.schedule_id = vs.schedule_id AND vs.vehicle_id = ${id}
+      WHERE vs.vehicle_schedule_id IS NULL;`
+    },
     payments: () => {
       return `SELECT p.transaction_id, v.plate as vehicle_id, p.amount, p.description, p.transaction_time FROM payments p
       JOIN vehicles v ON p.vehicle_id = v.id ORDER BY p.transaction_time DESC`;

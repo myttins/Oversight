@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import SortArrow from '../assets/icons/arrow-separate-vertical.svg';
 
-const Table = ({ columns, data, filter, checkbox }) => {
+const Table = ({ columns, data, filter, checkbox, setChecked, size }) => {
   const widthClasses = {
     1: 'w-1/12',
     2: 'w-2/12',
@@ -20,6 +20,7 @@ const Table = ({ columns, data, filter, checkbox }) => {
       ? selectedRows.filter((id) => id !== index)
       : [...selectedRows, index];
     setSelectedRows(newSelectedRows);
+    setChecked(newSelectedRows);
   };
 
   const handleSort = (key) => {
@@ -75,9 +76,9 @@ const Table = ({ columns, data, filter, checkbox }) => {
   }, [data, sortConfig, filters]);
 
   return (
-    <div className='p-2'>
+    <div>
       {/* Table filter input boxes */}
-      <div className='flex w-full p-2'>
+      <div className='flex w-full'>
         {checkbox && <span className='w-6'></span>}
         {filter &&
           columns.map((column, i) => (
@@ -86,7 +87,7 @@ const Table = ({ columns, data, filter, checkbox }) => {
               value={filters[column.value] || ''}
               placeholder={'Filter'}
               onChange={(e) => handleFilterChange(column.value, e.target.value)}
-              className={`input ${widthClasses[column.width]} mr-2`}
+              className={`input ${widthClasses[column.width]} mr-2 mb-2`}
             />
           ))}
       </div>
@@ -94,7 +95,10 @@ const Table = ({ columns, data, filter, checkbox }) => {
       {/* Table column titles */}
       <div className='flex w-full bg-zinc-100 p-2'>
         {checkbox && (
-          <span className='w-6 flex items-center justify-between cursor-pointer ' onClick={() => handleSort('checkbox')}>
+          <span
+            className='w-6 flex items-center justify-between cursor-pointer '
+            onClick={() => handleSort('checkbox')}
+          >
             <img className={'h-4'} src={SortArrow} />
           </span>
         )}
@@ -123,28 +127,31 @@ const Table = ({ columns, data, filter, checkbox }) => {
         })}
       </div>
 
-      {sortedAndFilteredData.map((row, i) => (
-        <div
-          key={i}
-          className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300'
-        >
-          {checkbox && (
-            <span className='w-6'>
-              <input
-                type='checkbox'
-                onChange={() => handleRowSelection(row[columns[0].value])}
-                checked={selectedRows.includes(row[columns[0].value])}
-                className='mr-2'
-              />
-            </span>
-          )}
-          {columns.map((column, i) => (
-            <span key={i} className={`${widthClasses[column.width]} px-2 ${column.style || ''}`}>
-              {row[column.value]}
-            </span>
-          ))}
-        </div>
-      ))}
+      {/* Table rows */}
+      <div className={size ? `${size.height} overflow-scroll` : ''}>
+        {sortedAndFilteredData.map((row, i) => (
+          <div
+            key={i}
+            className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300'
+          >
+            {checkbox && (
+              <span className='w-6'>
+                <input
+                  type='checkbox'
+                  onChange={() => handleRowSelection(row[columns[0].value])}
+                  checked={selectedRows.includes(row[columns[0].value])}
+                  className='mr-2'
+                />
+              </span>
+            )}
+            {columns.map((column, i) => (
+              <span key={i} className={`${widthClasses[column.width]} px-2 ${column.style || ''}`}>
+                {row[column.value]}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

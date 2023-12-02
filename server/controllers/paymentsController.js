@@ -9,7 +9,7 @@ const paymentsController = {
       const queryStr = query.select.payments();
       const data = await db.query(queryStr);
 
-      // Format date into YYYY-MM-DD HH:MM and converts 
+      // Format date into YYYY-MM-DD HH:MM and converts
       data.rows.forEach((item) => {
         item.amount = parseFloat(item.amount);
         item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
@@ -68,6 +68,7 @@ const paymentsController = {
 
       // Format date int YYYY-MM-DD
       data.rows.forEach((item) => {
+        item.amount = parseFloat(item.amount);
         item.date_created = dayjs(item.date_created).format('YYYY-MM-DD');
       });
 
@@ -76,6 +77,25 @@ const paymentsController = {
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.getSchedules',
+        error,
+      });
+    }
+  },
+  getSchedulesMinusExisting: async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+      const queryStr = query.select.schedulesMinusExisting(id);
+      const data = await db.query(queryStr);
+      data.rows.forEach((item) => {
+        item.amount = parseFloat(item.amount);
+        item.date_created = dayjs(item.transaction_time).format('YYYY-MM-DD');
+      });
+      res.locals.data = data.rows;
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in paymentsController.getSchedulesMinusExisting',
         error,
       });
     }

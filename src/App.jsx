@@ -5,7 +5,7 @@ import { LoginProvider } from './contexts/LoginContext';
 
 const App = () => {
   return (
-    <div className="flex flex-col bg-zinc-100">
+    <div className="bg-zinc-100">
       <LoginProvider>
         <LanguageProvider>
           <AppRoutes />

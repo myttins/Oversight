@@ -9,7 +9,7 @@ import Login from './pages/login/LoginPage';
 import Error from './util/error/Error';
 import Navbar from './util/navbars/Navbar';
 import Sidebar from './util/navbars/Sidebar';
-// import NewPerson from './pages/person/NewPerson';
+const NewPerson = lazy(() => import('./pages/person/NewPerson.jsx'));
 import AllPayments from './pages/payments/AllPayments';
 import Schedules from './pages/payments/schedules/Schedules';
 import { useLogin } from './contexts/LoginContext';
@@ -20,7 +20,7 @@ import NewVehiclePayment from './pages/vehicle/vehiclePayments/VehiclePaymentsNe
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 import NewVehicle from './pages/vehicle/vehicleInfo/NewVehicle';
 import Loading from './util/Loading';
-const NewVehicleSchedule = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
+const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 
 const ProtectedRoute = ({ children }) => {
@@ -43,11 +43,12 @@ const MainLayout = () => {
 
   return (
     <ProtectedRoute>
-      <Navbar toggleSidebar={toggleSidebar} />
-      <div className='flex flex-1'>
-        <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible} />
+      <MessageBannerProvider>
+        <Navbar toggleSidebar={toggleSidebar} />
+        {/* <MessageBanner /> */}
+        <div className='flex flex-1'>
+          <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible} />
 
-        <MessageBannerProvider>
           {/* To make the main layout resize dynamically, add ${sidebarVisible ? 'ml-64' : 'ml-0'} to main */}
           <main className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full`}>
             {sidebarVisible ? (
@@ -57,12 +58,11 @@ const MainLayout = () => {
               ></div>
             ) : null}
             <div className='w-full max-w-[900px] min-w-[500px] overflow-auto'>
-              <MessageBanner />
               <Outlet />
             </div>
           </main>
-        </MessageBannerProvider>
-      </div>
+        </div>
+      </MessageBannerProvider>
     </ProtectedRoute>
   );
 };
@@ -80,10 +80,6 @@ const AppRoutes = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path='vehicle' element={<Vehicle />}>
-            <Route path='vehicle/info' element={<AllVehicles />} />
-            <Route path='vehicle/payments' element={<AllVehicles />} />
-          </Route>
           <Route path='vehicle/all' element={<AllVehicles />} />
           <Route path='vehicle/search' element={<Search />} />
           <Route path='vehicle/new' element={<NewVehicle />} />
@@ -91,7 +87,10 @@ const AppRoutes = () => {
           <Route path='/vehicle/:id' element={<Vehicle />}>
             <Route index element={<Navigate replace to='info' />} />
             <Route path='info' element={<VehicleInfo />} />
-            <Route path='new-schedule' element={<NewVehicleSchedule />} />
+            <Route path='new-person' element={<NewPerson />} />
+
+            {/* TODO change route name to manage instead of new-schedule */}
+            <Route path='new-schedule' element={<VehicleScheduleManage />} />
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>

@@ -120,10 +120,6 @@ const paymentsController = {
       const schedulesToAdd = schedulesFromBody.filter((id) => !currentSchedules.includes(id));
       const schedulesToRemove = currentSchedules.filter((id) => !schedulesFromBody.includes(id));
 
-      console.log('schedulesToAdd', schedulesToAdd)
-      console.log('schedulesToRemove', schedulesToRemove)
-
-
       // Step 3: Add new schedules
       for (const scheduleId of schedulesToAdd) {
         await db.query('INSERT INTO vehicle_schedule (schedule_id, vehicle_id) VALUES ($1, $2)', [

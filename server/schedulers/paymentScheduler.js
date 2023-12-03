@@ -16,7 +16,7 @@ const addPayment = async (scheduleId, label, amount) => {
       VALUES (${row.vehicle_id}, ${amount}, '${label}')`);
     }
   } catch (error) {
-    console.log({
+    console.error({
       location: 'Error in paymentScheduler.addPayment',
       error
     });

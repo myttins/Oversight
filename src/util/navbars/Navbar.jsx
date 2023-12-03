@@ -5,38 +5,43 @@ import ButtonWithIcon from '../buttons/ButtonWithIcon';
 import MenuIcon from '../../assets/icons/menu_icon.svg';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useLogin } from '../../contexts/LoginContext';
+import { MessageBanner, useMessageBanner } from '../../contexts/MessageBannerContext';
 
 const Navbar = ({ toggleSidebar }) => {
   const { language, setLanguage } = useLanguage();
   const { isLoggedIn, setIsLoggedIn } = useLogin();
+  const {showBanner} = useMessageBanner()
 
   const handleLogout = async () => {
     await axios.get('/api/auth/logout');
     setIsLoggedIn(false);
   };
   return (
-    <div className="z-10 sticky top-0 flex place-content-between align-middle m-auto w-full border-b p-4 bg-white ">
-      <div className="flex align-middle">
-        <ButtonWithIcon alt={'menu'} icon={MenuIcon} onClick={toggleSidebar} />
-        <Link to={'/'}>
-          <h1 className="mx-4">YINGBIN</h1>
-        </Link>
+    <div className='sticky top-0 z-50'>
+      <div className='z-50 relative flex place-content-between items-center m-auto w-full border-b p-4 bg-white h-[55px]'>
+        <div className='flex'>
+          <ButtonWithIcon alt={'menu'} icon={MenuIcon} onClick={toggleSidebar} />
+          <Link to={'/'}>
+            <h1 className='mx-4'>YINGBIN</h1>
+          </Link>
+        </div>
+        <div>
+          <button
+            className='pr-4 inline-block hover:underline underline-offset-4'
+            onClick={() => {
+              const newLanguage = !language;
+              setLanguage(newLanguage);
+              localStorage.setItem('language', newLanguage);
+            }}
+          >
+            {language ? '中文' : 'English'}
+          </button>
+          <button className='btn mx-2' onClick={handleLogout}>
+            LOGOUT
+          </button>
+        </div>
       </div>
-      <div>
-        <button
-          className="pr-4 inline-block hover:underline underline-offset-4"
-          onClick={() => {
-            const newLanguage = !language;
-            setLanguage(newLanguage);
-            localStorage.setItem('language', newLanguage);
-          }}
-        >
-          {language ? '中文' : 'English'}
-        </button>
-        <button className="btn mx-2" onClick={handleLogout}>
-          LOGOUT
-        </button>
-      </div>
+      <MessageBanner />
     </div>
   );
 };

@@ -10,7 +10,7 @@ const StyledLink = ({ to, toggleVisible, children }) => (
 
 const StyledTitle = ({ toggle, isOpen, children }) => (
   <div
-    className='flex items-center justify-between cursor-pointer px-3 py-1 rounded-md hover:bg-zinc-100'
+    className='flex items-center justify-between cursor-pointer px-3 py-2 rounded-md hover:bg-zinc-200'
     onClick={toggle}
   >
     <p>{children}</p>
@@ -32,7 +32,7 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
     <aside
       className={`z-10 fixed h-full transform ${
         isVisible ? 'translate-x-0' : '-translate-x-full'
-      } transition-transform ease-in-out duration-300 bg-zinc-200 p-2 w-64 overflow-auto`}
+      } transition-transform ease-in-out duration-300 bg-zinc-100 p-2 w-64 overflow-auto`}
     >
       <div className='mb-4'>
         <StyledLink to={'/'}>DASHBOARD</StyledLink>

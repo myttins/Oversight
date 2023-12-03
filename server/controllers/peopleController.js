@@ -46,6 +46,7 @@ peopleController.getOwnerWithVehicleId = async (req, res, next) => {
   }
 };
 
+// Adds person to person database, not attached to vehicle.
 peopleController.addPerson = async (req, res, next) => {
   const person = req.body;
   if (req.query.input === 'true') {
@@ -55,7 +56,6 @@ peopleController.addPerson = async (req, res, next) => {
   try {
     const queryStr = query.insert.person(person);
     const data = await db.query(queryStr);
-    console.log('added person', data.rows);
     res.locals.personId = data.rows[0].id;
     return next();
   } catch (error) {
@@ -66,19 +66,20 @@ peopleController.addPerson = async (req, res, next) => {
   }
 };
 
+// Adds person to a vehicle, either as driver or owner
 peopleController.addPersonToVehicle = async (req, res, next) => {
-  // const personId = req.query.personid;
   const vehicleId = req.query.vehicleid;
   const driverOrOwner = req.query.type;
   const personId = res.locals.personId;
   try {
-    const queryStr = query.insert.personIntoVehicle(
-      driverOrOwner,
-      personId,
-      vehicleId,
+    // Check if person is already added to vehicle
+    const data = await db.query(
+      `SELECT id FROM vehicle_${driverOrOwner} WHERE vehicle_id = ${vehicleId} AND person_id = ${personId}`,
     );
-    const data = await db.query(queryStr);
-    console.log('added person to vehicle', data.rows);
+    if (data.rows.length !== 0) return res.status(409).json({message: 'Person already exists in vehicle'})
+
+    const queryStr = query.insert.personIntoVehicle(driverOrOwner, personId, vehicleId);
+    await db.query(queryStr);
     return next();
   } catch (error) {
     return next({
@@ -93,7 +94,7 @@ peopleController.deletePersonWithVehicleId = async (req, res, next) => {
     const { type, personid, vehicleid } = req.query;
 
     const queryStr = query.deletePersonWithVehicleId(type, personid, vehicleid);
-    const data = await db.query(queryStr);
+    await db.query(queryStr);
     return next();
   } catch (error) {
     return next({

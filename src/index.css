@@ -11,6 +11,7 @@ html {
   /* font-family: 'simplified-chinese'; */
   @apply bg-zinc-300;
   @apply text-sm;
+  @apply text-zinc-900
 }
 
 h1 {

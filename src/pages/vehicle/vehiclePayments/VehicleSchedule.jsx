@@ -12,9 +12,10 @@ const VehicleSchedule = ({ schedules }) => {
 
   const tableColumns = [
     { title: 'ID', value: 'schedule_id', width: 2, style: '', sort: true },
-    { title: 'LABEL', value: 'label', width: 4, style: 'truncate', sort: false },
+    { title: 'LABEL', value: 'label', width: 2, style: 'truncate', sort: false },
+    { title: 'DESC.', value: 'description', width: 4, style: 'truncate', sort: false },
     { title: 'AMOUNT', value: 'amount', width: 2, style: '', sort: true },
-    { title: 'CREATED', value: 'date_created', width: 4, style: 'truncate', sort: true },
+    { title: 'CREATED', value: 'date_created', width: 2, style: 'truncate', sort: true },
   ];
 
   const handleAddSchedule = () => {

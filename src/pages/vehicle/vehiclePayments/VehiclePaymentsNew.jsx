@@ -5,7 +5,7 @@ import { useMessageBanner } from '../../../contexts/MessageBannerContext';
 
 import axios from 'axios';
 
-const NewVehiclePayment = () => {
+const VehiclePaymentsNew = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form, setForm] = useState({});
@@ -27,23 +27,11 @@ const NewVehiclePayment = () => {
   };
 
   return (
-    <div className="bg-white p-4 my-4">
+    <div className='bg-white p-4 my-4'>
       <form onSubmit={handleSubmit}>
-        <FormElement
-          label={'description'}
-          type="text"
-          readOnly={false}
-          formInfo={form}
-          setFormInfo={setForm}
-        />
-        <FormElement
-          label={'amount'}
-          type={'decimal'}
-          readOnly={false}
-          formInfo={form}
-          setFormInfo={setForm}
-        />
-        <button className={'btn'} type="submit">
+        <FormElement label={'description'} type='text' readOnly={false} formInfo={form} setFormInfo={setForm} />
+        <FormElement label={'amount'} type={'decimal'} readOnly={false} formInfo={form} setFormInfo={setForm} />
+        <button className={'btn'} type='submit'>
           SUBMIT
         </button>
       </form>
@@ -51,4 +39,4 @@ const NewVehiclePayment = () => {
   );
 };
 
-export default NewVehiclePayment;
+export default VehiclePaymentsNew;

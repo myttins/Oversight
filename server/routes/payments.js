@@ -14,7 +14,8 @@ router.get('/schedules', paymentsController.getSchedules, (req, res) => {
 //   return res.status(200).json(res.locals.data)
 // })
 
-router.post('/schedules/vehicle/:id', paymentsController.addScheduleToVehicle, (req, res) => {
+// Route to manage schedule additions / deletions on a vehicle
+router.post('/schedules/:id', paymentsController.updateSchedulesForVehicle, (req, res) => {
   return res.status(200).json(res.locals.data)
 })
 

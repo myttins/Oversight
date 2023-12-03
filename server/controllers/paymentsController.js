@@ -106,18 +106,44 @@ const paymentsController = {
     }
   },
 
-  addScheduleToVehicle: async (req, res, next) => {
+  updateSchedulesForVehicle: async (req, res, next) => {
     const vehicleId = req.params.id;
+    const schedulesFromBody = req.body;
     try {
-      req.body.forEach(async (row) => {
-        const queryStr = query.insert.scheduleToVehicle(row.schedule_id, vehicleId);
-        const data = await db.query(queryStr);
-        res.locals.data = data;
-      });
+      // Step 1: Retrieve current schedules for the vehicle
+      const currentSchedulesRes = await db.query(
+        `SELECT schedule_id FROM vehicle_schedule WHERE vehicle_id = ${vehicleId}`,
+      );
+      const currentSchedules = currentSchedulesRes.rows.map((row) => row.schedule_id);
+
+      // Step 2: Find schedules to add and to remove
+      const schedulesToAdd = schedulesFromBody.filter((id) => !currentSchedules.includes(id));
+      const schedulesToRemove = currentSchedules.filter((id) => !schedulesFromBody.includes(id));
+
+      console.log('schedulesToAdd', schedulesToAdd)
+      console.log('schedulesToRemove', schedulesToRemove)
+
+
+      // Step 3: Add new schedules
+      for (const scheduleId of schedulesToAdd) {
+        await db.query('INSERT INTO vehicle_schedule (schedule_id, vehicle_id) VALUES ($1, $2)', [
+          scheduleId,
+          vehicleId,
+        ]);
+      }
+
+      // Step 4: Remove schedules that are not needed
+      for (const scheduleId of schedulesToRemove) {
+        await db.query('DELETE FROM vehicle_schedule WHERE schedule_id = $1 AND vehicle_id = $2', [
+          scheduleId,
+          vehicleId,
+        ]);
+      }
+
       return next();
     } catch (error) {
       return next({
-        location: 'Error located in paymentsController.addScheduleToVehicle',
+        location: 'Error located in paymentsController.updateSchedulesForVehicle',
         error,
       });
     }

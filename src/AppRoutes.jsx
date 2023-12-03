@@ -16,11 +16,11 @@ import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
 import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
-import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
+import NewVehiclePayment from './pages/vehicle/vehiclePayments/VehiclePaymentsNew';
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 import NewVehicle from './pages/vehicle/vehicleInfo/NewVehicle';
 import Loading from './util/Loading';
-const NewVehicleSchedule = lazy(() => import('./pages/vehicle/vehiclePayments/NewVehicleSchedule'));
+const NewVehicleSchedule = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 
 const ProtectedRoute = ({ children }) => {

@@ -9,20 +9,18 @@ import Login from './pages/login/LoginPage';
 import Error from './util/error/Error';
 import Navbar from './util/navbars/Navbar';
 import Sidebar from './util/navbars/Sidebar';
-import NewPerson from './pages/person/NewPerson';
+// import NewPerson from './pages/person/NewPerson';
 import AllPayments from './pages/payments/AllPayments';
 import Schedules from './pages/payments/schedules/Schedules';
 import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
-import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
 import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
-import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 import NewVehicle from './pages/vehicle/vehicleInfo/NewVehicle';
 import Loading from './util/Loading';
-import NewVehicleSchedule from './pages/vehicle/vehiclePayments/NewVehicleSchedule';
+const NewVehicleSchedule = lazy(() => import('./pages/vehicle/vehiclePayments/NewVehicleSchedule'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 
 const ProtectedRoute = ({ children }) => {
@@ -47,7 +45,7 @@ const MainLayout = () => {
     <ProtectedRoute>
       <Navbar toggleSidebar={toggleSidebar} />
       <div className='flex flex-1'>
-        <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible}/>
+        <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible} />
 
         <MessageBannerProvider>
           {/* To make the main layout resize dynamically, add ${sidebarVisible ? 'ml-64' : 'ml-0'} to main */}
@@ -97,7 +95,7 @@ const AppRoutes = () => {
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>
-          <Route path='people/new' element={<NewPerson />} />
+          {/* <Route path='people/new' element={<NewPerson />} /> */}
           <Route path='payments/all' element={<AllPayments />} />
           <Route path='payments/schedules' element={<Schedules />} />
           <Route path='payments/schedules/new' element={<NewSchedule />} />

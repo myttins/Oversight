@@ -27,7 +27,7 @@ const VehiclePayments = ({ payments }) => {
       {payments.length === 0 ? (
         <span>NO PAYMENTS</span>
       ) : (
-        <Table columns={tableColumns} data={payments} filter={true} />
+        <Table columns={tableColumns} data={payments} filter={true}/>
       )}
     </div>
   );

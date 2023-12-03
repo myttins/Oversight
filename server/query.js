@@ -45,10 +45,10 @@ const query = {
       RETURNING schedule_id, label, amount, expression`;
     },
     scheduleToVehicle: (scheduleId, vehicleId) => {
-      return  `INSERT INTO vehicle_schedule (schedule_id, vehicle_id)
+      return `INSERT INTO vehicle_schedule (schedule_id, vehicle_id)
       VALUES (${scheduleId}, ${vehicleId}) 
-      RETURNING schedule_id, vehicle_id, date_added`
-    }
+      RETURNING schedule_id, vehicle_id, date_added`;
+    },
   },
   select: {
     allVehicleTitles: () => {
@@ -95,12 +95,46 @@ const query = {
       return `SELECT * FROM schedules ORDER BY date_created DESC`;
     },
     schedulesWithVehicleId: (id) => {
-      return `SELECT s.schedule_id, s.label, s.amount, vs.date_added FROM schedules s JOIN vehicle_schedule vs ON s.schedule_id = vs.schedule_id
-      WHERE vs.vehicle_id = 1 ORDER BY vs.date_added DESC`;
+      return `SELECT 
+      s.schedule_id,
+      s.label,
+      s.date_created,
+      s.expression,
+      s.description,
+      s.amount,
+      s.active,
+      vs.date_added,
+      CASE 
+          WHEN vs.vehicle_id = ${id} THEN true
+          ELSE false
+          END AS vehicle_match
+      FROM 
+          schedules s
+      LEFT JOIN 
+          vehicle_schedule vs ON s.schedule_id = vs.schedule_id AND vs.active = true
+      WHERE 
+          s.active = true;`;
     },
-    schedulesMinusExisting: (id) => {
-      return `SELECT s.* FROM schedules s LEFT JOIN vehicle_schedule vs ON s.schedule_id = vs.schedule_id AND vs.vehicle_id = ${id}
-      WHERE vs.vehicle_schedule_id IS NULL;`
+    scheduleWithVehicleId2: (id) => {
+      return `SELECT 
+      s.schedule_id,
+      s.label,
+      s.date_created,
+      s.expression,
+      s.description,
+      s.amount,
+      s.active,
+      vs.date_added,
+      CASE 
+          WHEN vs.vehicle_id = ${id} THEN true
+          ELSE false
+          END AS vehicle_match
+      FROM 
+          schedules s
+      LEFT JOIN 
+          vehicle_schedule vs ON s.schedule_id = vs.schedule_id AND vs.active = true
+      WHERE 
+          s.active = true;`;
     },
     payments: () => {
       return `SELECT p.transaction_id, v.plate as vehicle_id, p.amount, p.description, p.transaction_time FROM payments p

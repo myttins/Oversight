@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import SortArrow from '../assets/icons/arrow-separate-vertical.svg';
 
-const Table = ({ columns, data, filter, checkbox, setChecked, size }) => {
+const Table = ({ columns, data, filter, checkbox, size, setData }) => {
   const widthClasses = {
     1: 'w-1/12',
     2: 'w-2/12',
@@ -13,14 +13,15 @@ const Table = ({ columns, data, filter, checkbox, setChecked, size }) => {
 
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'ascending' });
   const [filters, setFilters] = useState({});
-  const [selectedRows, setSelectedRows] = useState([]);
 
-  const handleRowSelection = (index) => {
-    const newSelectedRows = selectedRows.includes(index)
-      ? selectedRows.filter((id) => id !== index)
-      : [...selectedRows, index];
-    setSelectedRows(newSelectedRows);
-    setChecked(newSelectedRows);
+  const handleCheck = (id) => {
+    const newData = [...data];
+    newData.forEach((item) => {
+      if (item[columns[0].value] === id) {
+        item.checked === true ? (item.checked = false) : (item.checked = true);
+      }
+    });
+    setData(newData);
   };
 
   const handleSort = (key) => {
@@ -54,10 +55,8 @@ const Table = ({ columns, data, filter, checkbox, setChecked, size }) => {
 
     if (sortConfig.key === 'checkbox') {
       sortedItems.sort((a, b) => {
-        const aChecked = selectedRows.includes(a[columns[0].value]);
-        const bChecked = selectedRows.includes(b[columns[0].value]);
-        if (aChecked && !bChecked) return -1;
-        if (!aChecked && bChecked) return 1;
+        if (a.checked && !b.checked) return -1;
+        if (!a.checked && b.checked) return 1;
         return 0;
       });
     } else {
@@ -138,8 +137,8 @@ const Table = ({ columns, data, filter, checkbox, setChecked, size }) => {
               <span className='w-6'>
                 <input
                   type='checkbox'
-                  onChange={() => handleRowSelection(row[columns[0].value])}
-                  checked={selectedRows.includes(row[columns[0].value])}
+                  onChange={() => handleCheck(row[columns[0].value])}
+                  checked={row.checked === true}
                   className='mr-2'
                 />
               </span>

@@ -39,7 +39,7 @@ const NewPayments = () => {
       <header className='py-6 px-4'>
         <h1>PAYMENTS</h1>
       </header>
-      <Table columns={tableColumns} data={paymentsData} filter={true} />
+      <Table columns={tableColumns} data={paymentsData} setData={setPaymentsData} filter={true} checkbox={true}/>
     </div>
   );
 };

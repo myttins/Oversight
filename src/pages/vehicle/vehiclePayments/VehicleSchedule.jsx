@@ -26,7 +26,7 @@ const VehicleSchedule = ({ schedules }) => {
       <header className='flex justify-between py-4'>
         <h2>SCHEDULES</h2>
         <button className='btn mx-2' onClick={handleAddSchedule}>
-          ADD
+          MANAGE
         </button>
       </header>
 

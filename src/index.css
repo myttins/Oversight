@@ -27,6 +27,19 @@ h2 {
   @apply transition-transform;
   @apply duration-300;
   @apply ease-in-out;
+  @apply border border-black border-2
+}
+
+.btn-lte {
+  @apply text-sm font-bold py-1 px-2 rounded;
+  @apply bg-white text-black;
+  @apply transition-transform;
+  @apply duration-300;
+  @apply ease-in-out;
+  @apply border border-black border-2
+}
+.btn-lte:hover {
+  @apply translate-y-0.5;
 }
 
 .btn:hover {

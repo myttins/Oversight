@@ -50,7 +50,7 @@ const paymentsController = {
       const queryStr = query.select.schedulesWithVehicleId(id);
       const data = await db.query(queryStr);
       data.rows.forEach((item) => {
-        item.date_created = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
+        item.date_created = dayjs(item.date_created).format('YYYY-MM-DD HH:mm');
       });
       res.locals.schedules = data.rows;
       return next();
@@ -77,25 +77,6 @@ const paymentsController = {
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.getSchedules',
-        error,
-      });
-    }
-  },
-  getSchedulesMinusExisting: async (req, res, next) => {
-    const { id } = req.params;
-
-    try {
-      const queryStr = query.select.schedulesMinusExisting(id);
-      const data = await db.query(queryStr);
-      data.rows.forEach((item) => {
-        item.amount = parseFloat(item.amount);
-        item.date_created = dayjs(item.transaction_time).format('YYYY-MM-DD');
-      });
-      res.locals.data = data.rows;
-      return next();
-    } catch (error) {
-      return next({
-        location: 'Error located in paymentsController.getSchedulesMinusExisting',
         error,
       });
     }

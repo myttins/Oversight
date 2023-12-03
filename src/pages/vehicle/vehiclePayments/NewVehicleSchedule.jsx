@@ -7,13 +7,18 @@ import Table from '../../../util/Table';
 import { useNavigate, useParams } from 'react-router';
 
 const NewVehicleSchedule = () => {
+  /**
+   * get all schedules, get vehicle 1 schedules
+   * all schedules is all, with existing checked
+   * selected
+   */
   const navigate = useNavigate();
   const { showBanner } = useMessageBanner();
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
   const [schedules, setSchedules] = useState([]);
-  const [checkedIds, setCheckedIds] = useState([]);
+  // const [checkedIds, setCheckedIds] = useState([]);
 
   const tableColumns = [
     { title: 'ID', value: 'schedule_id', width: 1, style: '', sort: true },
@@ -23,12 +28,16 @@ const NewVehicleSchedule = () => {
     { title: 'CREATED', value: 'date_created', width: 3, style: 'truncate', sort: true },
   ];
 
-  const selectedSchedules = schedules.filter((schedule) => checkedIds.includes(schedule[tableColumns[0].value]));
+  // const selectedSchedules = schedules.filter((schedule) => checkedIds.includes(schedule[tableColumns[0].value]));
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`/api/payments/schedules/vehicle/${id}`);
-      setSchedules(response.data);
+      const response = await axios.get(`/api/payments/${id}`);
+      const modifiedSchedules = response.data.schedules;
+      modifiedSchedules.forEach((item) => {
+        if (item.vehicle_match === true) item.checked = true;
+      });
+      setSchedules(modifiedSchedules);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -47,18 +56,18 @@ const NewVehicleSchedule = () => {
   }, []);
 
   const handleAdd = async () => {
-    if (selectedSchedules.length === 0) return;
+    const body = schedules.filter((schedule) => schedule.checked === true)
 
-    try {
-      const response = await axios.post(`/api/payments/schedules/vehicle/${id}`, selectedSchedules)
-      showBanner({style: 'success', message:'Schedules added'})
-      navigate(`/vehicle/${id}/payments`)
-    } catch (error) {
-      showBanner({
-        style: 'error',
-        message: axios.isAxiosError(error) ? error.response.data.message : 'Internal server error',
-      });
-    }
+    // try {
+    //   const response = await axios.post(`/api/payments/schedules/vehicle/${id}`, selectedSchedules);
+    //   showBanner({ style: 'success', message: 'Schedules added' });
+    //   navigate(`/vehicle/${id}/payments`);
+    // } catch (error) {
+    //   showBanner({
+    //     style: 'error',
+    //     message: axios.isAxiosError(error) ? error.response.data.message : 'Internal server error',
+    //   });
+    // }
   };
 
   if (loading)
@@ -71,25 +80,36 @@ const NewVehicleSchedule = () => {
   return (
     <div className='bg-white p-4 my-4 h-'>
       <header>
-        <h2>ADD SCHEDULE TO VEHICLE</h2>
+        <h2>MANAGE SCHEDULES</h2>
       </header>
       <div className='py-4'>
         <h2>SELECTED</h2>
-
-        <div className='border my-2'>
+        <div className='my-2'>
           <Table
             columns={tableColumns}
-            data={selectedSchedules}
+            data={schedules.filter((schedule) => schedule.checked === true)}
             filter={false}
             checkbox={false}
             size={{ height: 'h-32' }}
           />
         </div>
-        <button className='btn' onClick={handleAdd}>ADD {selectedSchedules.length} SELECTED</button>
       </div>
       <div className='py-4'>
-        <h2>SELECT SCHEDULES</h2>
-        <Table columns={tableColumns} data={schedules} filter={true} checkbox={true} setChecked={setCheckedIds} />
+        <h2>ALL</h2>
+        <div className='my-2'>
+          <Table
+            columns={tableColumns}
+            data={schedules}
+            setData={setSchedules}
+            filter={true}
+            checkbox={true}
+            size={{ height: 'h-32' }}
+          />
+        </div>
+      </div>
+      <div className='flex justify-end'>
+        <button className='btn-lte mx-2'>CANCEL</button>
+        <button className='btn'>SAVE</button>
       </div>
     </div>
   );

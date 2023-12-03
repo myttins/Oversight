@@ -51,12 +51,12 @@ const NewSchedule = () => {
       return { expression: `0 * * * *`, description: 'EVERY HOUR' };
     } else if (form.period === 'month') {
       return {
-        expression: `0 0 0 ${form.day} 1/${form.frequency} * *`,
+        expression: `0 0 ${form.day} */${form.frequency} *`,
         description: `EVERY ${form.frequency} MONTH(S) ON DAY ${form.day}`,
       };
     } else if (form.period === 'week') {
       return {
-        expression: `0 0 0 * * ${form.day}`,
+        expression: `0 0 * * ${form.day}`,
         description: `EVERY WEEK ON ${daysOfWeek[form.day - 1]}`,
       };
     } else if (form.period === 'year') {

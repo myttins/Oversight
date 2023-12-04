@@ -23,6 +23,7 @@ import Loading from './util/Loading';
 import VehicleInsuranceContainer from './pages/vehicle/vehicleInsurance/VehicleInsuranceContainer';
 const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
+const Person = lazy(() => import('./pages/person/Person'))
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -51,7 +52,7 @@ const MainLayout = () => {
           <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible} />
 
           {/* To make the main layout resize dynamically, add ${sidebarVisible ? 'ml-64' : 'ml-0'} to main */}
-          <main className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full`}>
+          <main className={`flex justify-center relative overflow-auto transition-all duration-300 w-full`}>
             {sidebarVisible ? (
               <div
                 className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 z-1'
@@ -72,7 +73,7 @@ const AppRoutes = () => {
   return (
     <Suspense
       fallback={
-        <div className='p-4 bg-white m-4'>
+        <div className='box-white'>
           <Loading />
         </div>
       }
@@ -96,7 +97,7 @@ const AppRoutes = () => {
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>
-          {/* <Route path='people/new' element={<NewPerson />} /> */}
+          <Route path='person/:id' element={<Person />} />
           <Route path='payments/all' element={<AllPayments />} />
           <Route path='payments/schedules' element={<Schedules />} />
           <Route path='payments/schedules/new' element={<NewSchedule />} />

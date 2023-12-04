@@ -2,19 +2,39 @@ const db = require('../models');
 const query = require('../query');
 
 const peopleController = {
-  getPerson: async (req, res, next) => {
+  getInfo: async (req, res, next) => {
     const { id } = req.params;
+    const { type } = req.query;
+
     try {
-      const queryStr = query.select.personWithId(id);
-      const data = await db.query(queryStr);
-      res.locals.person = data.rows;
+      if (type === 'vehicles ') {
+      } else if (type === 'main') {
+      } else {
+        const queryStr = `SELECT id, id_no, name, phone_no, photo FROM people 
+        WHERE id=${id} `;
+        const data = await db.query(queryStr);
+        res.locals.person = data.rows[0];
+      }
+
       return next();
     } catch (error) {
       return next({
-        location: 'Error located in peopleController.getPerson',
+        location: 'Error located in peopleController.getInfo',
         error,
       });
     }
+    return next();
+    // try {
+    //   const queryStr = query.select.personWithId(id);
+    //   const data = await db.query(queryStr);
+    //   res.locals.person = data.rows;
+    //   return next();
+    // } catch (error) {
+    //   return next({
+    //     location: 'Error located in peopleController.getPerson',
+    //     error,
+    //   });
+    // }
   },
 };
 
@@ -76,7 +96,7 @@ peopleController.addPersonToVehicle = async (req, res, next) => {
     const data = await db.query(
       `SELECT id FROM vehicle_${driverOrOwner} WHERE vehicle_id = ${vehicleId} AND person_id = ${personId}`,
     );
-    if (data.rows.length !== 0) return res.status(409).json({message: 'Person already exists in vehicle'})
+    if (data.rows.length !== 0) return res.status(409).json({ message: 'Person already exists in vehicle' });
 
     const queryStr = query.insert.personIntoVehicle(driverOrOwner, personId, vehicleId);
     await db.query(queryStr);

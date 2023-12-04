@@ -10,7 +10,7 @@ import { MessageBanner, useMessageBanner } from '../../contexts/MessageBannerCon
 const Navbar = ({ toggleSidebar }) => {
   const { language, setLanguage } = useLanguage();
   const { isLoggedIn, setIsLoggedIn } = useLogin();
-  const {showBanner} = useMessageBanner()
+  const { showBanner } = useMessageBanner();
 
   const handleLogout = async () => {
     await axios.get('/api/auth/logout');
@@ -21,9 +21,7 @@ const Navbar = ({ toggleSidebar }) => {
       <div className='z-50 relative flex place-content-between items-center m-auto w-full border-b p-4 bg-white h-[55px]'>
         <div className='flex'>
           <ButtonWithIcon alt={'menu'} icon={MenuIcon} onClick={toggleSidebar} />
-          <Link to={'/'}>
-            <h1 className='mx-4'>YINGBIN</h1>
-          </Link>
+          <h1 className='mx-4'>YINGBIN</h1>
         </div>
         <div>
           <button

@@ -36,6 +36,8 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
     >
       <div className='mb-4'>
         <StyledLink to={'/'}>DASHBOARD</StyledLink>
+        <StyledLink to={'/person/1'}>PERSON TEST PAGE</StyledLink>
+
 
         <StyledTitle toggle={() => toggleCategory('vehicles')} isOpen={openCategory['vehicles']}>
           VEHICLES

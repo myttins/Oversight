@@ -13,7 +13,7 @@ const PersonCard = ({ person, handleDelete }) => {
         <img src="/public/profiles/1/pp/1.jpg" />
       </div>
       <div className="w-full mx-2 p-1 flex flex-col">
-        <Link to={'/'} className=" hover:underline">
+        <Link to={`/person/${person.id}`} className=" hover:underline">
           <h2>{person.name}</h2>
         </Link>
         <div className="flex ">

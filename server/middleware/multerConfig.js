@@ -1,5 +1,5 @@
 const multer = require('multer');
-const path = require('path');
+// const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,14 +19,13 @@ const upload = multer({
 }).single('file');
 
 const uploadMiddleware = (req, res, next) => {
-  console.log(1, 'Inside uploadMiddleware')
-  upload(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
+  upload(req, res, (error) => {
+    if (error instanceof multer.MulterError) {
       // A Multer error occurred when uploading.
       return res.status(500).json({ error: err.message });
-    } else if (err) {
+    } else if (error) {
       // An unknown error occurred when uploading.
-      console.log(err)
+      console.log(error)
       return res.status(500).json({ error: 'File upload error' });
     }
     // Everything went fine.

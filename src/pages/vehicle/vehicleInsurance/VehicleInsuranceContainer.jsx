@@ -19,9 +19,6 @@ const VehicleInsuranceContainer = () => {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    console.log(1, formData)
-    console.log(1, formData.get('file'))
-
     try {
       const response = await axios.post('/api/test', formData);
       alert('Success');

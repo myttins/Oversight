@@ -6,9 +6,10 @@ const Accounts = () => {
         <h1>ACCOUNTS</h1>
         <div>
             ROLES
-            7: SUPER ADMIN W/ LOGS, SQL QUERY, DEV INFO
-            6: ADMIN W/ ACCOUNT CONTROL
-            5: ADMIN W/ WRITE ACCESS
+            5: SUPER ADMIN W/ LOGS, SQL QUERY, DEV INFO
+            4: ADMIN W/ ACCOUNT CONTROL
+            3: ADMIN W/ WRITE ACCESS
+            2: USER WITH SPECIFIC WRITE ACCESS
             1: READ ONLY
             0: NONE
         </div>

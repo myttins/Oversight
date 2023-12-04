@@ -28,9 +28,8 @@ app.use('/api/auth', auth);
 app.use('/api/payments', payments);
 
 // Used for testing new features only
-const multerConfig = require('./middleware/multerConfig');
-
-app.use('/api/test', multerConfig.uploadMiddleware, (req, res) => {
+const fileController = require('./controllers/fileController');
+app.use('/api/test', fileController.upload, (req, res) => {
   return res.status(200).json('test endpoint');
 });
 

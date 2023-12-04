@@ -53,7 +53,7 @@ const Vehicle = () => {
             <button className='btn ml-2' onClick={() => navigate(`/vehicle/${id}/payments`)}>
               PAYMENTS
             </button>
-            <button className='btn ml-2'>
+            <button className='btn ml-2' onClick={() => navigate(`/vehicle/${id}/insurance`)}>
               INSURANCE
             </button>
           </>

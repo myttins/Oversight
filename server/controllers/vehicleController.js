@@ -22,10 +22,10 @@ const vehicleController = {
   addVehicle: async (req, res, next) => {
     try {
       // check if plate exists already
-      let queryStr = query.select.vehicleInfoWithPlate(req.body.plate)
+      let queryStr = query.select.vehicleInfoWithPlate(req.body.plate);
       let data = await db.query(queryStr);
-      if (data.rows.length > 0){
-        return res.status(500).json({message: 'Vehicle already exists'})
+      if (data.rows.length > 0) {
+        return res.status(500).json({ message: 'Vehicle already exists' });
       }
 
       queryStr = query.insert.newVehicle(req.body);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import FormElement from '../../../util/FormElement';
-import { useMessageBanner } from '../../../contexts/MessageBannerContext';
+import FormElement from '../../util/FormElement';
+import { useMessageBanner } from '../../contexts/MessageBannerContext';
 
 import axios from 'axios';
 import { useNavigate } from 'react-router';
@@ -31,15 +31,11 @@ const NewVehicle = () => {
     try {
       const response = await axios.post('/api/vehicle/new', vehicleInfo);
       const id = response.data.id;
-      showBanner({ style: 'success', message: 'Vehicle added successfully' });
+      showBanner({ style: 'success', message: 'Vehicle added' });
       navigate(`/vehicle/${id}`);
     } catch (error) {
       console.error(error);
-      if (axios.isAxiosError(error)) {
-        showBanner({ style: 'error', message: error.response.data.message });
-      } else {
-        showBanner({ style: 'error' });
-      }
+      showBanner({ style: 'error', message: axios.isAxiosError(error) ? error.response.data.message : '' });
     }
   };
   return (

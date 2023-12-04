@@ -11,7 +11,7 @@ html {
   /* font-family: 'simplified-chinese'; */
   @apply bg-zinc-300;
   @apply text-sm;
-  @apply text-zinc-900
+  @apply text-zinc-900;
 }
 
 h1 {
@@ -28,7 +28,7 @@ h2 {
   @apply transition-transform;
   @apply duration-300;
   @apply ease-in-out;
-  @apply border border-black border-2
+  @apply border border-black border-2;
 }
 
 .btn-lte {
@@ -37,7 +37,7 @@ h2 {
   @apply transition-transform;
   @apply duration-300;
   @apply ease-in-out;
-  @apply border border-black border-2
+  @apply border border-black border-2;
 }
 .btn-lte:hover {
   @apply translate-y-0.5;
@@ -63,11 +63,10 @@ h2 {
   @apply uppercase;
 }
 
-.loading {
-  animation: c1 1s linear infinite alternate;
-}
-@keyframes c1 {
-  to {
-    opacity: 0;
-  }
+.box-white {
+  @apply bg-white;
+  @apply p-4 my-4;
+  @apply rounded;
+  @apply border;
+  @apply shadow-sm;
 }

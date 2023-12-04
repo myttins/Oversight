@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const query = require('../query');
-// const fileUpload = require('express-fileupload');
 
 const vehicleController = require('../controllers/vehicleController');
 const peopleController = require('../controllers/peopleController');

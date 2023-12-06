@@ -70,3 +70,11 @@ h2 {
   @apply border;
   @apply shadow-sm;
 }
+
+.text-color-dark1 {
+  @apply text-slate-800
+} 
+
+.text-color-light1 {
+  @apply text-slate-500
+} 

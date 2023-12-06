@@ -7,10 +7,11 @@ import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
 const PersonCard = ({ person, handleDelete }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
+
   return (
     <div className="border flex outline-2 p-1 mx-4">
       <div className="mx-2 w-[55px] aspect-w-1 aspect-h-1 p-1 flex items-center justify-center">
-        <img src="/public/profiles/1/pp/1.jpg" />
+        <img src="/public/profile/1/1.jpg" />
       </div>
       <div className="w-full mx-2 p-1 flex flex-col">
         <Link to={`/person/${person.id}`} className=" hover:underline">

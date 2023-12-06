@@ -2,39 +2,47 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router';
 import { useMessageBanner } from '../../contexts/MessageBannerContext';
+import AvatarManager from './AvatarManager';
+import { useAxios } from '../../hooks/useAxios';
 
 const Person = () => {
   const { id } = useParams();
-  const {showBanner} = useMessageBanner();
-  const [personInfo, setPersonInfo] = useState({});
-  const [loading, setLoading] = useState(true)
 
-  const fetchPersonHeaderInfo = async () => {
+  const [edit, setEdit] = useState(false);
+  const [personInfo, setPersonInfo] = useState({});
+
+  const { fetchData, loading } = useAxios();
+
+  const handleUpdatePerson = async () => {
     try {
-      const response = await axios.get(`/api/people/${id}?type=header`)
-      setPersonInfo(response.data.person)
-      setLoading(false)
     } catch (error) {
-      console.error(error)
-      showBanner({style: 'error'})
+      // showBanner({style: 'error', message: axios.isAxiosError(error) ? error.})
     }
   };
 
+  // http://localhost:8080/person/1
   useEffect(() => {
-    fetchPersonHeaderInfo();
-  }, [])
+    const fetchDataAndSetState = async () => {
+      const data = await fetchData(`/api/people/${id}?type=header`, { method: 'get' });
+      if (data) {
+        setPersonInfo(data.person);
+      }
+    };
 
+    fetchDataAndSetState();
+  }, []);
 
-  
-
-  if (loading) return;
+  if (loading) return null;
 
   return (
     <div>
       <div className='box-white'>
         <header className='m-2'>
+          <button className='btn'>EDIT</button>
+          <AvatarManager path={personInfo.photo} />
+          <span className='text-color-light1'>ID: {personInfo.id_no}</span>
+
           <h1>{personInfo.name}</h1>
-          <span>ID: {personInfo.id_no}</span>
         </header>
         <div>
           <button className='btn'>INFO</button>

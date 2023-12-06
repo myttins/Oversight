@@ -33,8 +33,13 @@ app.use('/api/test', fileController.upload, (req, res) => {
   return res.status(200).json('test endpoint');
 });
 
-// Serve static files from 'public' directory
-app.use('/public', express.static(path.join(__dirname, '../public')));
+
+const PROD_STATIC_PATH = '/opt/render/project/public'
+const DEV_STATIC_PATH = '/Users/kevin/git-repos/public'
+
+const staticPath = process.env.NODE_ENV === 'production' ? PROD_STATIC_PATH : DEV_STATIC_PATH;
+
+app.use('/public', express.static(staticPath));
 
 app.use(express.static(path.join(__dirname, '../build')));
 

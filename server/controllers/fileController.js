@@ -24,7 +24,7 @@ const fileController = {
       upload(req, res, (error) => {
         if (error instanceof multer.MulterError) {
           // A Multer error occurred when uploading.
-          return res.status(500).json({ error: err.message });
+          return res.status(500).json({ error: error.message });
         } else if (error) {
           // An unknown error occurred when uploading.
           console.log(error);

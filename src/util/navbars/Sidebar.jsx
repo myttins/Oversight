@@ -36,9 +36,6 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
     >
       <div className='mb-4'>
         <StyledLink to={'/'}>DASHBOARD</StyledLink>
-        <StyledLink to={'/person/1'}>PERSON TEST PAGE</StyledLink>
-
-
         <StyledTitle toggle={() => toggleCategory('vehicles')} isOpen={openCategory['vehicles']}>
           VEHICLES
         </StyledTitle>
@@ -47,10 +44,18 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
             openCategory['vehicles'] ? 'max-h-40' : 'max-h-0'
           } overflow-hidden`}
         >
-          <StyledLink to={'/vehicle/1' } toggleVisible={toggleVisible}>TEST</StyledLink>
-          <StyledLink to={'/vehicle/search'} toggleVisible={toggleVisible}>SEARCH</StyledLink>
-          <StyledLink to={'/vehicle/all'} toggleVisible={toggleVisible}>ALL VEHICLES</StyledLink>
-          <StyledLink to={'/vehicle/new'} toggleVisible={toggleVisible}>ADD NEW</StyledLink>
+          <StyledLink to={'/vehicle/1'} toggleVisible={toggleVisible}>
+            TEST
+          </StyledLink>
+          <StyledLink to={'/vehicle/search'} toggleVisible={toggleVisible}>
+            SEARCH
+          </StyledLink>
+          <StyledLink to={'/vehicle/all'} toggleVisible={toggleVisible}>
+            ALL VEHICLES
+          </StyledLink>
+          <StyledLink to={'/vehicle/new'} toggleVisible={toggleVisible}>
+            ADD NEW
+          </StyledLink>
         </div>
         {/* TODO: PEOPLE CATEGORY */}
         {/* <StyledTitle
@@ -76,9 +81,15 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
             openCategory['payments'] ? 'max-h-40' : 'max-h-0'
           } overflow-hidden`}
         >
-          <StyledLink to={'/payments/all'} toggleVisible={toggleVisible}>ALL PAYMENTS</StyledLink>
-          <StyledLink to={'/payments/schedules/new'} toggleVisible={toggleVisible}>NEW FEE SCHEDULE</StyledLink>
-          <StyledLink to={'/payments/schedules'} toggleVisible={toggleVisible}>ALL SCHEDULES</StyledLink>
+          <StyledLink to={'/payments/all'} toggleVisible={toggleVisible}>
+            ALL PAYMENTS
+          </StyledLink>
+          <StyledLink to={'/payments/schedules/new'} toggleVisible={toggleVisible}>
+            NEW FEE SCHEDULE
+          </StyledLink>
+          <StyledLink to={'/payments/schedules'} toggleVisible={toggleVisible}>
+            ALL SCHEDULES
+          </StyledLink>
         </div>
         <StyledTitle toggle={() => toggleCategory('admin')} isOpen={openCategory['admin']}>
           ADMIN

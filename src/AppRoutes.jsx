@@ -59,7 +59,7 @@ const MainLayout = () => {
                 onClick={toggleSidebar}
               ></div>
             ) : null}
-            <div className='w-full max-w-[900px] min-w-[500px] overflow-auto'>
+            <div className='w-full max-w-[1280px] min-w-[500px] overflow-auto'>
               <Outlet />
             </div>
           </main>

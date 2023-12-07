@@ -29,12 +29,12 @@ const Vehicle = () => {
 
   return (
     <div>
-      <div className='p-4 bg-white '>
+      <div className='box-white'>
         {loading ? (
           <Loading />
         ) : (
-          <>
-            <header className='align-middle flex items-center py-6 px-4'>
+          <div>
+            <header className='align-middle flex items-center'>
               <h1>
                 <span>吉</span>
                 <span className='text-base mr-2'>A</span>
@@ -53,7 +53,10 @@ const Vehicle = () => {
             <button className='btn ml-2' onClick={() => navigate(`/vehicle/${id}/payments`)}>
               PAYMENTS
             </button>
-          </>
+            <button className='btn ml-2' onClick={() => navigate(`/vehicle/${id}/insurance`)}>
+              INSURANCE
+            </button>
+          </div>
         )}
       </div>
       <Outlet />

@@ -9,22 +9,21 @@ import Login from './pages/login/LoginPage';
 import Error from './util/error/Error';
 import Navbar from './util/navbars/Navbar';
 import Sidebar from './util/navbars/Sidebar';
-import NewPerson from './pages/person/NewPerson';
+const NewPerson = lazy(() => import('./pages/person/NewPerson.jsx'));
 import AllPayments from './pages/payments/AllPayments';
 import Schedules from './pages/payments/schedules/Schedules';
 import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
-import VehiclePayments from './pages/vehicle/vehiclePayments/VehiclePayments';
 import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
-import NewPayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
-import NewVehiclePayment from './pages/vehicle/vehiclePayments/NewVehiclePayment';
+import NewVehiclePayment from './pages/vehicle/vehiclePayments/VehiclePaymentsNew';
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
-import NewVehicle from './pages/vehicle/vehicleInfo/NewVehicle';
+import NewVehicle from './pages/vehicle/NewVehicle';
+import Loading from './util/Loading';
+import VehicleInsuranceContainer from './pages/vehicle/vehicleInsurance/VehicleInsuranceContainer';
+const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
-
-
-
+const Person = lazy(() => import('./pages/person/Person'))
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -38,7 +37,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const MainLayout = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -46,37 +45,43 @@ const MainLayout = () => {
 
   return (
     <ProtectedRoute>
-      <Navbar toggleSidebar={toggleSidebar} />
-      <div className='flex flex-1'>
-        <Sidebar isVisible={sidebarVisible} />
-        <MessageBannerProvider>
-          <main
-            className={`flex justify-center relative overflow-auto transition-all duration-300 p-4 w-full ${
-              sidebarVisible ? 'ml-64' : 'ml-0'
-            }`}
-          >
-            <div className='w-full max-w-[900px] min-w-[500px] overflow-auto'>
-              <MessageBanner />
+      <MessageBannerProvider>
+        <Navbar toggleSidebar={toggleSidebar} />
+        {/* <MessageBanner /> */}
+        <div className='flex flex-1'>
+          <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible} />
+
+          {/* To make the main layout resize dynamically, add ${sidebarVisible ? 'ml-64' : 'ml-0'} to main */}
+          <main className={`flex justify-center relative overflow-auto transition-all duration-300 w-full`}>
+            {sidebarVisible ? (
+              <div
+                className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 z-1'
+                onClick={toggleSidebar}
+              ></div>
+            ) : null}
+            <div className='w-full max-w-[1280px] min-w-[500px] overflow-auto'>
               <Outlet />
             </div>
           </main>
-        </MessageBannerProvider>
-      </div>
+        </div>
+      </MessageBannerProvider>
     </ProtectedRoute>
   );
 };
 
 const AppRoutes = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className='box-white'>
+          <Loading />
+        </div>
+      }
+    >
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path='vehicle' element={<Vehicle />}>
-            <Route path='vehicle/info' element={<AllVehicles />} />
-            <Route path='vehicle/payments' element={<AllVehicles />} />
-          </Route>
           <Route path='vehicle/all' element={<AllVehicles />} />
           <Route path='vehicle/search' element={<Search />} />
           <Route path='vehicle/new' element={<NewVehicle />} />
@@ -84,10 +89,15 @@ const AppRoutes = () => {
           <Route path='/vehicle/:id' element={<Vehicle />}>
             <Route index element={<Navigate replace to='info' />} />
             <Route path='info' element={<VehicleInfo />} />
+            <Route path='new-person' element={<NewPerson />} />
+            <Route path='insurance' element={<VehicleInsuranceContainer />} />
+
+            {/* TODO change route name to manage instead of new-schedule */}
+            <Route path='new-schedule' element={<VehicleScheduleManage />} />
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>
-          <Route path='people/new' element={<NewPerson />} />
+          <Route path='person/:id' element={<Person />} />
           <Route path='payments/all' element={<AllPayments />} />
           <Route path='payments/schedules' element={<Schedules />} />
           <Route path='payments/schedules/new' element={<NewSchedule />} />

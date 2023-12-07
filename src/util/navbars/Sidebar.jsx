@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import arrowIcon from '../../assets/icons/nav-arrow-down.svg';
 
-const StyledLink = ({ to, children }) => (
-  <Link to={to} className='block px-3 py-1 rounded-md  hover:bg-zinc-100'>
+const StyledLink = ({ to, toggleVisible, children }) => (
+  <Link to={to} className='block px-3 py-2 rounded-md  hover:bg-blue-50' onClick={() => toggleVisible(false)}>
     {children}
   </Link>
 );
 
 const StyledTitle = ({ toggle, isOpen, children }) => (
   <div
-    className='flex items-center justify-between cursor-pointer px-3 py-1 rounded-md hover:bg-zinc-100'
+    className='flex items-center justify-between cursor-pointer px-3 py-2 rounded-md hover:bg-blue-50'
     onClick={toggle}
   >
     <p>{children}</p>
@@ -22,7 +22,7 @@ const StyledTitle = ({ toggle, isOpen, children }) => (
   </div>
 );
 
-const Sidebar = ({ isVisible }) => {
+const Sidebar = ({ isVisible, toggleVisible }) => {
   const [openCategory, setOpenCategory] = useState({});
 
   const toggleCategory = (category) => {
@@ -30,13 +30,12 @@ const Sidebar = ({ isVisible }) => {
   };
   return (
     <aside
-      className={`fixed h-full transform ${
+      className={`z-10 fixed h-full transform ${
         isVisible ? 'translate-x-0' : '-translate-x-full'
-      } transition-transform ease-in-out duration-300 bg-zinc-200 p-2 w-64 overflow-auto`}
+      } transition-transform ease-in-out duration-300 bg-zinc-50 p-2 w-64 overflow-auto`}
     >
       <div className='mb-4'>
         <StyledLink to={'/'}>DASHBOARD</StyledLink>
-
         <StyledTitle toggle={() => toggleCategory('vehicles')} isOpen={openCategory['vehicles']}>
           VEHICLES
         </StyledTitle>
@@ -45,10 +44,18 @@ const Sidebar = ({ isVisible }) => {
             openCategory['vehicles'] ? 'max-h-40' : 'max-h-0'
           } overflow-hidden`}
         >
-          <StyledLink to={'/vehicle/1'}>TEST</StyledLink>
-          <StyledLink to={'/vehicle/search'}>SEARCH</StyledLink>
-          <StyledLink to={'/vehicle/all'}>ALL VEHICLES</StyledLink>
-          <StyledLink to={'/vehicle/new'}>ADD NEW</StyledLink>
+          <StyledLink to={'/vehicle/1'} toggleVisible={toggleVisible}>
+            TEST
+          </StyledLink>
+          <StyledLink to={'/vehicle/search'} toggleVisible={toggleVisible}>
+            SEARCH
+          </StyledLink>
+          <StyledLink to={'/vehicle/all'} toggleVisible={toggleVisible}>
+            ALL VEHICLES
+          </StyledLink>
+          <StyledLink to={'/vehicle/new'} toggleVisible={toggleVisible}>
+            ADD NEW
+          </StyledLink>
         </div>
         {/* TODO: PEOPLE CATEGORY */}
         {/* <StyledTitle
@@ -74,9 +81,15 @@ const Sidebar = ({ isVisible }) => {
             openCategory['payments'] ? 'max-h-40' : 'max-h-0'
           } overflow-hidden`}
         >
-          <StyledLink to={'/payments/all'}>ALL PAYMENTS</StyledLink>
-          <StyledLink to={'/payments/schedules/new'}>NEW FEE SCHEDULE</StyledLink>
-          <StyledLink to={'/payments/schedules'}>ALL SCHEDULES</StyledLink>
+          <StyledLink to={'/payments/all'} toggleVisible={toggleVisible}>
+            ALL PAYMENTS
+          </StyledLink>
+          <StyledLink to={'/payments/schedules/new'} toggleVisible={toggleVisible}>
+            NEW FEE SCHEDULE
+          </StyledLink>
+          <StyledLink to={'/payments/schedules'} toggleVisible={toggleVisible}>
+            ALL SCHEDULES
+          </StyledLink>
         </div>
         <StyledTitle toggle={() => toggleCategory('admin')} isOpen={openCategory['admin']}>
           ADMIN

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkoversight=self.webpackChunkoversight||[]).push([[782],{228:function(e,t,u){var r=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});var s=r(u(976));t.default=function(){return s.default.createElement("div",{className:"p-4 bg-white"},"DASHBOARD")}}}]);

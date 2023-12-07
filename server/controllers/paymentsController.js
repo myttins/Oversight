@@ -9,7 +9,7 @@ const paymentsController = {
       const queryStr = query.select.payments();
       const data = await db.query(queryStr);
 
-      // Format date into YYYY-MM-DD HH:MM and converts 
+      // Format date into YYYY-MM-DD HH:MM and converts
       data.rows.forEach((item) => {
         item.amount = parseFloat(item.amount);
         item.transaction_time = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
@@ -50,7 +50,7 @@ const paymentsController = {
       const queryStr = query.select.schedulesWithVehicleId(id);
       const data = await db.query(queryStr);
       data.rows.forEach((item) => {
-        item.date_created = dayjs(item.transaction_time).format('YYYY-MM-DD HH:mm');
+        item.date_created = dayjs(item.date_created).format('YYYY-MM-DD HH:mm');
       });
       res.locals.schedules = data.rows;
       return next();
@@ -68,6 +68,7 @@ const paymentsController = {
 
       // Format date int YYYY-MM-DD
       data.rows.forEach((item) => {
+        item.amount = parseFloat(item.amount);
         item.date_created = dayjs(item.date_created).format('YYYY-MM-DD');
       });
 
@@ -100,6 +101,45 @@ const paymentsController = {
     } catch (error) {
       return next({
         location: 'Error located in paymentsController.addScheduleToJobs',
+        error,
+      });
+    }
+  },
+
+  updateSchedulesForVehicle: async (req, res, next) => {
+    const vehicleId = req.params.id;
+    const schedulesFromBody = req.body;
+    try {
+      // Step 1: Retrieve current schedules for the vehicle
+      const currentSchedulesRes = await db.query(
+        `SELECT schedule_id FROM vehicle_schedule WHERE vehicle_id = ${vehicleId}`,
+      );
+      const currentSchedules = currentSchedulesRes.rows.map((row) => row.schedule_id);
+
+      // Step 2: Find schedules to add and to remove
+      const schedulesToAdd = schedulesFromBody.filter((id) => !currentSchedules.includes(id));
+      const schedulesToRemove = currentSchedules.filter((id) => !schedulesFromBody.includes(id));
+
+      // Step 3: Add new schedules
+      for (const scheduleId of schedulesToAdd) {
+        await db.query('INSERT INTO vehicle_schedule (schedule_id, vehicle_id) VALUES ($1, $2)', [
+          scheduleId,
+          vehicleId,
+        ]);
+      }
+
+      // Step 4: Remove schedules that are not needed
+      for (const scheduleId of schedulesToRemove) {
+        await db.query('DELETE FROM vehicle_schedule WHERE schedule_id = $1 AND vehicle_id = $2', [
+          scheduleId,
+          vehicleId,
+        ]);
+      }
+
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in paymentsController.updateSchedulesForVehicle',
         error,
       });
     }

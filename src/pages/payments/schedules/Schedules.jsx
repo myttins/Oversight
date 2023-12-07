@@ -8,10 +8,11 @@ const Schedules = () => {
   const { showBanner } = useContext(MessageBannerContext);
 
   const tableColumns = [
-    { title: 'ID', value: 'schedule_id', width: 2, style: '', sort: true },
-    { title: 'LABEL', value: 'label', width: 4, style: 'truncate', sort: false },
+    { title: 'ID', value: 'schedule_id', width: 1, style: '', sort: true },
+    { title: 'LABEL', value: 'label', width: 2, style: 'truncate', sort: false },
     { title: 'AMOUNT', value: 'amount', width: 2, style: '', sort: true },
-    { title: 'CREATED', value: 'date_created', width: 4, style: 'truncate', sort: true },
+    { title: 'DESCRIPTION', value: 'description', width: 4, style: 'truncate', sort: true },
+    { title: 'CREATED', value: 'date_created', width: 3, style: 'truncate', sort: true },
   ];
 
   const fetchData = async () => {

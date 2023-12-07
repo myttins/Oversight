@@ -11,6 +11,7 @@ html {
   /* font-family: 'simplified-chinese'; */
   @apply bg-zinc-300;
   @apply text-sm;
+  @apply text-zinc-900;
 }
 
 h1 {
@@ -24,10 +25,26 @@ h2 {
 .btn {
   @apply text-sm font-bold py-1 px-2 rounded;
   @apply bg-black text-white;
+  @apply transition-transform;
+  @apply duration-300;
+  @apply ease-in-out;
+  @apply border border-black border-2;
+}
+
+.btn-lte {
+  @apply text-sm font-bold py-1 px-2 rounded;
+  @apply bg-white text-black;
+  @apply transition-transform;
+  @apply duration-300;
+  @apply ease-in-out;
+  @apply border border-black border-2;
+}
+.btn-lte:hover {
+  @apply translate-y-0.5;
 }
 
 .btn:hover {
-  @apply scale-110;
+  @apply translate-y-0.5;
 }
 
 .btn-red {
@@ -46,11 +63,18 @@ h2 {
   @apply uppercase;
 }
 
-.loading {
-  animation: c1 1s linear infinite alternate;
+.box-white {
+  @apply bg-white;
+  @apply p-4 my-4;
+  @apply rounded;
+  @apply border;
+  @apply shadow-sm;
 }
-@keyframes c1 {
-  to {
-    opacity: 0;
-  }
-}
+
+.text-color-dark1 {
+  @apply text-slate-800
+} 
+
+.text-color-light1 {
+  @apply text-slate-500
+} 

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import SortArrow from '../assets/icons/arrow-separate-vertical.svg';
 
-const Table = ({ columns, data, filter }) => {
+const Table = ({ columns, data, filter, checkbox, size, setData }) => {
   const widthClasses = {
     1: 'w-1/12',
     2: 'w-2/12',
@@ -14,12 +14,24 @@ const Table = ({ columns, data, filter }) => {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'ascending' });
   const [filters, setFilters] = useState({});
 
+  const handleCheck = (id) => {
+    const newData = [...data];
+    newData.forEach((item) => {
+      if (item[columns[0].value] === id) {
+        item.checked === true ? (item.checked = false) : (item.checked = true);
+      }
+    });
+    setData(newData);
+  };
+
   const handleSort = (key) => {
+    // Adjusting handleSort to account for special checkbox column
+    let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      setSortConfig({ key, direction: 'descending' });
-    } else {
-      setSortConfig({ key, direction: 'ascending' });
+      direction = 'descending';
     }
+
+    setSortConfig({ key, direction });
   };
 
   const handleFilterChange = (key, value) => {
@@ -41,8 +53,13 @@ const Table = ({ columns, data, filter }) => {
       });
     }
 
-    // Sorting
-    if (sortConfig !== null) {
+    if (sortConfig.key === 'checkbox') {
+      sortedItems.sort((a, b) => {
+        if (a.checked && !b.checked) return -1;
+        if (!a.checked && b.checked) return 1;
+        return 0;
+      });
+    } else {
       sortedItems.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
           return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -58,8 +75,10 @@ const Table = ({ columns, data, filter }) => {
   }, [data, sortConfig, filters]);
 
   return (
-    <div className='p-2'>
-      <div className='flex w-full p-2'>
+    <div>
+      {/* Table filter input boxes */}
+      <div className='flex w-full'>
+        {checkbox && <span className='w-6'></span>}
         {filter &&
           columns.map((column, i) => (
             <input
@@ -67,11 +86,22 @@ const Table = ({ columns, data, filter }) => {
               value={filters[column.value] || ''}
               placeholder={'Filter'}
               onChange={(e) => handleFilterChange(column.value, e.target.value)}
-              className={`input ${widthClasses[column.width]} mr-2`}
+              className={`input ${widthClasses[column.width]} mr-2 mb-2`}
             />
           ))}
       </div>
+
+      {/* Table column titles */}
       <div className='flex w-full bg-zinc-100 p-2'>
+        {checkbox && (
+          <span
+            className='w-6 flex items-center justify-between cursor-pointer '
+            onClick={() => handleSort('checkbox')}
+          >
+            <img className={'h-4'} src={SortArrow} />
+          </span>
+        )}
+
         {columns.map((column, i) => {
           if (column.sort)
             return (
@@ -96,18 +126,31 @@ const Table = ({ columns, data, filter }) => {
         })}
       </div>
 
-      {sortedAndFilteredData.map((row, i) => (
-        <div
-          key={i}
-          className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:scale-[1.01] hover:bg-zinc-50 transition-transform duration-300'
-        >
-          {columns.map((column, i) => (
-            <span key={i} className={`${widthClasses[column.width]} px-2 ${column.style || ''}`}>
-              {row[column.value]}
-            </span>
-          ))}
-        </div>
-      ))}
+      {/* Table rows */}
+      <div className={size ? `${size.height} overflow-scroll` : ''}>
+        {sortedAndFilteredData.map((row, i) => (
+          <div
+            key={i}
+            className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300'
+          >
+            {checkbox && (
+              <span className='w-6'>
+                <input
+                  type='checkbox'
+                  onChange={() => handleCheck(row[columns[0].value])}
+                  checked={row.checked === true}
+                  className='mr-2'
+                />
+              </span>
+            )}
+            {columns.map((column, i) => (
+              <span key={i} className={`${widthClasses[column.width]} px-2 ${column.style || ''}`}>
+                {row[column.value]}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

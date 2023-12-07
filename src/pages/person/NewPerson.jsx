@@ -1,24 +1,23 @@
 import React, { useContext, useState } from 'react';
 import FormElement from '../../util/FormElement.jsx';
 import axios from 'axios';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { MessageBannerContext } from '../../contexts/MessageBannerContext.jsx';
 
 const NewPerson = () => {
+  const { id } = useParams();
   const [idSearched, setIdSearched] = useState(false);
   const [personFound, setPersonFound] = useState(false);
   const [person, setPerson] = useState({});
 
-  const [urlParams, setUrlParams] = useSearchParams();
-
   const navigate = useNavigate();
   const { showBanner, hideBanner } = useContext(MessageBannerContext);
 
-  const redirect = urlParams.get('redirect');
-  const vehicleId = urlParams.get('path');
-  const driverOrOwner = urlParams.get('person');
+  const [urlParams, setUrlParams] = useSearchParams();
+  const driverOrOwner = urlParams.get('type');
 
   const handleIdSearch = async (e) => {
+    // TODO: Add loading animation while search is being handled
     e.preventDefault();
 
     if (!person.id_no) {
@@ -27,9 +26,7 @@ const NewPerson = () => {
     }
 
     try {
-      showBanner({ style: 'loading' });
       const response = await axios.get(`/api/people/${person.id_no}`);
-      hideBanner();
       if (response.data.length === 0) {
         showBanner({
           style: 'neutral',
@@ -66,60 +63,41 @@ const NewPerson = () => {
       !person.business_lic_no ||
       !person.service_card_no
     ) {
+      showBanner({ style: 'error', message: 'Invalid input' });
       return;
     }
     try {
-      if (redirect === 'true') {
-        await axios.post(
-          `/api/people?input=${personFound}&type=${driverOrOwner}&vehicleid=${vehicleId}`,
-          person,
-        );
-        navigate(`/vehicle/${vehicleId}`);
-      }
+      await axios.post(`/api/people?input=${personFound}&type=${driverOrOwner}&vehicleid=${id}`, person);
+      showBanner({ style: 'success', message: 'Person added' });
+      navigate(`/vehicle/${id}`);
     } catch (error) {
-      showBanner({ style: 'error', message: error.response.data.message });
+      showBanner({ style: 'error', message: axios.isAxiosError(error) ? error.response.data.message : 'Client error' });
       console.error(error);
     }
   };
 
   return (
-    <div className=" p-4 bg-white">
+    <div className=' p-4 bg-white mt-4'>
       <h2>ADD NEW PERSON</h2>
       {!idSearched ? (
         <>
-          <form className="flex">
-            <label className="w-1/3">ID NO.</label>
+          <form className='flex'>
+            <label className='w-1/3'>ID NO.</label>
             <input
-              className="input w-1/3"
-              placeholder="ID NO."
+              className='input w-1/3'
+              placeholder='ID NO.'
               onChange={(e) => setPerson({ ...person, id_no: e.target.value })}
               value={person.id_no || ''}
             />
-            <button
-              className="btn mx-4"
-              type={'submit'}
-              onClick={handleIdSearch}
-            >
+            <button className='btn mx-4' type={'submit'} onClick={handleIdSearch}>
               SEARCH
             </button>
           </form>
         </>
       ) : (
         <div>
-          <FormElement
-            label={'id'}
-            type={'text'}
-            readOnly={personFound}
-            formInfo={person}
-            setFormInfo={setPerson}
-          />
-          <FormElement
-            label={'name'}
-            type={'text'}
-            readOnly={personFound}
-            formInfo={person}
-            setFormInfo={setPerson}
-          />
+          <FormElement label={'id'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
+          <FormElement label={'name'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
           <FormElement
             label={'phone_no'}
             type={'text'}
@@ -155,13 +133,16 @@ const NewPerson = () => {
             formInfo={person}
             setFormInfo={setPerson}
           />
-          <div>
-            <button className="btn" onClick={clearForm}>
-              CLEAR
-            </button>
-            <button className="btn mx-2" onClick={handleSubmit}>
-              SAVE
-            </button>
+          <div className='flex justify-between'>
+            <button className='btn-lte' onClick={() => navigate(-1)}>CANCEL</button>
+            <div>
+              <button className='btn-lte' onClick={clearForm}>
+                CLEAR
+              </button>
+              <button className='btn mx-2' onClick={handleSubmit}>
+                SAVE
+              </button>
+            </div>
           </div>
         </div>
       )}

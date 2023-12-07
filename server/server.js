@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
 
 /**
  * TODO: Authentication with bcrypt
@@ -11,7 +10,6 @@ const cookieParser = require('cookie-parser');
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(fileUpload());
 
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
@@ -29,8 +27,19 @@ app.use('/api/people', people);
 app.use('/api/auth', auth);
 app.use('/api/payments', payments);
 
-// Serve static files from 'public' directory
-app.use('/public', express.static(path.join(__dirname, '../public')));
+// Used for testing new features only
+const fileController = require('./controllers/fileController');
+app.use('/api/test', fileController.upload, (req, res) => {
+  return res.status(200).json('test endpoint');
+});
+
+
+const PROD_STATIC_PATH = '/opt/render/project/public'
+const DEV_STATIC_PATH = '/Users/kevin/git-repos/public'
+
+const staticPath = process.env.NODE_ENV === 'production' ? PROD_STATIC_PATH : DEV_STATIC_PATH;
+
+app.use('/public', express.static(staticPath));
 
 app.use(express.static(path.join(__dirname, '../build')));
 
@@ -44,10 +53,8 @@ app.use((_req, res) => {
 });
 
 app.use((error, _req, res, _next) => {
-  console.log(error);
-  return res
-    .status(error.status || 500)
-    .json({ message: 'Internal Server Error' });
+  console.error(error);
+  return res.status(error.status || 500).json({ message: 'Internal Server Error' });
 });
 
 const { initializeScheduledJobs } = require('./schedulers/paymentScheduler');

@@ -24,17 +24,14 @@ export const MessageBannerProvider = ({ children }) => {
   };
 
   return (
-    <MessageBannerContext.Provider
-      value={{ bannerContent, isBannerVisible, showBanner, hideBanner }}
-    >
+    <MessageBannerContext.Provider value={{ bannerContent, isBannerVisible, showBanner, hideBanner }}>
       {children}
     </MessageBannerContext.Provider>
   );
 };
 
 export const MessageBanner = () => {
-  const { bannerContent, isBannerVisible, hideBanner } =
-    useContext(MessageBannerContext);
+  const { bannerContent, isBannerVisible, hideBanner } = useContext(MessageBannerContext);
 
   const color = {
     error: 'bg-red-500',
@@ -52,17 +49,15 @@ export const MessageBanner = () => {
 
   return (
     <div
-      className={`absolute top-0 inset-x-0 ${
-        color[bannerContent.style]
-      } text-white p-2
-      transition-transform duration-300 ease-in-out 
-      ${isBannerVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      className={`absolute z-40 top-0 inset-x-0 ${color[bannerContent.style]} text-white p-2 
+      transition-transform duration-300 ease-in-out ${isBannerVisible ? 'translate-y-[55px]' : ''}
+      `}
     >
       {bannerContent.message || defaultMessage[bannerContent.style]}
       {bannerContent.style !== 'loading' && (
         <button
           className={`absolute top-1 right-4 text-lg text-white transition-transform duration-300 ease-in-out 
-          ${isBannerVisible ? 'translate-y-0' : '-translate-y-full'}`}
+     `}
           onClick={hideBanner}
         >
           &times;

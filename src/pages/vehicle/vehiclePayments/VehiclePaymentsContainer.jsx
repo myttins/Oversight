@@ -20,7 +20,8 @@ const VehiclePaymentsContainer = () => {
     try {
       const response = await axios.get(`/api/payments/${id}`);
       setPayments(response.data.payments);
-      setSchedules(response.data.schedules);
+      const filteredSchedules = response.data.schedules.filter(schedule => schedule.vehicle_match === true)
+      setSchedules(filteredSchedules);
       setLoading(false);
     } catch (error) {
       console.error(error);

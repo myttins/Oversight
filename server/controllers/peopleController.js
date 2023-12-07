@@ -1,5 +1,7 @@
 const db = require('../models');
 const query = require('../query');
+const fs = require('fs');
+const path = require('path');
 
 const peopleController = {
   getInfo: async (req, res, next) => {
@@ -23,18 +25,48 @@ const peopleController = {
         error,
       });
     }
-    return next();
-    // try {
-    //   const queryStr = query.select.personWithId(id);
-    //   const data = await db.query(queryStr);
-    //   res.locals.person = data.rows;
-    //   return next();
-    // } catch (error) {
-    //   return next({
-    //     location: 'Error located in peopleController.getPerson',
-    //     error,
-    //   });
-    // }
+  },
+  updateInfo: async (req, res, next) => {
+    try {
+      const file = req.file;
+      const { id, ...body } = req.body;
+
+      if (file) {
+        // Define the directory path
+        const PROD_STATIC_PATH = '/opt/render/project/public';
+        const DEV_STATIC_PATH = '/Users/kevin/git-repos/public';
+        const staticPath = process.env.NODE_ENV === 'production' ? PROD_STATIC_PATH : DEV_STATIC_PATH;
+        const directoryPath = path.join(staticPath, `profile/${id}`);
+
+        // Create directory if it does not exist
+        if (!fs.existsSync(directoryPath)) {
+          fs.mkdirSync(directoryPath, { recursive: true });
+        }
+
+        // Define the file path
+        const filePath = path.join(directoryPath, file.originalname);
+
+        // Save the file
+        fs.writeFileSync(filePath, file.buffer);
+
+        // You might want to update body with the file path if needed
+        body.photo = `/public/profile/${id}/${file.originalname}`;
+      }
+
+      const updateClauses = Object.keys(body).map((key) => `"${key}" = $${Object.keys(body).indexOf(key) + 1}`);
+      const queryStr = `UPDATE people SET ${updateClauses.join(', ')} WHERE id = $${Object.keys(body).length + 1} 
+      RETURNING id`;
+      const values = [...Object.values(body), id];
+
+      const data = await db.query(queryStr, values);
+      res.locals.data = data;
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in peopleController.updateInfo',
+        error,
+      });
+    }
   },
 };
 

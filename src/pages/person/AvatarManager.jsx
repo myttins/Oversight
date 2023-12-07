@@ -1,12 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const AvatarManager = ({ path }) => {
+const AvatarManager = ({ path, onFileSelected, active }) => {
   const [src, setSrc] = useState(path);
   const fileInputRef = useRef(null);
-
+  
   const onFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      onFileSelected(file); // Call the callback with the file
       const reader = new FileReader();
       reader.onloadend = () => setSrc(reader.result);
       reader.readAsDataURL(file);
@@ -14,6 +15,8 @@ const AvatarManager = ({ path }) => {
   };
 
   const onImageClick = () => {
+    if (!active) return;
+
     fileInputRef.current.click();
   };
 

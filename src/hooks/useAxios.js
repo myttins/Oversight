@@ -22,9 +22,11 @@ export function useAxios() {
 
     const {showBanner} = useMessageBanner();
 
-    const fetchData = async (url, options) => {
-        setLoading(true);
+    const fetchData = async (url, options, showLoading = false) => {
+       
+        if (showLoading) setLoading(true);
         try {
+            
             const response = await axios(url, options);
             // throw new Error()
             return response.data;

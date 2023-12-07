@@ -39,7 +39,6 @@ const AvatarUploader = () => {
 const Tester = () => {
   return (
     <div>
-      <AvatarUploader />
     </div>
   );
 };

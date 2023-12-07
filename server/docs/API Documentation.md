@@ -54,7 +54,7 @@ type: 'header' | 'main' | 'vehicles'
 
 #### Method: _POST_
 
-**Description** : Adds new person
+**Description** : Adds new person to a vehicle as driver or owner. If the person is new, it will also add the person into the person table as a new entry. 
 
 **Example Request Body** :
 
@@ -71,14 +71,8 @@ type: 'header' | 'main' | 'vehicles'
 
 #### Method: _PATCH_
 
-**Description** : Updates existing person with new info. Cannot be used to update ID. The request can receive optional image file with FormData key `image`. The `id` of the person is taken from the request body, so make sure to include the `id` value with the body data. 
-**Example Request Body** :
+**Description** : Updates existing person with new info. Cannot be used to update ID. The request can receive optional image file with FormData key `image`. The `id` of the person is taken from the request body, so make sure to include the `id` value with the body data. This endpint returns the `id` of the person updated. 
 
-```json
-{
-
-}
-```
 
 ## TEMPLATE
 

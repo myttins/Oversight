@@ -1,9 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from '../../util/Image';
 
-const AvatarManager = ({ path, onFileSelected, active }) => {
+const AvatarManager = ({ path, onFileSelected, active, resetImageTrigger }) => {
   const [src, setSrc] = useState(path);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    setSrc(path)
+  }, [resetImageTrigger, path])
 
   const onFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {

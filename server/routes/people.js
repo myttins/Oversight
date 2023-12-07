@@ -11,7 +11,7 @@ router.get('/:id', peopleController.getInfo, (req, res) => {
 });
 
 router.patch('/:id', upload.single('image'), peopleController.updateInfo, (req, res) => {
-  return res.status(200).json({ message: 'Update Successful', result: res.locals.data });
+  return res.status(200).json({ message: 'Update Successful', data: res.locals.data });
 });
 
 router.delete('/', peopleController.deletePersonWithVehicleId, (req, res) => {

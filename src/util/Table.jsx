@@ -131,7 +131,7 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
         {sortedAndFilteredData.map((row, i) => (
           <div
             key={i}
-            className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300'
+            className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300 last:border-b'
           >
             {checkbox && (
               <span className='w-6'>

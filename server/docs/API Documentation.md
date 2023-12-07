@@ -71,8 +71,20 @@ type: 'header' | 'main' | 'vehicles'
 
 #### Method: _PATCH_
 
-**Description** : Updates existing person with new info. Cannot be used to update ID. The request can receive optional image file with FormData key `image`. The `id` of the person is taken from the request body, so make sure to include the `id` value with the body data. This endpint returns the `id` of the person updated. 
+**Description** : Updates existing person with new info. Cannot be used to update ID. The request can receive optional image file with FormData key `image`. The `id` of the person is taken from the request body, so make sure to include the `id` value with the body data. This endpint returns the `id` of the person updated. See returned response below. 
 
+**Example Response** :
+
+```json
+{
+  "message": "Update Successful",
+  "data": {
+    "id": "1",
+    "id_no": "1234",
+    ...
+  }
+}
+```
 
 ## TEMPLATE
 

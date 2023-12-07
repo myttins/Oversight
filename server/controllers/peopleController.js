@@ -64,11 +64,11 @@ const peopleController = {
 
       const updateClauses = Object.keys(body).map((key) => `"${key}" = $${Object.keys(body).indexOf(key) + 1}`);
       const queryStr = `UPDATE people SET ${updateClauses.join(', ')} WHERE id = $${Object.keys(body).length + 1} 
-      RETURNING id`;
+      RETURNING ${Object.keys(req.body).join(', ')}`;
       const values = [...Object.values(body), id];
 
       const data = await db.query(queryStr, values);
-      res.locals.data = data;
+      res.locals.data = data.rows[0];
       return next();
     } catch (error) {
       return next({

@@ -16,8 +16,20 @@ const Person = () => {
   const [edit, setEdit] = useState(false);
   const [personInfo, setPersonInfo] = useState({});
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [resetAvatar, setResetAvatar] = useState(false);
 
   const { fetchData, loading } = useAxios();
+
+  useEffect(() => {
+    const fetchDataAndSetState = async () => {
+      const data = await fetchData(`/api/people/${id}?type=header`, { method: 'get' }, true);
+      if (data) {
+        setPersonInfo(data.person);
+      }
+    };
+
+    fetchDataAndSetState();
+  }, []);
 
   const handleUpdatePerson = async () => {
     const formData = new FormData();
@@ -35,6 +47,7 @@ const Person = () => {
     if (response) {
       showBanner({ style: 'success' });
       setEdit(false);
+      setPersonInfo(response.data)
     }
   };
 
@@ -42,16 +55,10 @@ const Person = () => {
     setUploadedImage(file);
   };
 
-  useEffect(() => {
-    const fetchDataAndSetState = async () => {
-      const data = await fetchData(`/api/people/${id}?type=header`, { method: 'get' }, true);
-      if (data) {
-        setPersonInfo(data.person);
-      }
-    };
-
-    fetchDataAndSetState();
-  }, []);
+  const handleCancelEdit = () => {
+    setEdit(false);
+    setResetAvatar(!resetAvatar); // Toggle to trigger the reset in AvatarManager
+  };
 
   if (loading) return null;
 
@@ -62,7 +69,7 @@ const Person = () => {
           <div className='absolute right-0 top-0'>
             {edit ? (
               <div>
-                <button className='btn-lte mx-2' onClick={() => setEdit(false)}>
+                <button className='btn-lte mx-2' onClick={handleCancelEdit}>
                   CANCEL
                 </button>
                 <button className='btn' onClick={handleUpdatePerson}>
@@ -81,7 +88,12 @@ const Person = () => {
           </div>
 
           <div className='mx-6'>
-            <AvatarManager path={personInfo.photo} onFileSelected={handleFileSelected} active={edit} />
+            <AvatarManager
+              path={personInfo.photo}
+              onFileSelected={handleFileSelected}
+              active={edit}
+              resetImageTrigger={resetAvatar}
+            />
           </div>
           <div className=''>
             <span className='text-color-light1 m-2'>ID: {personInfo.id_no}</span>

@@ -81,11 +81,11 @@ const query = {
     },
     driverInfoWithVehicleId: (id) => {
       return `SELECT p.id, p.name, p.current_address, p.phone_no, p.driv_lic_no, p.business_lic_no, 
-      p.service_card_no, vd.id as foreign_id
+      p.service_card_no, p.photo, vd.id as foreign_id
       FROM people p JOIN vehicle_driver vd ON p.id = vd.person_id WHERE vd.vehicle_id = ${id}`;
     },
     ownerInfoWithVehicleId: (id) => {
-      return `SELECT p.id, p.name, p.current_address, p.phone_no, p.driv_lic_no, p.business_lic_no, p.service_card_no
+      return `SELECT p.id, p.name, p.current_address, p.phone_no, p.driv_lic_no, p.business_lic_no, p.service_card_no, p.photo
       FROM people p JOIN vehicle_owner vo ON p.id = vo.person_id WHERE vo.vehicle_id = ${id}`;
     },
     personWithId: (id) => {

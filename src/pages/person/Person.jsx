@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Outlet, useParams } from 'react-router';
+import { Outlet, useNavigate, useParams } from 'react-router';
 import { useMessageBanner } from '../../contexts/MessageBannerContext';
 import AvatarManager from './AvatarManager';
 import { useAxios } from '../../hooks/useAxios';
@@ -8,6 +8,7 @@ import ButtonWithIcon from '../../util/buttons/ButtonWithIcon';
 import EditIcon from '../../assets/icons/edit.svg';
 
 const Person = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const { showBanner } = useMessageBanner();
@@ -41,7 +42,6 @@ const Person = () => {
     setUploadedImage(file);
   };
 
-  // http://localhost:8080/person/1
   useEffect(() => {
     const fetchDataAndSetState = async () => {
       const data = await fetchData(`/api/people/${id}?type=header`, { method: 'get' }, true);
@@ -109,7 +109,9 @@ const Person = () => {
           </div>
         </header>
         <div className='mt-6 ml-12'>
-          <button className='btn'>INFO</button>
+          <button className='btn' onClick={() => navigate(`/person/${id}`)}>
+            INFO
+          </button>
           <button className='btn mx-2'>VEHICLES</button>
         </div>
       </div>

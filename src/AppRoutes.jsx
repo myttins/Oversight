@@ -21,9 +21,10 @@ import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePay
 import NewVehicle from './pages/vehicle/NewVehicle';
 import Loading from './util/Loading';
 import VehicleInsuranceContainer from './pages/vehicle/vehicleInsurance/VehicleInsuranceContainer';
+import PersonInfo from './pages/person/PersonInfo';
 const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
-const Person = lazy(() => import('./pages/person/Person'))
+const Person = lazy(() => import('./pages/person/Person'));
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useLogin();
@@ -52,14 +53,14 @@ const MainLayout = () => {
           <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible} />
 
           {/* To make the main layout resize dynamically, add ${sidebarVisible ? 'ml-64' : 'ml-0'} to main */}
-          <main className={`flex justify-center relative overflow-auto transition-all duration-300 w-full`}>
+          <main className={`flex justify-center relative overflow-scroll transition-all duration-300 w-full`}>
             {sidebarVisible ? (
               <div
                 className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 z-1'
                 onClick={toggleSidebar}
               ></div>
             ) : null}
-            <div className='w-full max-w-[1280px] min-w-[500px] overflow-auto'>
+            <div className='w-full max-w-[1280px] min-w-[480px] overflow-scroll'>
               <Outlet />
             </div>
           </main>
@@ -97,7 +98,9 @@ const AppRoutes = () => {
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>
-          <Route path='person/:id' element={<Person />} />
+          <Route path='person/:id' element={<Person />}>
+            <Route index element={<PersonInfo />} />
+          </Route>
           <Route path='payments/all' element={<AllPayments />} />
           <Route path='payments/schedules' element={<Schedules />} />
           <Route path='payments/schedules/new' element={<NewSchedule />} />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
 import DeleteUserIcon from '../../../assets/icons/user-xmark.svg';
 import ConfirmationPopUp from '../../../util/ConfirmationModal.jsx';
+import Image from '../../../util/Image.jsx';
 
 const PersonCard = ({ person, handleDelete }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -13,10 +14,8 @@ const PersonCard = ({ person, handleDelete }) => {
         <img src={person.photo || '/public/profile/1/1.jpg'} className='w-full h-full object-cover' />
       </div> */}
 
-      <div
-        className='w-[60px] aspect-w-1 aspect-h-1 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center cursor-pointer'
-      >
-        <img src={person.photo || '/public/profile/1/1.jpg'} className='w-full h-full object-cover' />
+      <div className='w-[60px] aspect-w-1 aspect-h-1 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center cursor-pointer'>
+        <Image src={person.photo} />
       </div>
       <div className='w-full mx-2 p-1 flex flex-col'>
         <Link to={`/person/${person.id}`} className=' hover:underline'>

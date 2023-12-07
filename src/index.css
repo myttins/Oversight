@@ -65,7 +65,7 @@ h2 {
 
 .box-white {
   @apply bg-white;
-  @apply p-4 my-4;
+  @apply py-4 px-8 my-4;
   @apply rounded;
   @apply border;
   @apply shadow-sm;

@@ -13,9 +13,9 @@ export const VehicleRow = (props) => {
       className="flex w-full cursor-pointer py-2 hover:bg-zinc-100"
       onClick={() => navigate(`/vehicle/${data.id}`)}
     >
-      <a className="w-1/6 min-w-min">{data.plate}</a>
-      <a className="w-2/6 min-w-min">{data.owner_name}</a>
-      <a className="w-3/6 min-w-min">{data.driver_name}</a>
+      <a className="w-1/6">{data.plate}</a>
+      <a className="w-2/6">{data.owner_name}</a>
+      <a className="w-3/6">{data.driver_name}</a>
     </div>
   );
 };
@@ -39,7 +39,7 @@ export const AllVehicles = () => {
   }, []);
 
   return (
-    <div className="border p-4 bg-white">
+    <div className="box-white">
       <h1 className="mt-6 text-2xl">Vehicle</h1>
       <div className="mt-6 flex w-full border-b-2">
         <a className="w-1/6">PLATE</a>

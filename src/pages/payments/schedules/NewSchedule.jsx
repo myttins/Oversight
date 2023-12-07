@@ -160,7 +160,7 @@ const NewSchedule = () => {
     }
   };
   return (
-    <div className='bg-white p-4'>
+    <div className='box-white'>
       <h1>NEW SCHEDULE</h1>
       <FormElement
         label={'label'}

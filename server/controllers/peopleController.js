@@ -11,13 +11,15 @@ const peopleController = {
     try {
       if (type === 'vehicles ') {
       } else if (type === 'main') {
+        const queryStr = `SELECT id, driv_lic_no, current_address, business_lic_no, service_card_no FROM people WHERE id=${id}`;
+        const data = await db.query(queryStr);
+        res.locals.person = data.rows[0];
       } else {
         const queryStr = `SELECT id, id_no, name, phone_no, photo FROM people 
         WHERE id=${id} `;
         const data = await db.query(queryStr);
         res.locals.person = data.rows[0];
       }
-
       return next();
     } catch (error) {
       return next({

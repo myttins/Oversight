@@ -42,15 +42,22 @@ const peopleController = {
         if (!fs.existsSync(directoryPath)) {
           fs.mkdirSync(directoryPath, { recursive: true });
         }
+        const fileName = `${Date.now()}-${file.originalname}`;
 
         // Define the file path
-        const filePath = path.join(directoryPath, file.originalname);
+        const filePath = path.join(directoryPath, fileName);
+
+        // Delete old image
+        const oldFilePath = path.join(directoryPath, body.photo.split('/').pop());
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath);
+        }
 
         // Save the file
         fs.writeFileSync(filePath, file.buffer);
 
         // You might want to update body with the file path if needed
-        body.photo = `/public/profile/${id}/${file.originalname}`;
+        body.photo = `/public/profile/${id}/${fileName}`;
       }
 
       const updateClauses = Object.keys(body).map((key) => `"${key}" = $${Object.keys(body).indexOf(key) + 1}`);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkoversight=self.webpackChunkoversight||[]).push([[188],{188:(e,t,n)=>{n.r(t),n.d(t,{default:()=>u});var r=n(294);const l=function(){return r.createElement("div",null)},u=function(){return r.createElement("div",{className:"box-white"},"DASHBOARD",r.createElement(l,null))}}}]);

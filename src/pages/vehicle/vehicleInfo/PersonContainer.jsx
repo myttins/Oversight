@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import axios from 'axios';
@@ -44,7 +44,7 @@ const PersonContainer = (props) => {
         )}
         {(driverOrOwner === 'driver' || people.length === 0) && <ButtonWithIcon onClick={handleAdd} icon={AddIcon} />}
       </div>
-      <div>
+      <div className='flex flex-wrap'>
         {people.map((person, i) => {
           return <PersonCard key={i} person={person} driverOrOwner={driverOrOwner} handleDelete={handleDelete} />;
         })}

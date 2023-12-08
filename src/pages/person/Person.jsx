@@ -32,7 +32,7 @@ export const AvatarManager = ({ path, setPath, onFileSelected, active }) => {
     <div className='container mx-auto'>
       <input type='file' accept='image/*' onChange={onFileChange} ref={fileInputRef} className='hidden' />
       <div
-        className={`w-40 h-40  bg-gray-400 rounded-full overflow-hidden flex items-center justify-center ${
+        className={`w-40 h-40 rounded-full overflow-hidden flex items-center justify-center ${
           active && 'cursor-pointer opacity-50'
         }`}
         onClick={onImageClick}

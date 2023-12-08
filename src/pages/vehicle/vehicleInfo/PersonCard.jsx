@@ -10,7 +10,7 @@ const PersonCard = ({ person, handleDelete }) => {
 
   return (
     <div className='flex max-w-sm bg-slate-50 m-4 border relative rounded-md shadow-sm p-2'>
-      <div className='border w-[72px] h-[72px] bg-gray-200 rounded-full overflow-hidden flex items-center justify-center'>
+      <div className='border w-[72px] h-[72px] bg-gray-400 rounded-full overflow-hidden flex items-center justify-center'>
         <Image src={person.photo} />
       </div>
       <div className='mx-2 p-1 flex flex-col'>

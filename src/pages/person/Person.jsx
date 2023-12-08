@@ -31,19 +31,15 @@ export const AvatarManager = ({ path, setPath, onFileSelected, active }) => {
   return (
     <div className='container mx-auto'>
       <input type='file' accept='image/*' onChange={onFileChange} ref={fileInputRef} className='hidden' />
-      {active ? (
-        <div
-          className='w-40 h-40 bg-gray-500 rounded-full overflow-hidden flex items-center justify-center cursor-pointer opacity-50'
-          onClick={onImageClick}
-        >
-          <Image src={path} />
-          <span className='text-white text-center px-4 absolute'>Click to upload</span>
-        </div>
-      ) : (
-        <div className='w-40 h-40 bg-gray-500 rounded-full overflow-hidden flex items-center justify-center'>
-          <Image src={path} />
-        </div>
-      )}
+      <div
+        className={`w-40 h-40  bg-gray-400 rounded-full overflow-hidden flex items-center justify-center ${
+          active && 'cursor-pointer opacity-50'
+        }`}
+        onClick={onImageClick}
+      >
+        <Image src={path} />
+        {active && <span className='text-white text-center px-4 absolute'>Click to upload</span>}
+      </div>
     </div>
   );
 };
@@ -67,13 +63,13 @@ export const PersonInfo = ({ personInfo, setPersonInfo, edit, avatarPath, setAva
               <input
                 className='input text-2xl m-2'
                 type='text'
-                value={personInfo.name}
+                value={personInfo.name || ''}
                 onChange={(e) => setPersonInfo({ ...personInfo, name: e.target.value.toUpperCase() })}
               />
               <input
                 className='input m-2'
                 type='text'
-                value={personInfo.phone_no}
+                value={personInfo.phone_no || ''}
                 onChange={(e) => setPersonInfo({ ...personInfo, phone_no: e.target.value.toUpperCase() })}
               />
             </div>

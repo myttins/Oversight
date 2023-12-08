@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import FormElement from '../../../util/FormElement.jsx';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { MessageBannerContext } from '../../../contexts/MessageBannerContext.jsx';
 import axios from 'axios';
@@ -12,7 +11,10 @@ const NewPerson = () => {
   const [idSearched, setIdSearched] = useState(false);
   const [personFound, setPersonFound] = useState(false);
   const [personIdNo, setPersonIdNo] = useState('');
-  const [person, setPerson] = useState({});
+
+  const [personInfo, setPersonInfo] = useState({});
+  const [avatarPath, setAvatarPath] = useState('');
+  const [uploadedImage, setUploadedImage] = useState(null);
 
   const { showBanner } = useContext(MessageBannerContext);
 
@@ -34,11 +36,13 @@ const NewPerson = () => {
         showBanner({ style: 'neutral', message: 'No person found. Input info' });
         setPersonFound(false);
         setIdSearched(true);
+        setPersonInfo({ id_no: personIdNo });
       } else {
         showBanner({ style: 'neutral', message: 'Person found.' });
         setPersonFound(true);
         setIdSearched(true);
-        setPerson(response.data[0]);
+        setPersonInfo(response.data[0]);
+        setAvatarPath(response.data[0].photo);
       }
     } catch (error) {
       showBanner({ style: 'error', message: error.response.data.message });
@@ -49,25 +53,25 @@ const NewPerson = () => {
   const clearForm = () => {
     setIdSearched(false);
     setPersonFound(false);
-    setPerson({});
+    setPersonInfo({});
   };
 
   const handleSubmit = async () => {
     if (
-      !person.id_no ||
-      !person.name ||
-      !person.current_address ||
-      !person.phone_no ||
-      !person.driv_lic_no ||
-      !person.business_lic_no ||
-      !person.service_card_no
+      !personInfo.id_no ||
+      !personInfo.name ||
+      !personInfo.current_address ||
+      !personInfo.phone_no ||
+      !personInfo.driv_lic_no ||
+      !personInfo.business_lic_no ||
+      !personInfo.service_card_no
     ) {
       showBanner({ style: 'error', message: 'Invalid input' });
       return;
     }
 
     try {
-      await axios.post(`/api/people?input=${personFound}&type=${driverOrOwner}&vehicleid=${id}`, person);
+      await axios.post(`/api/people?input=${personFound}&type=${driverOrOwner}&vehicleid=${id}`, personInfo);
       showBanner({ style: 'success', message: 'Person added' });
       navigate(`/vehicle/${id}`);
     } catch (error) {
@@ -88,80 +92,44 @@ const NewPerson = () => {
             onChange={(e) => setPersonIdNo(e.target.value)}
             value={personIdNo || ''}
           />
-          <button className='btn mx-4' type={'submit'} onClick={handleIdSearch}>
+          <button className='btn mx-4' type='submit' onClick={handleIdSearch}>
             SEARCH
           </button>
         </form>
-      ) : personFound ? (
-        <PersonInfo id='new' id_no={personIdNo} />
       ) : (
-        <PersonInfo id='new' id_no={personIdNo} />
+        <>
+          {personFound ? (
+            <PersonInfo
+              personInfo={personInfo}
+              setPersonInfo={setPersonInfo}
+              avatarPath={avatarPath}
+              setAvatarPath={setAvatarPath}
+              edit={false}
+              setUploadedImage={setUploadedImage}
+            />
+          ) : (
+            <PersonInfo
+              personInfo={personInfo}
+              setPersonInfo={setPersonInfo}
+              avatarPath={avatarPath}
+              setAvatarPath={setAvatarPath}
+              edit={true}
+              setUploadedImage={setUploadedImage}
+            />
+          )}
+
+          <div className='flex justify-end'>
+            <button className='btn-lte' onClick={clearForm}>
+              CLEAR
+            </button>
+            <button className='btn mx-2' onClick={handleSubmit}>
+              SAVE
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
 };
-
-// <div>
-//   <header className='m-2 relative flex'>
-//     <div className=''>
-//       <AvatarManager
-//         path={avatarPath}
-//         setPath={setAvatarPath}
-//         onFileSelected={handleFileSelected}
-//         active={edit}
-//       />
-//     </div>
-//   </header>
-//   <FormElement label={'id_no'} type={'text'} readOnly={true} formInfo={person} setFormInfo={setPerson} />
-//   <FormElement label={'name'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
-//   <FormElement
-//     label={'phone_no'}
-//     type={'text'}
-//     readOnly={personFound}
-//     formInfo={person}
-//     setFormInfo={setPerson}
-//   />
-//   <FormElement
-//     label={'driv_lic_no'}
-//     type={'text'}
-//     readOnly={personFound}
-//     formInfo={person}
-//     setFormInfo={setPerson}
-//   />
-//   <FormElement
-//     label={'current_address'}
-//     type={'text'}
-//     readOnly={personFound}
-//     formInfo={person}
-//     setFormInfo={setPerson}
-//   />
-//   <FormElement
-//     label={'business_lic_no'}
-//     type={'text'}
-//     readOnly={personFound}
-//     formInfo={person}
-//     setFormInfo={setPerson}
-//   />
-//   <FormElement
-//     label={'service_card_no'}
-//     type={'text'}
-//     readOnly={personFound}
-//     formInfo={person}
-//     setFormInfo={setPerson}
-//   />
-//   <div className='flex justify-between'>
-//     <button className='btn-lte' onClick={() => navigate(-1)}>
-//       CANCEL
-//     </button>
-//     <div>
-//       <button className='btn-lte' onClick={clearForm}>
-//         CLEAR
-//       </button>
-//       <button className='btn mx-2' onClick={handleSubmit}>
-//         SAVE
-//       </button>
-//     </div>
-//   </div>
-// </div>
 
 export default NewPerson;

@@ -31,7 +31,7 @@ const PersonContainer = (props) => {
   };
 
   const handleAdd = () => {
-    navigate(`/vehicle/1/new-person?type=${driverOrOwner}`);
+    navigate(`/vehicle/${id}/new-person?type=${driverOrOwner}`);
   };
 
   return (

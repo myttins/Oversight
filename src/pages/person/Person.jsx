@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
-import { Outlet, useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useMessageBanner } from '../../contexts/MessageBannerContext';
 import ButtonWithIcon from '../../util/buttons/ButtonWithIcon';
 import EditIcon from '../../assets/icons/edit.svg';
 import Image from '../../util/Image';
+import FormElement from '../../util/FormElement';
 
 export const AvatarManager = ({ path, setPath, onFileSelected, active }) => {
   const fileInputRef = useRef(null);
@@ -47,23 +48,92 @@ export const AvatarManager = ({ path, setPath, onFileSelected, active }) => {
   );
 };
 
-const Person = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
+export const PersonInfo = ({ personInfo, setPersonInfo, edit, avatarPath, setAvatarPath, setUploadedImage }) => {
+  return (
+    <div>
+      <header className='m-2 relative flex'>
+        <div className=''>
+          <AvatarManager
+            path={avatarPath}
+            setPath={setAvatarPath}
+            onFileSelected={(file) => setUploadedImage(file)}
+            active={edit}
+          />
+        </div>
+        <div className='mx-6'>
+          <span className='text-color-light1 m-2'>ID NO: {personInfo.id_no}</span>
+          {edit ? (
+            <div className='flex flex-col'>
+              <input
+                className='input text-2xl m-2'
+                type='text'
+                value={personInfo.name}
+                onChange={(e) => setPersonInfo({ ...personInfo, name: e.target.value.toUpperCase() })}
+              />
+              <input
+                className='input m-2'
+                type='text'
+                value={personInfo.phone_no}
+                onChange={(e) => setPersonInfo({ ...personInfo, phone_no: e.target.value.toUpperCase() })}
+              />
+            </div>
+          ) : (
+            <div>
+              <h1 className='m-2'>{personInfo.name}</h1>
+              <span className='m-2'>{personInfo.phone_no}</span>
+            </div>
+          )}
+        </div>
+      </header>
 
+      <FormElement
+        label={'driv_lic_no'}
+        type='text'
+        readOnly={!edit}
+        formInfo={personInfo}
+        setFormInfo={setPersonInfo}
+      />
+      <FormElement
+        label={'current_address'}
+        type='text'
+        readOnly={!edit}
+        formInfo={personInfo}
+        setFormInfo={setPersonInfo}
+      />
+      <FormElement
+        label={'business_lic_no'}
+        type='text'
+        readOnly={!edit}
+        formInfo={personInfo}
+        setFormInfo={setPersonInfo}
+      />
+      <FormElement
+        label={'service_card_no'}
+        type='text'
+        readOnly={!edit}
+        formInfo={personInfo}
+        setFormInfo={setPersonInfo}
+      />
+    </div>
+  );
+};
+
+const Person = () => {
+  const { id } = useParams();
   const { showBanner } = useMessageBanner();
 
-  const [edit, setEdit] = useState(false);
   const [personInfo, setPersonInfo] = useState({});
-  const [avatarPath, setAvatarPath] = useState(''); // Separate state for avatar path
   const [originalPersonInfo, setOriginalPersonInfo] = useState({});
+  const [avatarPath, setAvatarPath] = useState(''); // Separate state for avatar path
   const [uploadedImage, setUploadedImage] = useState(null);
+
+  const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDataAndSetState = async () => {
       try {
-        const response = await axios.get(`/api/people?id=${id}&type=header`);
+        const response = await axios.get(`/api/people?id=${id}`);
         if (response.data.length === 1) {
           setPersonInfo(response.data[0]);
           setOriginalPersonInfo(response.data[0]);
@@ -80,106 +150,69 @@ const Person = () => {
     fetchDataAndSetState();
   }, []);
 
+  const handleCancelEdit = () => {
+    setEdit(false);
+    setPersonInfo({ ...originalPersonInfo }); // Reset personInfo to original
+    setAvatarPath(originalPersonInfo.photo); // Reset avatar path on cancel
+  };
+
   const handleUpdatePerson = async () => {
     const formData = new FormData();
     for (const key in personInfo) {
       formData.append(key, personInfo[key]);
     }
 
-    // formData.append('body', { message: 'body' });
     if (uploadedImage) {
       formData.append('image', uploadedImage); // Add the uploaded image to formData
     }
 
     try {
-      const response = await axios(`/api/people/${id}`, { method: 'patch', data: formData });
+      const response = await axios.patch(`/api/people/${id}`, formData);
       showBanner({ style: 'success', message: 'Update successful' });
       setPersonInfo(response.data.people[0]);
       setOriginalPersonInfo(response.data.people[0]);
+      setAvatarPath(response.data.people[0].photo);
       setEdit(false);
     } catch (error) {
       showBanner({ style: 'error', message: 'Edit failed' });
     }
   };
 
-  const handleFileSelected = (file) => {
-    setUploadedImage(file);
-  };
-
-  const handleCancelEdit = () => {
-    setEdit(false);
-    setPersonInfo(originalPersonInfo);
-    setAvatarPath(originalPersonInfo.photo); // Reset avatar path on cancel
-  };
-
   if (loading) return null;
 
   return (
-    <div>
-      <div className='box-white'>
-        <header className='m-2 relative flex'>
-          <div className='absolute right-0 top-0'>
-            {edit ? (
-              <div>
-                <button className='btn-lte mx-2' onClick={handleCancelEdit}>
-                  CANCEL
-                </button>
-                <button className='btn' onClick={handleUpdatePerson}>
-                  SAVE
-                </button>
-              </div>
-            ) : (
-              <ButtonWithIcon
-                icon={EditIcon}
-                onClick={() => {
-                  setEdit(true);
-                }}
-                alt={'edit'}
-              />
-            )}
-          </div>
-
-          <div className=''>
-            <AvatarManager
-              path={avatarPath}
-              setPath={setAvatarPath}
-              onFileSelected={handleFileSelected}
-              active={edit}
+    <div className='box-white'>
+      <div className='relative'>
+        <div className='absolute right-0 top-0 z-10'>
+          {edit ? (
+            <div>
+              <button className='btn-lte mx-2' onClick={handleCancelEdit}>
+                CANCEL
+              </button>
+              <button className='btn' onClick={handleUpdatePerson}>
+                SAVE
+              </button>
+            </div>
+          ) : (
+            <ButtonWithIcon
+              icon={EditIcon}
+              onClick={() => {
+                console.log(1);
+                setEdit(true);
+              }}
+              alt={'edit'}
             />
-          </div>
-          <div className='mx-6'>
-            <span className='text-color-light1 m-2'>ID: {personInfo.id_no}</span>
-            {edit ? (
-              <div className='flex flex-col'>
-                <input
-                  className='input text-2xl m-2'
-                  type='text'
-                  value={personInfo.name}
-                  onChange={(e) => setPersonInfo({ ...personInfo, name: e.target.value.toUpperCase() })}
-                />
-                <input
-                  className='input m-2'
-                  type='text'
-                  value={personInfo.phone_no}
-                  onChange={(e) => setPersonInfo({ ...personInfo, phone_no: e.target.value.toUpperCase() })}
-                />
-              </div>
-            ) : (
-              <div>
-                <h1 className='m-2'>{personInfo.name}</h1>
-                <span className='m-2'>{personInfo.phone_no}</span>
-              </div>
-            )}
-          </div>
-        </header>
-        <div className=''>
-          <button className='btn' onClick={() => navigate(`/person/${id}`)}>
-            INFO
-          </button>
-          <button className='btn mx-2'>VEHICLES</button>
+          )}
         </div>
+        <PersonInfo
+          personInfo={personInfo}
+          setPersonInfo={setPersonInfo}
+          edit={edit}
+          avatarPath={avatarPath}
+          setAvatarPath={setAvatarPath}
+          setUploadedImage={setUploadedImage}
+        />
       </div>
-      <Outlet />
     </div>
   );
 };

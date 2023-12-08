@@ -21,7 +21,6 @@ import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePay
 import NewVehicle from './pages/vehicle/NewVehicle';
 import Loading from './util/Loading';
 import VehicleInsuranceContainer from './pages/vehicle/vehicleInsurance/VehicleInsuranceContainer';
-import PersonInfo from './pages/person/PersonInfo';
 const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 const Person = lazy(() => import('./pages/person/Person'));
@@ -98,9 +97,7 @@ const AppRoutes = () => {
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>
-          <Route path='person/:id' element={<Person />}>
-            <Route index element={<PersonInfo />} />
-          </Route>
+          <Route path='person/:id' element={<Person />} />
           <Route path='payments/all' element={<AllPayments />} />
           <Route path='payments/schedules' element={<Schedules />} />
           <Route path='payments/schedules/new' element={<NewSchedule />} />

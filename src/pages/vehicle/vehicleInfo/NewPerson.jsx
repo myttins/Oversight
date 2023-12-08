@@ -3,6 +3,7 @@ import FormElement from '../../../util/FormElement.jsx';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { MessageBannerContext } from '../../../contexts/MessageBannerContext.jsx';
 import axios from 'axios';
+import { PersonInfo } from '../../person/Person.jsx';
 
 const NewPerson = () => {
   const { id } = useParams();
@@ -10,6 +11,7 @@ const NewPerson = () => {
 
   const [idSearched, setIdSearched] = useState(false);
   const [personFound, setPersonFound] = useState(false);
+  const [personIdNo, setPersonIdNo] = useState('');
   const [person, setPerson] = useState({});
 
   const { showBanner } = useContext(MessageBannerContext);
@@ -21,13 +23,13 @@ const NewPerson = () => {
     // TODO: Add loading animation while search is being handled
     e.preventDefault();
 
-    if (!person.id_no) {
+    if (!personIdNo) {
       showBanner({ style: 'error', message: 'Invalid input.' });
       return;
     }
 
     try {
-      const response = await axios.get(`/api/people?id_no=${person.id_no}`);
+      const response = await axios.get(`/api/people?id_no=${personIdNo}`);
       if (response.data.length === 0) {
         showBanner({ style: 'neutral', message: 'No person found. Input info' });
         setPersonFound(false);
@@ -78,76 +80,88 @@ const NewPerson = () => {
     <div className='box-white'>
       <h2>ADD NEW PERSON</h2>
       {!idSearched ? (
-        <>
-          <form className='flex'>
-            <label className='w-1/3'>ID NO.</label>
-            <input
-              className='input w-1/3'
-              placeholder='ID NO.'
-              onChange={(e) => setPerson({ ...person, id_no: e.target.value })}
-              value={person.id_no || ''}
-            />
-            <button className='btn mx-4' type={'submit'} onClick={handleIdSearch}>
-              SEARCH
-            </button>
-          </form>
-        </>
+        <form className='flex'>
+          <label className='w-1/3'>ID NO.</label>
+          <input
+            className='input w-1/3'
+            placeholder='ID NO.'
+            onChange={(e) => setPersonIdNo(e.target.value)}
+            value={personIdNo || ''}
+          />
+          <button className='btn mx-4' type={'submit'} onClick={handleIdSearch}>
+            SEARCH
+          </button>
+        </form>
+      ) : personFound ? (
+        <PersonInfo id='new' id_no={personIdNo} />
       ) : (
-        <div>
-          <FormElement label={'id_no'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
-          <FormElement label={'name'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
-          <FormElement
-            label={'phone_no'}
-            type={'text'}
-            readOnly={personFound}
-            formInfo={person}
-            setFormInfo={setPerson}
-          />
-          <FormElement
-            label={'driv_lic_no'}
-            type={'text'}
-            readOnly={personFound}
-            formInfo={person}
-            setFormInfo={setPerson}
-          />
-          <FormElement
-            label={'current_address'}
-            type={'text'}
-            readOnly={personFound}
-            formInfo={person}
-            setFormInfo={setPerson}
-          />
-          <FormElement
-            label={'business_lic_no'}
-            type={'text'}
-            readOnly={personFound}
-            formInfo={person}
-            setFormInfo={setPerson}
-          />
-          <FormElement
-            label={'service_card_no'}
-            type={'text'}
-            readOnly={personFound}
-            formInfo={person}
-            setFormInfo={setPerson}
-          />
-          <div className='flex justify-between'>
-            <button className='btn-lte' onClick={() => navigate(-1)}>
-              CANCEL
-            </button>
-            <div>
-              <button className='btn-lte' onClick={clearForm}>
-                CLEAR
-              </button>
-              <button className='btn mx-2' onClick={handleSubmit}>
-                SAVE
-              </button>
-            </div>
-          </div>
-        </div>
+        <PersonInfo id='new' id_no={personIdNo} />
       )}
     </div>
   );
 };
+
+// <div>
+//   <header className='m-2 relative flex'>
+//     <div className=''>
+//       <AvatarManager
+//         path={avatarPath}
+//         setPath={setAvatarPath}
+//         onFileSelected={handleFileSelected}
+//         active={edit}
+//       />
+//     </div>
+//   </header>
+//   <FormElement label={'id_no'} type={'text'} readOnly={true} formInfo={person} setFormInfo={setPerson} />
+//   <FormElement label={'name'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
+//   <FormElement
+//     label={'phone_no'}
+//     type={'text'}
+//     readOnly={personFound}
+//     formInfo={person}
+//     setFormInfo={setPerson}
+//   />
+//   <FormElement
+//     label={'driv_lic_no'}
+//     type={'text'}
+//     readOnly={personFound}
+//     formInfo={person}
+//     setFormInfo={setPerson}
+//   />
+//   <FormElement
+//     label={'current_address'}
+//     type={'text'}
+//     readOnly={personFound}
+//     formInfo={person}
+//     setFormInfo={setPerson}
+//   />
+//   <FormElement
+//     label={'business_lic_no'}
+//     type={'text'}
+//     readOnly={personFound}
+//     formInfo={person}
+//     setFormInfo={setPerson}
+//   />
+//   <FormElement
+//     label={'service_card_no'}
+//     type={'text'}
+//     readOnly={personFound}
+//     formInfo={person}
+//     setFormInfo={setPerson}
+//   />
+//   <div className='flex justify-between'>
+//     <button className='btn-lte' onClick={() => navigate(-1)}>
+//       CANCEL
+//     </button>
+//     <div>
+//       <button className='btn-lte' onClick={clearForm}>
+//         CLEAR
+//       </button>
+//       <button className='btn mx-2' onClick={handleSubmit}>
+//         SAVE
+//       </button>
+//     </div>
+//   </div>
+// </div>
 
 export default NewPerson;

@@ -1,36 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import { useAxios } from '../../hooks/useAxios';
 import { useParams } from 'react-router';
 import EditIcon from '../../assets/icons/edit.svg';
 import FormElement from '../../util/FormElement';
 import ButtonWithIcon from '../../util/buttons/ButtonWithIcon';
 import { useMessageBanner } from '../../contexts/MessageBannerContext';
+import axios from 'axios';
 
 const PersonInfo = () => {
   const { id } = useParams();
-  const { fetchData, loading } = useAxios();
   const { showBanner } = useMessageBanner();
 
   const [personInfo, setPersonInfo] = useState({});
+  const [originalPersonInfo, setOriginalPersonInfo] = useState({});
   const [edit, setEdit] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchDataAndSetState = async () => {
-      const data = await fetchData(`/api/people/${id}?type=main`, { method: 'get' }, true);
-      if (data) {
-        setPersonInfo(data.person);
+      try {
+        const response = await axios.get(`/api/people?id=${id}&type=main`);
+        if (response.data.length === 1) {
+          setPersonInfo(response.data[0]);
+          setOriginalPersonInfo(response.data[0]);
+        } else {
+          throw new Error();
+        }
+        setLoading(false);
+      } catch (error) {
+        showBanner({ style: 'error', message: 'Page not found' });
       }
     };
+
     fetchDataAndSetState();
   }, []);
 
   const handleUpdatePerson = async () => {
-    const response = await fetchData(`/api/people/${id}`, { method: 'patch', data: personInfo }, false);
-
-    if (response) {
-      showBanner({ style: 'success' });
+    try {
+      const response = await axios.patch(`/api/people/${id}`, personInfo);
+      setPersonInfo(response.data.people[0]);
+      setOriginalPersonInfo(response.data.people[0]);
       setEdit(false);
+      showBanner({ style: 'success', message: 'Update successful' });
+    } catch (error) {
+      showBanner({ style: 'error', message: 'Update failed' });
     }
+  };
+
+  const handleCancelEdit = () => {
+    setPersonInfo(originalPersonInfo); // Reset to original data
+    setEdit(false);
   };
 
   if (loading) return null;
@@ -42,7 +60,7 @@ const PersonInfo = () => {
         <div className='absolute right-0 top-0'>
           {edit ? (
             <div>
-              <button className='btn-lte mx-2' onClick={() => setEdit(false)}>
+              <button className='btn-lte mx-2' onClick={handleCancelEdit}>
                 CANCEL
               </button>
               <button className='btn' onClick={handleUpdatePerson}>

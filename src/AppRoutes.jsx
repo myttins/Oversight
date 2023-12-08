@@ -9,7 +9,7 @@ import Login from './pages/login/LoginPage';
 import Error from './util/error/Error';
 import Navbar from './util/navbars/Navbar';
 import Sidebar from './util/navbars/Sidebar';
-const NewPerson = lazy(() => import('./pages/person/NewPerson.jsx'));
+const NewPerson = lazy(() => import('./pages/vehicle/vehicleInfo/NewPerson.jsx'));
 import AllPayments from './pages/payments/AllPayments';
 import Schedules from './pages/payments/schedules/Schedules';
 import { useLogin } from './contexts/LoginContext';

@@ -1,17 +1,18 @@
 import React, { useContext, useState } from 'react';
-import FormElement from '../../util/FormElement.jsx';
-import axios from 'axios';
+import FormElement from '../../../util/FormElement.jsx';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { MessageBannerContext } from '../../contexts/MessageBannerContext.jsx';
+import { MessageBannerContext } from '../../../contexts/MessageBannerContext.jsx';
+import axios from 'axios';
 
 const NewPerson = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [idSearched, setIdSearched] = useState(false);
   const [personFound, setPersonFound] = useState(false);
   const [person, setPerson] = useState({});
 
-  const navigate = useNavigate();
-  const { showBanner, hideBanner } = useContext(MessageBannerContext);
+  const { showBanner } = useContext(MessageBannerContext);
 
   const [urlParams, setUrlParams] = useSearchParams();
   const driverOrOwner = urlParams.get('type');
@@ -26,15 +27,11 @@ const NewPerson = () => {
     }
 
     try {
-      const response = await axios.get(`/api/people/${person.id_no}`);
+      const response = await axios.get(`/api/people?id_no=${person.id_no}`);
       if (response.data.length === 0) {
-        showBanner({
-          style: 'neutral',
-          message: 'No person found. Input info',
-        });
+        showBanner({ style: 'neutral', message: 'No person found. Input info' });
         setPersonFound(false);
         setIdSearched(true);
-        return;
       } else {
         showBanner({ style: 'neutral', message: 'Person found.' });
         setPersonFound(true);
@@ -66,6 +63,7 @@ const NewPerson = () => {
       showBanner({ style: 'error', message: 'Invalid input' });
       return;
     }
+
     try {
       await axios.post(`/api/people?input=${personFound}&type=${driverOrOwner}&vehicleid=${id}`, person);
       showBanner({ style: 'success', message: 'Person added' });
@@ -77,7 +75,7 @@ const NewPerson = () => {
   };
 
   return (
-    <div className=' p-4 bg-white mt-4'>
+    <div className='box-white'>
       <h2>ADD NEW PERSON</h2>
       {!idSearched ? (
         <>
@@ -96,7 +94,7 @@ const NewPerson = () => {
         </>
       ) : (
         <div>
-          <FormElement label={'id'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
+          <FormElement label={'id_no'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
           <FormElement label={'name'} type={'text'} readOnly={personFound} formInfo={person} setFormInfo={setPerson} />
           <FormElement
             label={'phone_no'}
@@ -134,7 +132,9 @@ const NewPerson = () => {
             setFormInfo={setPerson}
           />
           <div className='flex justify-between'>
-            <button className='btn-lte' onClick={() => navigate(-1)}>CANCEL</button>
+            <button className='btn-lte' onClick={() => navigate(-1)}>
+              CANCEL
+            </button>
             <div>
               <button className='btn-lte' onClick={clearForm}>
                 CLEAR

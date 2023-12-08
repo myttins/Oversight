@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import FormElement from '../../../util/FormElement.jsx';
 import translate from '../../../assets/translate.js';
-import ErrorMessage from '../../../util/error/ErrorMessage.jsx';
 import ButtonWithIcon from '../../../util/buttons/ButtonWithIcon.jsx';
 import EditIcon from '../../../assets/icons/edit.svg';
 import { useLanguage } from '../../../contexts/LanguageContext.jsx';
@@ -14,7 +13,6 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo }) => {
   const { language } = useLanguage();
 
   const [readOnly, setReadOnly] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const [vehicle, setVehicle] = useState(vehicleInfo);
 
@@ -35,26 +33,6 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo }) => {
     setReadOnly(true);
     setVehicle(vehicleInfo);
   };
-
-  // const inputIsValid = () => {
-  //   if (
-  //     !vehicleInfo.plate ||
-  //     !vehicleInfo.vehicle_model ||
-  //     !vehicleInfo.category ||
-  //     !vehicleInfo.vehicle_model ||
-  //     !vehicleInfo.engine_no ||
-  //     !vehicleInfo.vehicle_color ||
-  //     !vehicleInfo.vin ||
-  //     !vehicleInfo.notes ||
-  //     !vehicleInfo.operating_license_no ||
-  //     !vehicleInfo.fuel_type
-  //   ) {
-  //     setErrorMessage('Invalid Input');
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
 
   return (
     <div className='p-4 bg-white my-4'>
@@ -144,7 +122,6 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo }) => {
           setFormInfo={setVehicle}
         />
       </div>
-      {errorMessage.length > 0 ? <ErrorMessage message={errorMessage} /> : null}
     </div>
   );
 };

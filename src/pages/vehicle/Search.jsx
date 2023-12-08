@@ -49,7 +49,7 @@ const Search = () => {
   }, [location]);
 
   return (
-    <div className="border p-4 bg-white">
+    <div className="box-white">
       <h1 className="mt-6">VEHICLE SEARCH</h1>
       <form>
         <input

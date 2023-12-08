@@ -5,21 +5,36 @@ const path = require('path');
 
 const peopleController = {
   getInfo: async (req, res, next) => {
-    const { id } = req.params;
     const { type } = req.query;
 
+    let searchKey;
+    let id;
+    if (req.query.id) {
+      searchKey = 'id';
+      id = req.query.id;
+    } else if (req.query.id_no) {
+      searchKey = 'id_no';
+      id = `'${req.query.id_no}'`;
+    } else {
+      return next({
+        location: 'Error located in peopleController.getInfo',
+        error: 'Invalid query parameters in request'
+      });
+    }
+
     try {
+      let queryStr;
       if (type === 'vehicles ') {
       } else if (type === 'main') {
-        const queryStr = `SELECT id, driv_lic_no, current_address, business_lic_no, service_card_no FROM people WHERE id=${id}`;
-        const data = await db.query(queryStr);
-        res.locals.person = data.rows[0];
+        queryStr = `SELECT id, driv_lic_no, current_address, business_lic_no, service_card_no FROM people WHERE ${searchKey}=${id}`;
+      } else if (type === 'header') {
+        queryStr = `SELECT id, id_no, name, phone_no, photo FROM people WHERE ${searchKey}=${id} `;
       } else {
-        const queryStr = `SELECT id, id_no, name, phone_no, photo FROM people 
-        WHERE id=${id} `;
-        const data = await db.query(queryStr);
-        res.locals.person = data.rows[0];
+        queryStr = `SELECT * FROM people WHERE ${searchKey}=${id} `;
       }
+
+      const data = await db.query(queryStr);
+      res.locals.people = data.rows;
       return next();
     } catch (error) {
       return next({
@@ -68,7 +83,7 @@ const peopleController = {
       const values = [...Object.values(body), id];
 
       const data = await db.query(queryStr, values);
-      res.locals.data = data.rows[0];
+      res.locals.people = data.rows;
       return next();
     } catch (error) {
       return next({

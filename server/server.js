@@ -54,7 +54,7 @@ app.use((_req, res) => {
 
 app.use((error, _req, res, _next) => {
   console.error(error);
-  return res.status(error.status || 500).json({ message: 'Internal Server Error' });
+  return res.status(error.status || 500).json({ message: error.message || 'Internal Server Error' });
 });
 
 const { initializeScheduledJobs } = require('./schedulers/paymentScheduler');

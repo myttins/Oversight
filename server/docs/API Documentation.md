@@ -26,35 +26,36 @@ This file provides documentation on API endpoints.
 
 **Description** : Gets all people information
 
-### Endpoint: `/api/people/:id`
+### Endpoint: `/api/people/`
 
 #### Method:_GET_
 
-**Description** : Gets basic info about person. Query params are used to determine subset of data retrieved. `header` param is default if no params are used. 
+**Description** : Gets basic info about person. Query params are used to determine subset of data retrieved. `header` param is default if no params are used. Example: `/api/people?id=3&type=header`. Returns array of people found.
 
 **Query Params** :
 
 ```
 type: 'header' | 'main' | 'vehicles'
+column: 'id' | 'id_no'
 ```
 
 **Example Response**
 
 ```json
-{
-  "person": {
+[
+  {
     "id": 1,
     "id_no": "10",
     "name": "李",
     "phone_no": "555-876-5432",
     "photo": "/profiles/1/pp/1.png"
   }
-}
+]
 ```
 
 #### Method: _POST_
 
-**Description** : Adds new person to a vehicle as driver or owner. If the person is new, it will also add the person into the person table as a new entry. 
+**Description** : Adds new person to a vehicle as driver or owner. If the person is new, it will also add the person into the person table as a new entry.
 
 **Example Request Body** :
 
@@ -62,7 +63,7 @@ type: 'header' | 'main' | 'vehicles'
 {
   "new": true,
   "type": "driver",
-  "person": {
+  "people": {
     "name": "kevin"
     ...
   }
@@ -71,18 +72,18 @@ type: 'header' | 'main' | 'vehicles'
 
 #### Method: _PATCH_
 
-**Description** : Updates existing person with new info. Cannot be used to update ID. The request can receive optional image file with FormData key `image`. The `id` of the person is taken from the request body, so make sure to include the `id` value with the body data. This endpint returns the `id` of the person updated. See returned response below. 
+**Description** : Updates existing person with new info. Cannot be used to update ID. The request can receive optional image file with FormData key `image`. The `id` of the person is taken from the request body, so make sure to include the `id` value with the body data. This endpint returns the `id` of the person updated. See returned response below.
 
 **Example Response** :
 
 ```json
 {
   "message": "Update Successful",
-  "data": {
+  "people": [{
     "id": "1",
     "id_no": "1234",
     ...
-  }
+  }]
 }
 ```
 

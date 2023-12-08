@@ -9,7 +9,7 @@
 
 html {
   /* font-family: 'simplified-chinese'; */
-  @apply bg-zinc-300;
+  @apply bg-zinc-100;
   @apply text-sm;
   @apply text-zinc-900;
 }
@@ -65,7 +65,7 @@ h2 {
 
 .box-white {
   @apply bg-white;
-  @apply py-4 px-8 my-4;
+  @apply p-4 m-4;
   @apply rounded;
   @apply border;
   @apply shadow-sm;

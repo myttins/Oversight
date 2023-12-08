@@ -5,13 +5,12 @@ const multer = require('multer');
 
 const upload = multer();
 
-router.get('/:id', peopleController.getInfo, (req, res) => {
-  const { person } = res.locals;
-  return res.status(200).json({ person });
+router.get('/', peopleController.getInfo, (req, res) => {
+  return res.status(200).json(res.locals.people);
 });
 
 router.patch('/:id', upload.single('image'), peopleController.updateInfo, (req, res) => {
-  return res.status(200).json({ message: 'Update Successful', data: res.locals.data });
+  return res.status(200).json({ message: 'Update Successful', people: res.locals.people});
 });
 
 router.delete('/', peopleController.deletePersonWithVehicleId, (req, res) => {

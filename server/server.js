@@ -33,9 +33,8 @@ app.use('/api/test', fileController.upload, (req, res) => {
   return res.status(200).json('test endpoint');
 });
 
-
-const PROD_STATIC_PATH = '/opt/render/project/public'
-const DEV_STATIC_PATH = '/Users/kevin/git-repos/public'
+const PROD_STATIC_PATH = '/opt/render/project/public';
+const DEV_STATIC_PATH = '/Users/kevin/git-repos/public';
 
 const staticPath = process.env.NODE_ENV === 'production' ? PROD_STATIC_PATH : DEV_STATIC_PATH;
 
@@ -63,4 +62,9 @@ const PORT = parseInt(process.env.PORT) || 3000;
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
   initializeScheduledJobs(); // Initialize scheduled tasks
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Running in development mode');
+  } else if (process.env.NODE_ENV === 'production') {
+    console.log('Running in production mode');
+  }
 });

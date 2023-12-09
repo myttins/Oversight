@@ -77,7 +77,7 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
   return (
     <div>
       {/* Table filter input boxes */}
-      <div className='flex w-full'>
+      <div className='flex w-full space-x-4 p-2'>
         {checkbox && <span className='w-6'></span>}
         {filter &&
           columns.map((column, i) => (
@@ -86,18 +86,15 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
               value={filters[column.value] || ''}
               placeholder={'Filter'}
               onChange={(e) => handleFilterChange(column.value, e.target.value)}
-              className={`input ${widthClasses[column.width]} mr-2 mb-2`}
+              className={`input ${widthClasses[column.width]}`}
             />
           ))}
       </div>
 
       {/* Table column titles */}
-      <div className='flex w-full bg-zinc-100 p-2'>
+      <div className='flex w-full bg-zinc-100 p-2 space-x-4'>
         {checkbox && (
-          <span
-            className='w-6 flex items-center justify-between cursor-pointer '
-            onClick={() => handleSort('checkbox')}
-          >
+          <span className='w-6 flex items-center justify-between cursor-pointer' onClick={() => handleSort('checkbox')}>
             <img className={'h-4'} src={SortArrow} />
           </span>
         )}
@@ -109,7 +106,7 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
                 key={i}
                 className={`${
                   widthClasses[column.width]
-                } px-2 font-bold flex items-center justify-between cursor-pointer 
+                } font-bold flex items-center justify-between cursor-pointer
                 ${sortConfig.key === column.value && 'underline'}`}
                 onClick={() => handleSort(column.value)}
               >
@@ -119,7 +116,7 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
             );
           else
             return (
-              <span key={i} className={`${widthClasses[column.width]} pl-2 font-bold flex`}>
+              <span key={i} className={`${widthClasses[column.width]} font-bold flex`}>
                 {column.title}
               </span>
             );
@@ -131,7 +128,7 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
         {sortedAndFilteredData.map((row, i) => (
           <div
             key={i}
-            className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300 last:border-b'
+            className='flex w-full py-3 px-2 border-t text-zinc-700 text-sm hover:bg-zinc-50 transition-transform duration-300 last:border-b space-x-4'
           >
             {checkbox && (
               <span className='w-6'>
@@ -139,15 +136,25 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
                   type='checkbox'
                   onChange={() => handleCheck(row[columns[0].value])}
                   checked={row.checked === true}
-                  className='mr-2'
                 />
               </span>
             )}
-            {columns.map((column, i) => (
-              <span key={i} className={`${widthClasses[column.width]} px-2 ${column.style || ''}`}>
-                {row[column.value]}
-              </span>
-            ))}
+            {columns.map((column, i) => {
+              if (column.download)
+                return (
+                  <span key={i} className={`${widthClasses[column.width]} underline ${column.style || ''}`}>
+                    <a href={row[column.path]} download>
+                      {row[column.value]}
+                    </a>
+                  </span>
+                );
+
+              return (
+                <span key={i} className={`${widthClasses[column.width]} {column.style || ''}`}>
+                  {row[column.value]}
+                </span>
+              );
+            })}
           </div>
         ))}
       </div>

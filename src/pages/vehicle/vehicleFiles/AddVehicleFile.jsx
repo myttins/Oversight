@@ -17,8 +17,6 @@ const AddVehicleFile = () => {
   };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-
     if (!selectedFile || !fileInfo.label) {
       showBanner({ style: 'error', message: 'Invalid input' });
       return;
@@ -33,21 +31,13 @@ const AddVehicleFile = () => {
 
     try {
       const response = await axios.post(`/api/vehicle/${id}/files`, formData);
-      console.log(response);
       showBanner({ style: 'success', message: 'File saved' });
+      navigate(`/vehicle/${id}/files`);
     } catch (error) {
       console.error(error);
       showBanner({ style: 'error' });
     }
     return;
-
-    //   try {
-    //     const response = await axios.post('/api/test', formData);
-    //     alert('Success');
-    //   } catch (error) {
-    //     alert('Error: ' + error.message);
-    //     console.error(error);
-    //   }
   };
 
   return (

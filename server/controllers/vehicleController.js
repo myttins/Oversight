@@ -58,6 +58,22 @@ const vehicleController = {
       });
     }
   },
+
+  getFiles: async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+      const queryStr = `SELECT * FROM files WHERE vehicle_id = ${id}`;
+      const data = await db.query(queryStr);
+      res.locals.data = data.rows;
+      return next()
+    } catch (error) {
+      return next({
+        location: 'Error located in vehicleController.getFiles',
+        error,
+      });
+    }
+  },
 };
 
 vehicleController.getVehicleInfoWithId = async (req, res, next) => {

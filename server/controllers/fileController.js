@@ -3,6 +3,7 @@ const db = require('../models');
 const query = require('../query');
 const fs = require('fs');
 const path = require('path');
+const { dir } = require('console');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -53,24 +54,24 @@ const fileController = {
       }
 
       // Define the directory path
-      const PROD_STATIC_PATH = '/opt/render/project/public';
-      const DEV_STATIC_PATH = '/Users/kevin/git-repos/public';
+      const PROD_STATIC_PATH = '/opt/render/project';
+      const DEV_STATIC_PATH = '/Users/kevin/git-repos';
       const staticPath = process.env.NODE_ENV === 'production' ? PROD_STATIC_PATH : DEV_STATIC_PATH;
-      const directoryPath = path.join(staticPath, `files/${id}`);
+      const directoryPath = path.join(staticPath, `/public/files/${id}`);
 
       // Create directory if it does not exist
-      // if (!fs.existsSync(directoryPath)) {
-      //   fs.mkdirSync(directoryPath, { recursive: true });
-      // }
+      if (!fs.existsSync(directoryPath)) {
+        fs.mkdirSync(directoryPath, { recursive: true });
+      }
       const fileName = `${Date.now()}-${file.originalname}`;
 
       // Define the file path
       const filePath = path.join(directoryPath, fileName);
 
       // Save the file
-      // fs.writeFileSync(filePath, file.buffer);
+      fs.writeFileSync(filePath, file.buffer);
       res.locals.fileName = fileName;
-      res.locals.filePath = filePath;
+      res.locals.filePath = `/public/files/${id}/` + fileName;
       return next();
     } catch (error) {
       return next({

@@ -10,9 +10,13 @@ This file provides documentation on API endpoints.
 
 ### Endpoint: `/api/vehicle/:id/files`
 
+#### Method: GET
+
+**Description** : Gets all files for specifed vehicle.
+
 #### Method: POST
 
-**Description** : Adds a file to specified vehicle.
+**Description** : Adds a file to specified vehicle. Requires a body with `label` and `category`. Returns the new row in table files, including `vehicle_id` and `timestamp`.
 
 ### Endpoint: `/api/people`
 

@@ -84,6 +84,10 @@ router.post('/:id', authController.verifyTokenFromCookie, vehicleController.upda
   return res.status(200).json({ message: `Vehicle ${id} updated successfully.` });
 });
 
+router.get('/:id/files', vehicleController.getFiles, (req, res) => {
+  return res.status(200).json(res.locals.data);
+});
+
 router.post(
   '/:id/files',
   upload.single('file'),

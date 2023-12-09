@@ -24,7 +24,7 @@ const InsurerContainer = ({ insurer, setInsurer }) => {
   };
 
   return (
-    <div className="rounded-md p-4 my-4 bg-white">
+    <div className="py-4 my-4 bg-white border-t">
       <div className="flex justify-between">
         <h2>{'INSURER INFO'}</h2>
         {insurer.length === 0 && (

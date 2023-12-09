@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Outlet, Route, Routes } from 'react-router';
-const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 import { AllVehicles } from './pages/vehicle/AllVehicles';
 const Search = lazy(() => import('./pages/vehicle/Search'));
 import AddInsurer from './pages/vehicle/vehicleInfo/AddInsurer';
@@ -20,7 +19,9 @@ import NewVehiclePayment from './pages/vehicle/vehiclePayments/VehiclePaymentsNe
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 import NewVehicle from './pages/vehicle/NewVehicle';
 import Loading from './util/Loading';
-import VehicleInsuranceContainer from './pages/vehicle/vehicleInsurance/VehicleInsuranceContainer';
+import VehicleFilesContainer from './pages/vehicle/vehicleFiles/VehicleFilesContainer';
+import Dashboard from './pages/dashboard/Dashboard';
+import AddVehicleFile from './pages/vehicle/vehicleFiles/AddVehicleFile';
 const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 const Person = lazy(() => import('./pages/person/Person'));
@@ -90,7 +91,8 @@ const AppRoutes = () => {
             <Route index element={<Navigate replace to='info' />} />
             <Route path='info' element={<VehicleInfo />} />
             <Route path='new-person' element={<NewPerson />} />
-            <Route path='insurance' element={<VehicleInsuranceContainer />} />
+            <Route path='files' element={<VehicleFilesContainer />} />
+            <Route path='files/new' element={<AddVehicleFile />} />
 
             {/* TODO change route name to manage instead of new-schedule */}
             <Route path='new-schedule' element={<VehicleScheduleManage />} />

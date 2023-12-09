@@ -9,7 +9,7 @@ import EditIcon from '../../../assets/icons/edit.svg';
 import { useLanguage } from '../../../contexts/LanguageContext.jsx';
 import { MessageBannerContext } from '../../../contexts/MessageBannerContext.jsx';
 
-const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo }) => {
+const VehicleInfoForm = ({ vehicleInfo, setVehicleInfo }) => {
   const { language } = useLanguage();
 
   const [readOnly, setReadOnly] = useState(true);
@@ -35,7 +35,7 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo }) => {
   };
 
   return (
-    <div className='p-4 bg-white my-4'>
+    <div className=''>
       <div className='flex justify-between'>
         <h2>{language ? translate.vehicle_info[0] : translate.vehicle_info[1]}</h2>
         {readOnly ? (
@@ -126,4 +126,4 @@ const VehicleInfoContainer = ({ vehicleInfo, setVehicleInfo }) => {
   );
 };
 
-export default VehicleInfoContainer;
+export default VehicleInfoForm;

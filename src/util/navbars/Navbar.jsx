@@ -13,7 +13,11 @@ const Navbar = ({ toggleSidebar }) => {
   const { showBanner } = useMessageBanner();
 
   const handleLogout = async () => {
-    await axios.get('/api/auth/logout');
+    try {
+      await axios.get('/api/auth/logout');
+    } catch (error) {
+      console.error(error);
+    }
     setIsLoggedIn(false);
   };
   return (
@@ -21,7 +25,7 @@ const Navbar = ({ toggleSidebar }) => {
       <div className='z-50 relative flex place-content-between items-center m-auto w-full border-b p-4 bg-white h-[55px]'>
         <div className='flex'>
           <ButtonWithIcon alt={'menu'} icon={MenuIcon} onClick={toggleSidebar} />
-          <h1 className='mx-4'>YINGBIN1</h1>
+          <h1 className='mx-4'>YINGBIN</h1>
         </div>
         <div>
           <button

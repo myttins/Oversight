@@ -38,8 +38,9 @@ const NewVehicle = () => {
       showBanner({ style: 'error', message: axios.isAxiosError(error) ? error.response.data.message : '' });
     }
   };
+
   return (
-    <div className='bg-white p-4'>
+    <div className='box-white'>
       <form onSubmit={handleAddNewVehicle}>
         <FormElement
           label={'plate'}

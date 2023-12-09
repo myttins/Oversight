@@ -1,0 +1,75 @@
+import React, { useState } from 'react';
+import FormElement from '../../../util/FormElement';
+import { useNavigate } from 'react-router';
+import { useMessageBanner } from '../../../contexts/MessageBannerContext';
+
+const AddVehicleFile = () => {
+  const navigate = useNavigate();
+  const [fileInfo, setFileInfo] = useState({});
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const { showBanner } = useMessageBanner();
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
+
+    if (!selectedFile || !fileInfo.label) {
+      showBanner({ style: 'error', message: 'Invalid input' });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      const response = await axios.post('/api/test', formData);
+      alert('Success');
+    } catch (error) {
+      alert('Error: ' + error.message);
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className='box-white'>
+      <header>
+        <h1>ADD FILE</h1>
+      </header>
+      <div>
+        <FormElement label={'label'} type='text' readOnly={false} formInfo={fileInfo} setFormInfo={setFileInfo} />
+        <FormElement
+          label={'category'}
+          type='dropdown'
+          options={[
+            { label: 'DOCUMENTS', value: 'DOCUMENTS' },
+            { label: 'CLAIMS', value: 'CLAIMS' },
+            { label: 'OTHER', value: 'OTHER' },
+          ]}
+          readOnly={false}
+          formInfo={fileInfo}
+          setFormInfo={setFileInfo}
+        />
+        <div className='flex my-2'>
+          <label htmlFor={'file'} className='w-1/3'>
+            FILE
+          </label>
+          <input type='file' onChange={handleFileChange} />
+        </div>
+      </div>
+      <div className='flex justify-end'>
+        <button className='btn-lte mx-2' onClick={() => navigate(-1)}>
+          CANCEL
+        </button>
+        <button className='btn' onClick={handleSubmit}>
+          SAVE
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default AddVehicleFile;

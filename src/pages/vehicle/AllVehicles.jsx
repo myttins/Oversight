@@ -40,7 +40,7 @@ export const AllVehicles = () => {
 
   return (
     <div className="box-white">
-      <h1 className="mt-6 text-2xl">Vehicle</h1>
+      <h1>ALL VEHICLES</h1>
       <div className="mt-6 flex w-full border-b-2">
         <a className="w-1/6">PLATE</a>
         <a className="w-2/6">OWNER</a>

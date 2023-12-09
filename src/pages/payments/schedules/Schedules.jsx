@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { MessageBannerContext } from '../../../contexts/MessageBannerContext';
-import axios  from 'axios';
+import axios from 'axios';
 import Table from '../../../util/Table';
 
 const Schedules = () => {
@@ -36,11 +36,13 @@ const Schedules = () => {
   }, []);
 
   return (
-    <div className='bg-white p-4'>
-      <header className='py-6 px-4'>
+    <div className='box-white'>
+      <header>
         <h1>FEE SCHEDULES</h1>
       </header>
-      <Table columns={tableColumns} data={data} filter={true} />
+      <div className='py-4'>
+        <Table columns={tableColumns} data={data} filter={true} />
+      </div>
     </div>
   );
 };

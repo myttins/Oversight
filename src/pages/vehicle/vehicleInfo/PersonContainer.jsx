@@ -35,7 +35,7 @@ const PersonContainer = (props) => {
   };
 
   return (
-    <div className='rounded-md my-4 p-4 bg-white'>
+    <div className='my-4 py-4 border-t'>
       <div className='flex justify-between'>
         {driverOrOwner === 'driver' ? (
           <h2>{language ? translate.driver_info[0] : translate.driver_info[1]}</h2>

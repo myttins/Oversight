@@ -5,7 +5,6 @@ import { useMessageBanner } from '../../../contexts/MessageBannerContext';
 
 import axios from 'axios';
 import { useParams } from 'react-router';
-import Loading from '../../../util/Loading';
 
 const VehiclePaymentsContainer = () => {
   const { id } = useParams();
@@ -33,12 +32,8 @@ const VehiclePaymentsContainer = () => {
     fetchPaymentsAndSetState();
   }, [id]);
 
-  if (loading)
-    return (
-      <div className='bg-white p-4'>
-        <Loading />
-      </div>
-    );
+  if (loading) return null;
+   
 
   return (
     <div>

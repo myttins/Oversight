@@ -1,10 +1,9 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import VehicleInfoContainer from './VehicleInfoContainer';
+import VehicleInfoForm from './VehicleInfoForm';
 import PersonContainer from './PersonContainer';
 import InsurerContainer from './InsurerContainer';
-import Loading from '../../../util/Loading';
 
 const VehicleInfo = () => {
   const { id } = useParams();
@@ -17,11 +16,7 @@ const VehicleInfo = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id === 'new') {
-      clearState();
-    } else {
-      fetchVehicleDataAndSetState();
-    }
+    fetchVehicleDataAndSetState();
   }, [id]);
 
   const fetchVehicleDataAndSetState = async () => {
@@ -37,33 +32,17 @@ const VehicleInfo = () => {
     }
   };
 
-  const clearState = () => {
-    setVehicleInfo({
-      fuel_type: 'GAS',
-    });
-    setDrivers([]);
-    setOwner([]);
-    setInsurer([]);
-  };
+  if (loading) return null;
 
-  if (id === 'new') {
-    return (
-      <div>
-        <VehicleInfoContainer vehicleInfo={vehicleInfo} setVehicleInfo={setVehicleInfo} newVehicle={true} />
-      </div>
-    );
-  }
-
-  return loading ? (
-    <Loading />
-  ) : (
-    <>
-      <VehicleInfoContainer vehicleInfo={vehicleInfo} setVehicleInfo={setVehicleInfo} newVehicle={false} />
+  return (
+    <div className='box-white'>
+      <VehicleInfoForm vehicleInfo={vehicleInfo} setVehicleInfo={setVehicleInfo} newVehicle={false} />
       <PersonContainer people={owner} setPeople={setOwner} driverOrOwner={'owner'} />
 
       <PersonContainer people={drivers} setPeople={setDrivers} driverOrOwner={'driver'} />
       <InsurerContainer insurer={insurer} setInsurer={setInsurer} />
-    </>
+    </div>
   );
 };
+
 export default VehicleInfo;

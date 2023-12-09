@@ -50,7 +50,7 @@ const Search = () => {
 
   return (
     <div className="box-white">
-      <h1 className="mt-6">VEHICLE SEARCH</h1>
+      <h1>VEHICLE SEARCH</h1>
       <form>
         <input
           className="input w-4/6 mr-2 my-2"

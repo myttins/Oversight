@@ -27,7 +27,7 @@ const VehiclePaymentsNew = () => {
   };
 
   return (
-    <div className='bg-white p-4 my-4'>
+    <div className='box-white'>
       <form onSubmit={handleSubmit}>
         <FormElement label={'description'} type='text' readOnly={false} formInfo={form} setFormInfo={setForm} />
         <FormElement label={'amount'} type={'decimal'} readOnly={false} formInfo={form} setFormInfo={setForm} />

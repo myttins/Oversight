@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
-const VehicleInsuranceContainer = () => {
+const VehicleFilesContainer = () => {
+  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -27,20 +29,28 @@ const VehicleInsuranceContainer = () => {
       console.error(error);
     }
   };
+
+  /**
+   * ID, LABEL, FILENAME, DATE_ADDED,
+   */
+
+  const tableColumns = [];
   return (
     <div className='box-white'>
-      <div className='p-4 border'>
-        TESTING FILE UPLOAD
-        <form onSubmit={handleSubmit}>
-          <label className='m-2'>UPLOAD FILE</label>
-          <input type='file' onChange={handleFileChange} />
-          <button type={'submit'} className='btn-lte'>
-            SUBMIT
-          </button>
-        </form>
-      </div>
+      <header className='flex justify-between'>
+        <h1>FILES</h1>
+        <button className='btn' onClick={() => navigate('new')}>ADD</button>
+      </header>
+
+      <form onSubmit={handleSubmit}>
+        <label className='m-2'>UPLOAD FILE</label>
+        <input type='file' onChange={handleFileChange} />
+        <button type={'submit'} className='btn-lte'>
+          SUBMIT
+        </button>
+      </form>
     </div>
   );
 };
 
-export default VehicleInsuranceContainer;
+export default VehicleFilesContainer;

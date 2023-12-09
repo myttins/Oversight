@@ -23,8 +23,8 @@ const VehicleSchedule = ({ schedules }) => {
   };
 
   return (
-    <div className='bg-white p-4 my-4'>
-      <header className='flex justify-between py-4'>
+    <div className='box-white'>
+      <header className='flex justify-between'>
         <h2>SCHEDULES</h2>
         <button className='btn mx-2' onClick={handleAddSchedule}>
           MANAGE
@@ -34,7 +34,9 @@ const VehicleSchedule = ({ schedules }) => {
       {!schedules || schedules.length === 0 ? (
         <div>NO SCHEDULES</div>
       ) : (
-        <Table columns={tableColumns} data={schedules} filter={false} />
+        <div className='py-4'>
+          <Table columns={tableColumns} data={schedules} filter={false} />
+        </div>
       )}
     </div>
   );

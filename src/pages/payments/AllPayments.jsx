@@ -35,11 +35,13 @@ const NewPayments = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className='bg-white p-4'>
-      <header className='py-6 px-4'>
+    <div className='box-white'>
+      <header>
         <h1>PAYMENTS</h1>
       </header>
-      <Table columns={tableColumns} data={paymentsData} setData={setPaymentsData} filter={true} checkbox={true}/>
+      <div className='py-4'>
+        <Table columns={tableColumns} data={paymentsData} setData={setPaymentsData} filter={true} checkbox={true} />
+      </div>
     </div>
   );
 };

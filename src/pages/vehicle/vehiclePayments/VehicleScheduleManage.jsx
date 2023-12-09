@@ -64,7 +64,7 @@ const VehucleScheduleManage = () => {
 
   if (!loading)
     return (
-      <div className='bg-white p-4 my-4 h-'>
+      <div className='box-white'>
         <header>
           <h2>MANAGE SCHEDULES</h2>
         </header>

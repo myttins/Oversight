@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const peopleController = require('../controllers/peopleController');
 const multer = require('multer');
-
 const upload = multer();
 
 router.get('/', peopleController.getInfo, (req, res) => {

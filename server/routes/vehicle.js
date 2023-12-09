@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const query = require('../query');
+const multer = require('multer');
+const upload = multer();
 
 const vehicleController = require('../controllers/vehicleController');
 const peopleController = require('../controllers/peopleController');
 const authController = require('../controllers/authController');
+const fileController = require('../controllers/fileController');
 
 const db = require('../models');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
@@ -35,15 +38,10 @@ router.get('/', async (req, res) => {
   return res.status(200).json(results.rows);
 });
 
-router.get(
-  '/plate/:plate',
-  vehicleController.getVehicleWithPlate,
-  (req, res) => {
-    const { data } = res.locals;
-    return res.status(200).json(data);
-  },
-);
-
+router.get('/plate/:plate', vehicleController.getVehicleWithPlate, (req, res) => {
+  const { data } = res.locals;
+  return res.status(200).json(data);
+});
 
 router.get(
   '/info/:id',
@@ -65,8 +63,8 @@ router.get(
 );
 
 router.get('/:id', vehicleController.getVehicleHeader, (req, res) => {
-  return res.status(200).json(res.locals.data)
-})
+  return res.status(200).json(res.locals.data);
+});
 
 router.post('/new', vehicleController.addVehicle, (req, res) => {
   const vehicleId = res.locals.vehicleId;
@@ -77,23 +75,22 @@ router.post('/insurer', vehicleController.addInsurer, (req, res) => {
   return res.status(200).json({ message: 'Insurer updated.' });
 });
 
-router.delete(
-  '/insurer',
-  vehicleController.deleteInsurerWithVehicleId,
-  (req, res) => {
-    return res.status(200).json({ message: 'Insurer deleted successfully.' });
-  },
-);
+router.delete('/insurer', vehicleController.deleteInsurerWithVehicleId, (req, res) => {
+  return res.status(200).json({ message: 'Insurer deleted successfully.' });
+});
+
+router.post('/:id', authController.verifyTokenFromCookie, vehicleController.updateVehicleInfoWithId, (req, res) => {
+  const { id } = req.params;
+  return res.status(200).json({ message: `Vehicle ${id} updated successfully.` });
+});
 
 router.post(
-  '/:id',
-  authController.verifyTokenFromCookie,
-  vehicleController.updateVehicleInfoWithId,
+  '/:id/files',
+  upload.single('file'),
+  fileController.saveFileToVehicle,
+  vehicleController.addFileToVehicle,
   (req, res) => {
-    const { id } = req.params;
-    return res
-      .status(200)
-      .json({ message: `Vehicle ${id} updated successfully.` });
+    return res.status(200).json(res.locals.data);
   },
 );
 

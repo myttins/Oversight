@@ -39,6 +39,25 @@ const vehicleController = {
       });
     }
   },
+  addFileToVehicle: async (req, res, next) => {
+    const { id } = req.params;
+    const { label, category } = req.body;
+    const { filePath, fileName } = res.locals;
+
+    try {
+      const queryStr = `INSERT INTO files (vehicle_id, label, category, file_name, file_path) 
+      VALUES (${id}, '${label}', '${category}', '${fileName}', '${filePath}') RETURNING id, vehicle_id, label, file_name, file_path`;
+
+      const data = await db.query(queryStr);
+      res.locals.data = data.rows[0];
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in vehicleController.addFileToVehicle',
+        error,
+      });
+    }
+  },
 };
 
 vehicleController.getVehicleInfoWithId = async (req, res, next) => {

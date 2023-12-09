@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import FormElement from '../../../util/FormElement';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useMessageBanner } from '../../../contexts/MessageBannerContext';
+import axios from 'axios';
 
 const AddVehicleFile = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [fileInfo, setFileInfo] = useState({});
+  const [fileInfo, setFileInfo] = useState({ label: 1 });
   const [selectedFile, setSelectedFile] = useState(null);
 
   const { showBanner } = useMessageBanner();
@@ -23,15 +25,29 @@ const AddVehicleFile = () => {
     }
 
     const formData = new FormData();
+    for (const key in fileInfo) {
+      formData.append(key, fileInfo[key]);
+    }
+
     formData.append('file', selectedFile);
 
     try {
-      const response = await axios.post('/api/test', formData);
-      alert('Success');
+      const response = await axios.post(`/api/vehicle/${id}/files`, formData);
+      console.log(response);
+      showBanner({ style: 'success', message: 'File saved' });
     } catch (error) {
-      alert('Error: ' + error.message);
       console.error(error);
+      showBanner({ style: 'error' });
     }
+    return;
+
+    //   try {
+    //     const response = await axios.post('/api/test', formData);
+    //     alert('Success');
+    //   } catch (error) {
+    //     alert('Error: ' + error.message);
+    //     console.error(error);
+    //   }
   };
 
   return (

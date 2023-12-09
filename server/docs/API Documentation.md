@@ -6,19 +6,13 @@ This file provides documentation on API endpoints.
 
 #### Method: GET
 
-**Description** : Retrieves _header_ info about the specified vehicle, such as plate, activation date, status (active)
+**Description** : Retrieves _header_ info about the specified vehicle: `id`, `plate`, `activation_date`, `status` (active)
 
-**Parameters** :
+### Endpoint: `/api/vehicle/:id/files`
 
-- `id (int)` : vehicle id
+#### Method: POST
 
-**Example Response** :
-
-```javascript
-{
-  req: 'body';
-}
-```
+**Description** : Adds a file to specified vehicle.
 
 ### Endpoint: `/api/people`
 

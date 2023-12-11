@@ -193,7 +193,6 @@ const Person = () => {
             <ButtonWithIcon
               icon={EditIcon}
               onClick={() => {
-                console.log(1);
                 setEdit(true);
               }}
               alt={'edit'}

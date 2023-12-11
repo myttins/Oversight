@@ -22,6 +22,9 @@ import Loading from './util/Loading';
 import VehicleFilesContainer from './pages/vehicle/vehicleFiles/VehicleFilesContainer';
 import Dashboard from './pages/dashboard/Dashboard';
 import AddVehicleFile from './pages/vehicle/vehicleFiles/AddVehicleFile';
+import ResetPassword from './pages/login/ResetPassword';
+import Admin from './pages/admin/Admin';
+import Accounts from './pages/admin/Accounts';
 const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 const Person = lazy(() => import('./pages/person/Person'));
@@ -81,6 +84,7 @@ const AppRoutes = () => {
     >
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/reset' element={<ResetPassword />} />
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path='vehicle/all' element={<AllVehicles />} />
@@ -99,6 +103,10 @@ const AppRoutes = () => {
             <Route path='payments' element={<VehiclePaymentsContainer />} />
             <Route path='payments/new' element={<NewVehiclePayment />} />
           </Route>
+          <Route path='/admin' element={<Admin />}>
+            <Route index element={<Accounts />} />
+          </Route>
+
           <Route path='person/:id' element={<Person />} />
           <Route path='payments/all' element={<AllPayments />} />
           <Route path='payments/schedules' element={<Schedules />} />

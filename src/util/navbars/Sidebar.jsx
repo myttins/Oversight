@@ -92,7 +92,9 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
             ALL SCHEDULES
           </StyledLink>
         </div>
-        <StyledTitle toggle={() => toggleCategory('admin')} isOpen={openCategory['admin']}>
+        <StyledLink to={'/admin'}>ADMIN</StyledLink>
+
+        {/* <StyledTitle toggle={() => toggleCategory('admin')} isOpen={openCategory['admin']}>
           ADMIN
         </StyledTitle>
         <div
@@ -102,7 +104,7 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
         >
           <StyledLink to={''}>ACCOUNTS</StyledLink>
           <StyledLink to={''}>NEW ACCOUNT</StyledLink>
-        </div>
+        </div> */}
         <StyledTitle toggle={() => toggleCategory('insurance')} isOpen={openCategory['insurance']}>
           INSURANCE
         </StyledTitle>

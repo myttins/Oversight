@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useLogin } from '../../contexts/LoginContext';
 
-const LoginPageAlert = ({ message }) => {
-  return <div className="border bg-red-300">{message}</div>;
+export const LoginPageAlert = ({ message }) => {
+  return <div className='text-red-500 m-2'>{message}</div>;
 };
 
 const Login = () => {
@@ -13,56 +13,49 @@ const Login = () => {
     password: '',
   });
 
-  const {isLoggedIn, setIsLoggedIn} = useLogin();
+  const { isLoggedIn, handleLogin } = useLogin();
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/')
+      navigate('/');
     }
-  }, [])
+  }, []);
 
   const handleLoginFormSubmit = async () => {
     if (!credentials.username || !credentials.password) {
       setErrorMessage('Invalid input.');
       return;
     }
-    try {
-      await axios.post('/api/auth/login', credentials);
-      setIsLoggedIn(true)
-      navigate('/');
-    } catch (err) {
-      setErrorMessage('Login Failed');
+
+    const response = await handleLogin(credentials.username, credentials.password);
+    if (response.status === 'failed') {
+      setErrorMessage(response.message);
     }
   };
+
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <div className="w-96 h-60 mt-10 p-4 flex flex-col bg-white">
+    <div className='w-screen h-screen flex justify-center items-center'>
+      <div className='w-96 h-60 mt-10 p-4 flex flex-col bg-white'>
         <h1>LOGIN</h1>
         <input
-          className="my-2 border px-4 py-1"
+          className='my-2 border px-4 py-1'
           value={credentials.username}
-          placeholder="username"
-          onChange={(e) =>
-            setCredentials({ ...credentials, username: e.target.value })
-          }
+          placeholder='username'
+          onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
         />
         <input
-          className="my-2 border px-4 py-1"
+          className='my-2 border px-4 py-1'
           value={credentials.password}
           type='password'
-          placeholder="password"
-          onChange={(e) =>
-            setCredentials({ ...credentials, password: e.target.value })
-          }
+          placeholder='password'
+          onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
         />
-        <button className="btn" onClick={handleLoginFormSubmit}>
+        <button className='btn' onClick={handleLoginFormSubmit}>
           LOGIN
         </button>
-        {errorMessage.length !== 0 ? (
-          <LoginPageAlert message={errorMessage} />
-        ) : null}
+        {errorMessage.length !== 0 ? <LoginPageAlert message={errorMessage} /> : null}
       </div>
     </div>
   );

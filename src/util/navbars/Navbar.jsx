@@ -9,17 +9,10 @@ import { MessageBanner, useMessageBanner } from '../../contexts/MessageBannerCon
 
 const Navbar = ({ toggleSidebar }) => {
   const { language, setLanguage } = useLanguage();
-  const { isLoggedIn, setIsLoggedIn } = useLogin();
+  const { isLoggedIn, handleLogout } = useLogin();
   const { showBanner } = useMessageBanner();
 
-  const handleLogout = async () => {
-    try {
-      await axios.get('/api/auth/logout');
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoggedIn(false);
-  };
+
   return (
     <div className='sticky top-0 z-50'>
       <div className='z-50 relative flex place-content-between items-center m-auto w-full border-b p-4 bg-white h-[55px]'>

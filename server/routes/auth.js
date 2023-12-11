@@ -3,17 +3,22 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 router.get('/', authController.verifyTokenFromCookie, (req, res) => {
-  return res.status(200).json({ message: 'Login Authenticaed' });
+  return res.status(200).json({ message: 'Login Authenticaed', user: req.user });
 });
 
 router.post(
   '/login',
   authController.verifyCredentials,
+  // authController.resetPassword,
   authController.signTokenSetCookie,
   (req, res) => {
-    return res.status(200).json('login successful');
+    return res.status(200).json({ message: 'Login Authenticaed', user: req.user });
   },
 );
+
+router.post('/reset', authController.resetPassword, authController.signTokenSetCookie, (req, res) => {
+  return res.status(200).json({ message: 'Password reset' });
+});
 
 router.get('/logout', (req, res, next) => {
   try {
@@ -27,13 +32,8 @@ router.get('/logout', (req, res, next) => {
   }
 });
 
-router.post(
-  '/signup',
-  authController.createAccount,
-  authController.signTokenSetCookie,
-  (req, res) => {
-    return res.status(200).json('success');
-  },
-);
+// router.post('/signup', authController.createAccount, authController.signTokenSetCookie, (req, res) => {
+//   return res.status(200).json('success');
+// });
 
 module.exports = router;

@@ -7,7 +7,7 @@ const Admin = () => {
   const { role } = useLogin();
 
   if (role < 4) return <Error status={'UNAUTHORIZED'} />;
-  
+
   return (
     <>
       <div className='box-white '>

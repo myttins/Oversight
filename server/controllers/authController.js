@@ -130,6 +130,21 @@ const authController = {
       });
     }
   },
+  getAccounts: async (req, res, next) => {
+    try {
+      const { role } = req.user;
+      const queryStr = 'SELECT id, username, role, date_created, reset FROM users WHERE role < $1';
+      const values = [role];
+      const data = await db.query(queryStr, values);
+      res.locals.data = data.rows;
+      return next();
+    } catch (error) {
+      return next({
+        location: 'Error located in authController.getAccounts',
+        error,
+      });
+    }
+  },
 };
 
 // authController.createAccount = async (req, res, next) => {

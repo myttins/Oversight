@@ -151,7 +151,7 @@ const Table = ({ columns, data, filter, checkbox, size, setData }) => {
 
               return (
                 <span key={i} className={`${widthClasses[column.width]} {column.style || ''}`}>
-                  {row[column.value]}
+                  {row[column.value].toString()}
                 </span>
               );
             })}

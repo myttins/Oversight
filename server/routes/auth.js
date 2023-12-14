@@ -6,6 +6,10 @@ router.get('/', authController.verifyTokenFromCookie, (req, res) => {
   return res.status(200).json({ message: 'Login Authenticaed', user: req.user });
 });
 
+router.get('/accounts', authController.verifyTokenFromCookie, authController.getAccounts, (req, res) => {
+  return res.status(200).json(res.locals.data);
+});
+
 router.post(
   '/login',
   authController.verifyCredentials,

@@ -85,6 +85,13 @@ column: 'id' | 'id_no'
 }
 ```
 
+### Endpoint: `/api/auth/accounts?role={role}`
+
+#### Method: **GET**
+
+**Description** : Gets a list of accounts whose roles are below the requesting account. Role is verified via token. 
+
+
 ## TEMPLATE
 
 ### Endpoint: `/api/`

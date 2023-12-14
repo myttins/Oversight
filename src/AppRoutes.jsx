@@ -14,7 +14,7 @@ import Schedules from './pages/payments/schedules/Schedules';
 import { useLogin } from './contexts/LoginContext';
 import Vehicle from './pages/vehicle/Vehicle';
 import VehicleInfo from './pages/vehicle/vehicleInfo/VehicleInfo';
-import { MessageBanner, MessageBannerProvider } from './contexts/MessageBannerContext';
+import { MessageBannerProvider } from './contexts/MessageBannerContext';
 import NewVehiclePayment from './pages/vehicle/vehiclePayments/VehiclePaymentsNew';
 import VehiclePaymentsContainer from './pages/vehicle/vehiclePayments/VehiclePaymentsContainer';
 import NewVehicle from './pages/vehicle/NewVehicle';
@@ -51,7 +51,6 @@ const MainLayout = () => {
     <ProtectedRoute>
       <MessageBannerProvider>
         <Navbar toggleSidebar={toggleSidebar} />
-        {/* <MessageBanner /> */}
         <div className='flex flex-1'>
           <Sidebar isVisible={sidebarVisible} toggleVisible={setSidebarVisible} />
 

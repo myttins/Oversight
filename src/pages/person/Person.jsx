@@ -25,6 +25,7 @@ export const AvatarManager = ({ path, setPath, onFileSelected, active }) => {
   };
 
   const onImageClick = () => {
+    if (!active) return;
     fileInputRef.current.click();
   };
 

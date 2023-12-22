@@ -26,6 +26,7 @@ import ResetPassword from './pages/login/ResetPassword';
 import Admin from './pages/admin/Admin';
 import Accounts from './pages/admin/Accounts';
 import AccountPage from './pages/account/AccountPage';
+import AddAccount from './pages/admin/AddAccount';
 const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 const Person = lazy(() => import('./pages/person/Person'));
@@ -105,6 +106,7 @@ const AppRoutes = () => {
           </Route>
           <Route path='/admin' element={<Admin />}>
             <Route index element={<Accounts />} />
+            <Route path='add' element={<AddAccount />} />
           </Route>
           <Route path='account' element={<AccountPage />} />
           <Route path='person/:id' element={<Person />} />

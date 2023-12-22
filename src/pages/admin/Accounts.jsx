@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Table from '../../util/Table';
 import { useMessageBanner } from '../../contexts/MessageBannerContext';
+import { useNavigate } from 'react-router';
+import Loading from '../../util/Loading';
 
 export const roles = {
   5: 'SUPER ADMIN W/ LOGS, SQL QUERY, DEV INFO',
@@ -13,6 +15,7 @@ export const roles = {
 
 const Accounts = () => {
   const { showBanner } = useMessageBanner();
+  const navigate = useNavigate();
   const [accountsList, setAccountsList] = useState([]);
   const [selectedAccounts, setSelectedAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,7 +53,7 @@ const Accounts = () => {
     { title: 'DATE CREATED', value: 'date_created', width: 6, style: '', sort: true },
   ];
 
-  if (loading) return null;
+  if (loading) return <Loading />;
 
   return (
     <div className='box-white'>
@@ -73,7 +76,9 @@ const Accounts = () => {
                 MANAGE
               </button>
             )}
-            <button className='btn'>ADD</button>
+            <button className='btn' onClick={() => navigate('/admin/add')}>
+              ADD
+            </button>
             <button className='btn'>DELETE</button>
           </div>
         </div>

@@ -72,9 +72,24 @@ h2 {
 }
 
 .text-color-dark1 {
-  @apply text-slate-800
-} 
+  @apply text-slate-800;
+}
 
 .text-color-light1 {
-  @apply text-slate-500
-} 
+  @apply text-slate-500;
+}
+
+@keyframes pulseBackground {
+  0%, 100% {
+    background-color: rgba(255, 255, 255, 0.3); /* more faded white */
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.8); /* solid white */
+  }
+}
+
+/* Extend the .box-white class with the animation */
+.loading {
+  @apply bg-white border p-8 m-4 rounded shadow-sm; /* Tailwind classes */
+  animation: pulseBackground 1s ease-in-out infinite; /* Custom animation */
+}

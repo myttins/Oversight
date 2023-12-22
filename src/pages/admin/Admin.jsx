@@ -6,6 +6,8 @@ import Error from '../../util/error/Error';
 const Admin = () => {
   const { role } = useLogin();
 
+  if (!role) return null;
+
   if (role < 4) return <Error status={'UNAUTHORIZED'} />;
 
   return (

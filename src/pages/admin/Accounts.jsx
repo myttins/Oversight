@@ -3,10 +3,19 @@ import React, { useEffect, useState } from 'react';
 import Table from '../../util/Table';
 import { useMessageBanner } from '../../contexts/MessageBannerContext';
 
+export const roles = {
+  5: 'SUPER ADMIN W/ LOGS, SQL QUERY, DEV INFO',
+  4: 'ADMIN W/ ACCOUNT CONTROL',
+  3: 'ADMIN W/ WRITE ACCESS',
+  2: 'USER WITH SPECIFIC WRITE ACCESS',
+  1: 'READ ONLY',
+};
+
 const Accounts = () => {
   const { showBanner } = useMessageBanner();
   const [accountsList, setAccountsList] = useState([]);
   const [selectedAccounts, setSelectedAccounts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setSelectedAccounts(accountsList.filter((account) => account.checked === true));
@@ -17,6 +26,7 @@ const Accounts = () => {
       try {
         const response = await axios.get(`/api/auth/accounts`);
         setAccountsList(response.data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -39,16 +49,19 @@ const Accounts = () => {
     { title: 'RESET', value: 'reset', width: 1, style: '', sort: true },
     { title: 'DATE CREATED', value: 'date_created', width: 6, style: '', sort: true },
   ];
+
+  if (loading) return null;
+
   return (
     <div className='box-white'>
       <h1>INFO</h1>
       <div>
         <div>ROLES</div>
-        <div>5: SUPER ADMIN W/ LOGS, SQL QUERY, DEV INFO</div>
-        <div>4: ADMIN W/ ACCOUNT CONTROL</div>
-        <div>3: ADMIN W/ WRITE ACCESS</div>
-        <div>2: USER WITH SPECIFIC WRITE ACCESS</div>
-        <div>1: READ ONLY </div>
+        <div>5: {roles['5']} </div>
+        <div>4: {roles['4']}</div>
+        <div>3: {roles['3']}</div>
+        <div>2: {roles['2']}</div>
+        <div>1: {roles['1']}</div>
         <div>0: NONE</div>
       </div>
       <div className='my-4'>

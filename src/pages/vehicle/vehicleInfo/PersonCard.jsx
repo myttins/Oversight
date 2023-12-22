@@ -9,7 +9,7 @@ const PersonCard = ({ person, handleDelete }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   return (
-    <div className='flex w-80 bg-slate-50 m-4 border relative rounded-md shadow-sm p-2'>
+    <div className='flex w-80 bg-slate-50 m-4 border relative rounded-md shadow-sm p-2 z-0'>
       <div className='border w-[72px] h-[72px] rounded-full overflow-hidden flex items-center justify-center'>
         <Image src={person.photo} />
       </div>

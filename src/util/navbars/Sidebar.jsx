@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import arrowIcon from '../../assets/icons/nav-arrow-down.svg';
+import { useLogin } from '../../contexts/LoginContext';
 
 const StyledLink = ({ to, toggleVisible, children }) => (
   <Link to={to} className='block px-3 py-2 rounded-md  hover:bg-blue-50' onClick={() => toggleVisible(false)}>
@@ -24,13 +25,14 @@ const StyledTitle = ({ toggle, isOpen, children }) => (
 
 const Sidebar = ({ isVisible, toggleVisible }) => {
   const [openCategory, setOpenCategory] = useState({});
+  const { role } = useLogin();
 
   const toggleCategory = (category) => {
     setOpenCategory((prev) => ({ ...prev, [category]: !prev[category] }));
   };
   return (
     <aside
-      className={`z-10 fixed h-full transform ${
+      className={`z-20 fixed h-full transform ${
         isVisible ? 'translate-x-0' : '-translate-x-full'
       } transition-transform ease-in-out duration-300 bg-zinc-50 p-2 w-64 overflow-auto`}
     >
@@ -92,7 +94,8 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
             ALL SCHEDULES
           </StyledLink>
         </div>
-        <StyledLink to={'/admin'}>ADMIN</StyledLink>
+
+        {role >= 4 && <StyledLink to={'/admin'}>ADMIN</StyledLink>}
 
         {/* <StyledTitle toggle={() => toggleCategory('admin')} isOpen={openCategory['admin']}>
           ADMIN
@@ -105,7 +108,7 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
           <StyledLink to={''}>ACCOUNTS</StyledLink>
           <StyledLink to={''}>NEW ACCOUNT</StyledLink>
         </div> */}
-        <StyledTitle toggle={() => toggleCategory('insurance')} isOpen={openCategory['insurance']}>
+        {/* <StyledTitle toggle={() => toggleCategory('insurance')} isOpen={openCategory['insurance']}>
           INSURANCE
         </StyledTitle>
         <div
@@ -115,7 +118,8 @@ const Sidebar = ({ isVisible, toggleVisible }) => {
         >
           <StyledLink to={''}>ADD POLICY</StyledLink>
           <StyledLink to={''}>ADD CLAIM</StyledLink>
-        </div>
+        </div> */}
+        <StyledLink to={'/account'}>ACCOUNT</StyledLink>
       </div>
     </aside>
   );

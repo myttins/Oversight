@@ -25,6 +25,7 @@ import AddVehicleFile from './pages/vehicle/vehicleFiles/AddVehicleFile';
 import ResetPassword from './pages/login/ResetPassword';
 import Admin from './pages/admin/Admin';
 import Accounts from './pages/admin/Accounts';
+import AccountPage from './pages/account/AccountPage';
 const VehicleScheduleManage = lazy(() => import('./pages/vehicle/vehiclePayments/VehicleScheduleManage'));
 const NewSchedule = lazy(() => import('./pages/payments/schedules/NewSchedule'));
 const Person = lazy(() => import('./pages/person/Person'));
@@ -58,7 +59,7 @@ const MainLayout = () => {
           <main className={`flex justify-center relative overflow-scroll transition-all duration-300 w-full`}>
             {sidebarVisible ? (
               <div
-                className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 z-1'
+                className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 z-10'
                 onClick={toggleSidebar}
               ></div>
             ) : null}
@@ -105,7 +106,7 @@ const AppRoutes = () => {
           <Route path='/admin' element={<Admin />}>
             <Route index element={<Accounts />} />
           </Route>
-
+          <Route path='account' element={<AccountPage />} />
           <Route path='person/:id' element={<Person />} />
           <Route path='payments/all' element={<AllPayments />} />
           <Route path='payments/schedules' element={<Schedules />} />

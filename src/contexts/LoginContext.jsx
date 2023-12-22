@@ -8,6 +8,7 @@ export const useLogin = () => useContext(LoginContext);
 
 export const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [username, setUsername] = useState('');
   const [role, setRole] = useState(0);
   const navigate = useNavigate();
 
@@ -15,6 +16,7 @@ export const LoginProvider = ({ children }) => {
     const verifyUser = async () => {
       try {
         const response = await axios.get('/api/auth');
+        setUsername(response.data.user.username);
         setRole(response.data.user.role);
         setIsLoggedIn(true);
       } catch (error) {
@@ -35,6 +37,7 @@ export const LoginProvider = ({ children }) => {
       const response = await axios.post('/api/auth/login', { username: user, password });
       setIsLoggedIn(true);
       navigate('/');
+      setUsername(response.data.user.username);
       setRole(response.data.user.role);
       return { status: 'success' };
     } catch (error) {
@@ -70,7 +73,7 @@ export const LoginProvider = ({ children }) => {
   };
 
   return (
-    <LoginContext.Provider value={{ isLoggedIn, handleLogout, role, handleLogin, handleReset }}>
+    <LoginContext.Provider value={{ isLoggedIn, handleLogout, role, username, handleLogin, handleReset }}>
       {children}
     </LoginContext.Provider>
   );

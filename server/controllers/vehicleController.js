@@ -27,7 +27,6 @@ const vehicleController = {
       if (data.rows.length > 0) {
         return res.status(500).json({ message: 'Vehicle already exists' });
       }
-
       queryStr = query.insert.newVehicle(req.body);
       data = await db.query(queryStr);
       res.locals.vehicleId = data.rows[0].id;

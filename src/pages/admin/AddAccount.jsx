@@ -6,7 +6,9 @@ const AddAccount = () => {
   const handleSubmit = () => {};
   return (
     <div className='box-white'>
-      AddAccount
+      <header>
+        <h2>ADD ACCOUNT</h2>
+      </header>
       <div className='flex justify-end'>
         <button className='btn-lte mx-2' onClick={() => navigate(-1)}>
           CANCEL

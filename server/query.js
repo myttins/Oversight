@@ -3,7 +3,6 @@ const query = {
     newVehicle: (vehicleInfo) => {
       const {
         plate,
-        category,
         vehicle_model,
         engine_no,
         vehicle_color,
@@ -15,11 +14,11 @@ const query = {
         notes,
       } = vehicleInfo;
 
-      return `INSERT INTO vehicles (plate, category, vehicle_model, vehicle_color, vin, operating_license_no, 
+      return `INSERT INTO vehicles (plate, vehicle_model, vehicle_color, vin, operating_license_no, 
         fuel_type, activation_date, registration_date, notes, engine_no) 
-        VALUES ('${plate}', '${category}', '${vehicle_model}', '${vehicle_color}', '${vin}','${operating_license_no}',
+        VALUES ('${plate}', '${vehicle_model}', '${vehicle_color}', '${vin}','${operating_license_no}',
         '${fuel_type}','${activation_date}','${registration_date}','${notes}', '${engine_no}')
-        RETURNING id, plate, category, vehicle_model, vehicle_color, vin, operating_license_no, fuel_type, activation_date, 
+        RETURNING id, plate, vehicle_model, vehicle_color, vin, operating_license_no, fuel_type, activation_date, 
         registration_date, notes, engine_no`;
     },
     person: (person) => {
@@ -179,7 +178,6 @@ query.updateVehicleInfoWithId = (id, vehicleInfo) => {
     activation_date,
     registration_date,
     notes,
-    category,
     engine_no,
   } = vehicleInfo;
 
@@ -188,7 +186,6 @@ query.updateVehicleInfoWithId = (id, vehicleInfo) => {
   vehicle_color='${vehicle_color}', 
   vin='${vin}',
   operating_license_no='${operating_license_no}',
-  category='${category}',
   engine_no='${engine_no}',
   fuel_type='${fuel_type}',
   activation_date='${activation_date}',

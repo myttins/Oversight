@@ -16,7 +16,6 @@ const NewVehicle = () => {
     if (
       !vehicleInfo.plate ||
       !vehicleInfo.vehicle_model ||
-      !vehicleInfo.category ||
       !vehicleInfo.vehicle_model ||
       !vehicleInfo.engine_no ||
       !vehicleInfo.vehicle_color ||
@@ -44,13 +43,6 @@ const NewVehicle = () => {
       <form onSubmit={handleAddNewVehicle}>
         <FormElement
           label={'plate'}
-          type={'text'}
-          readOnly={false}
-          formInfo={vehicleInfo}
-          setFormInfo={setVehicleInfo}
-        />
-        <FormElement
-          label={'category'}
           type={'text'}
           readOnly={false}
           formInfo={vehicleInfo}
